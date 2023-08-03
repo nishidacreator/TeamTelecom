@@ -1,0 +1,25 @@
+
+<h2>CUSTOMERS</h2>
+<div class="table-wrapper">
+    <table class="fl-table">
+
+        <thead>
+        <tr>
+            <th>NAME</th>
+            <th>PHONE NUMBER</th>
+            <th>CURRENT CONNECTION</th>
+            <th>MANAGE</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let content of customers">
+            <td>{{content.name}}</td>
+            <td>{{content.phoneNumber}}</td>
+            <td>{{content.currentPlan}}</td>
+            <td>
+              <mat-icon (click)="openCustomer(content.id)">phone</mat-icon>
+            </td>
+        </tr>
+        <tbody>
+    </table>
+</div>
