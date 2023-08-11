@@ -5,9 +5,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
+import { DeleteComponent } from './shared/delete/delete.component';
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    DeleteComponent
   ],
   imports: [
     BrowserModule,

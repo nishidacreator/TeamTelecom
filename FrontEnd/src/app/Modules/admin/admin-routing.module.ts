@@ -1,17 +1,30 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { HomeComponent } from './home/home.component';
 import { NavbarComponent } from './navbar/navbar.component';
-import { CustomerComponent } from '../telecaller/Components/customer/customer.component';
-import { UploadExcelComponent } from './upload-excel/upload-excel.component';
+import { UploadExcelComponent } from './components/upload-excel/upload-excel.component';
+import { SettingsComponent } from './components/settings/settings.component';
+import { ClientsComponent } from './components/clients/clients.component';
+import { RoleComponent } from './components/role/role.component';
+import { UserComponent } from './components/user/user.component';
+import { ProjectTypeComponent } from './components/project-type/project-type.component';
+import { ProjectComponent } from './components/project/project.component';
+import { ProjectBaseComponent } from './components/project-base/project-base.component';
 
 const routes: Routes = [
   {path: '', component:NavbarComponent,
     children:[
       {path: '', component: DashboardComponent},
-      {path: 'home', component:HomeComponent},
-      {path: 'upload', component:UploadExcelComponent},
+      // {path: 'home', component: HomeComponent},
+      {path: 'projectbase', component: ProjectBaseComponent},
+      {path: 'clients', component: ClientsComponent},
+      {path: 'projects', component: ProjectComponent},
+
+      {path: 'settings', component: SettingsComponent},
+      {path: 'settings/role', component: RoleComponent},
+      {path: 'settings/user', component: UserComponent},
+      {path: 'settings/projecttype', component: ProjectTypeComponent},
+
     ]
   }
 ];

@@ -47,12 +47,11 @@ export class LoginComponent implements OnInit {
     if(localStorage.getItem('token')){
       const token: any = localStorage.getItem('token')
       let user = JSON.parse(token)
-      console.log(user)
+
       let roleid = user.role
 
       this.authService.getRoleById(roleid).subscribe((res)=>{
         let role = res.roleName.toLowerCase();
-        console.log(role);
 
         this.router.navigate([role]);
     })
