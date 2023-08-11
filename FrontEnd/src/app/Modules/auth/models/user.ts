@@ -1,9 +1,10 @@
 export interface User{
-  filter: any;
-  name: string;
-  _id: any;
-  username:string,
-  role:String,
-  token:String,
-  md: Boolean
+  name: string,
+  phoneNumber: string,
+  email: string,
+  password: string,
+  roleId: number,
+  status: boolean,
+  employeeNo: string
+  id: number
 }

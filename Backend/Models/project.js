@@ -2,13 +2,14 @@ const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = require('../Utils/db')
 
 const Project = sequelize.define('project', {
-  startDate: {type: DataTypes.DATEONLY, allowNull: false, defaultValue: Date.now()},
+  startDate: {type: DataTypes.DATEONLY},
   projectName: {type: DataTypes.STRING, allowNull: false},
   imageUrl: {type: DataTypes.STRING},
   teamLeadId: {type: DataTypes.INTEGER},
-  description: {type: DataTypes.STRING, allowNull: false},
-  clientName: {type: DataTypes.STRING, allowNull: false},
+  description: {type: DataTypes.STRING},
+  clientId: {type: DataTypes.INTEGER, allowNull: false},
   projectTypeId: {type: DataTypes.INTEGER, allowNull: false},
+  endDate: {type: DataTypes.DATE}
 },
 {
   freezeTableName: true

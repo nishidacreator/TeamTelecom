@@ -1,5 +1,5 @@
 
-<h2>CUSTOMERS</h2>
+<h2>TASKS</h2>
 <div class="table-wrapper">
     <table class="fl-table">
 
@@ -7,19 +7,54 @@
         <tr>
             <th>NAME</th>
             <th>PHONE NUMBER</th>
-            <th>CURRENT CONNECTION</th>
+            <th>PROJECT</th>
             <th>MANAGE</th>
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let content of customers">
-            <td>{{content.name}}</td>
-            <td>{{content.phoneNumber}}</td>
-            <td>{{content.currentPlan}}</td>
+          <tr *ngFor="let content of follow">
             <td>
-              <mat-icon (click)="openCustomer(content.id)">phone</mat-icon>
+              <a *ngIf="content.project.projectName.toLowerCase() === 'bsnl'">{{content.bsnl_base.firstName}}</a>
+              <a *ngIf="content.project.projectName.toLowerCase() === 'asianet'">{{content.asianet_base.name}}</a>
+              <a *ngIf="content.project.projectName.toLowerCase() === 'bajaj'">{{content.bajaj_base.name}}</a>
+              <a *ngIf="content.project.projectName.toLowerCase() === 'vi'">{{content.vi_base.custName}}</a>
+            </td>
+
+            <td>
+              <a *ngIf="content.project.projectName.toLowerCase() === 'bsnl'">{{content.bsnl_base.mobile}}</a>
+              <a *ngIf="content.project.projectName.toLowerCase() === 'asianet'">{{content.asianet_base.mobile}}</a>
+              <a *ngIf="content.project.projectName.toLowerCase() === 'bajaj'">{{content.bajaj_base.mobile}}</a>
+              <a *ngIf="content.project.projectName.toLowerCase() === 'vi'">{{content.vi_base.mobileNumber}}</a>
+            </td>
+            <td>
+              {{content.project.projectName | uppercase}}- Followup
+            </td>
+            <td>
+              <mat-icon (click)="openCustomer(content.id, content.project.id)">phone</mat-icon>
             </td>
         </tr>
-        <tbody>
-    </table>
+
+        <tr *ngFor="let content of data">
+          <td>
+            <a *ngIf="content.project.projectName.toLowerCase() === 'bsnl'">{{content.firstName}}</a>
+            <a *ngIf="content.project.projectName.toLowerCase() === 'asianet'">{{content.name}}</a>
+            <a *ngIf="content.project.projectName.toLowerCase() === 'bajaj'">{{content.name}}</a>
+            <a *ngIf="content.project.projectName.toLowerCase() === 'vi'">{{content.custName}}</a>
+          </td>
+
+          <td>
+            <a *ngIf="content.project.projectName.toLowerCase() === 'bsnl'">{{content.mobile}}</a>
+            <a *ngIf="content.project.projectName.toLowerCase() === 'asianet'">{{content.mobile}}</a>
+            <a *ngIf="content.project.projectName.toLowerCase() === 'bajaj'">{{content.mobile}}</a>
+            <a *ngIf="content.project.projectName.toLowerCase() === 'vi'">{{content.mobileNumber}}</a>
+          </td>
+          <td>
+            {{content.project.projectName | uppercase}}
+          </td>
+          <td>
+            <mat-icon (click)="openCustomer(content.id, content.project.id)">phone</mat-icon>
+          </td>
+      </tr>
+    <tbody>
+  </table>
 </div>

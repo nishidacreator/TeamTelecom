@@ -111,21 +111,6 @@ a:hover::after {
   transition: all 0.4s ease-in-out;
 }
 
-// ::-webkit-scrollbar {
-//   width: 20px;
-// }
-
-// ::-webkit-scrollbar-track {
-//   background: MediumSpringGreen;
-// }
-
-// ::-webkit-scrollbar-thumb {
-//   background: MediumSeaGreen;
-// }
-
-// ::-webkit-scrollbar-thumb:hover {
-//   background: SeaGreen;
-// }
 
 .ui-row-1 {
   position: relative;
@@ -412,7 +397,7 @@ span:hover {
     justify-content: space-evenly;
     top: 0px;
     padding: 20px 0px;
-    box-shadow: 0 10px 20px 0 #1a4685, inset 0px -7px 9px 0px #1a4685;
+    box-shadow: 0 10px 20px 0 #1a4685, inset 0px -7px 9px 0px #c7d6eb;
     border: 1px solid #1a4685;
   }
   .left-sidebar > div,
@@ -692,3 +677,6 @@ span:hover {
   }
 }
 
+.template{
+  width: 100%;
+}

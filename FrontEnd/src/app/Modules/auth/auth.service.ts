@@ -65,79 +65,50 @@ export class AuthService {
     return !!this.getJwtToken();
   }
 
+  logout(){
+    localStorage.clear()
+  }
+
+  //ROLE
+
   getRoleById(id: number):Observable<Role>{
     return this._http.get<Role>(this.url + '/role/'+ id)
   }
 
-  logout(){
-    localStorage.clear()
-    // localStorage.removeItem(this.JWT_TOKEN);
-    // localStorage.removeItem(this.REFRESH_TOKEN);
-    // localStorage.removeItem(this.token);
-    // return this._http.post(this.url + '/logout', {
-    //   'refreshToken': this.getRefreshToken()
-    // }).pipe(
-    //   tap((tokens) => this.doLogoutUser()),
-    //   mapTo(true),
-    //   catchError((error: any) => {
-    //     alert(error.error)
-    //     return of(false)
-    //   })
-    // )
-
+  getRole(): Observable<Role[]>{
+    return this._http.get<Role[]>(this.url + '/role')
   }
 
-  //  loginUser(data:any){
-  //   return this._http.post(this.url+'/user/login',data).pipe(
-  //     // tap((tokens) => this.doLoginUser(data.email, tokens)),
-  //     // mapTo(true),
-  //     // catchError((error: any) => {
-  //     //   console.log(error)
-  //     //   return of(false)
-  //     // })
-  //     map((res:any)=>{
-  //       const user=res;
-  //       console.log(user)
-  //       localStorage.setItem(this.token,JSON.stringify(user))
-  //       this.currentUserSource.next(user)
-  //       return user.role.toLowerCase();
-  //     })
-  //   )
-  //  }
+  addRole(data: any){
+    return this._http.post(this.url + '/role', data)
+  }
 
-  //  private doLoginUser(userName: String, tokens: any){
-  //   this.loggedUser = userName
-  //   console.log(this.loggedUser)
-  //   this.storeTokens(tokens)
-  // }
+  deleteRole(id: number){
+    return this._http.delete(this.url + '/role/'+ id)
+  }
 
-  // private storeTokens(tokens: any){
-  //   // localStorage.setItem('token',JSON.stringify(user))
-  //   localStorage.setItem(this.token, tokens.token.accessToken)
-  //   // localStorage.setItem(this.REFRESH_TOKEN, tokens.token.refreshToken)
-  // }
+  updateRole(id: number, data: any): Observable<Role>{
+    return this._http.patch<Role>(this.url + '/role/'+ id, data)
+  }
 
-  // getJwtToken(){
-  //   console.log(this.token)
-  //   return localStorage.getItem(this.token);
-  // }
+  //USER
+  getUserById(id: number):Observable<User>{
+    return this._http.get<User>(this.url + '/register/'+ id)
+  }
 
-  // isLoggedIn(): boolean{
-  //   let loggedStatus = !!this.getJwtToken()
-  //   console.log(loggedStatus)
-  //   return !!this.getJwtToken();
-  // }
+  getUser(): Observable<User[]>{
+    return this._http.get<User[]>(this.url + '/register')
+  }
 
-  //  logoutUser(){
-  //   localStorage.removeItem(this.token);
-  //   // localStorage.removeItem("currentUser");
-  //   // this.currentUserSource.next(null)
-  //  }
+  addUser(data: any){
+    return this._http.post(this.url + '/register', data)
+  }
 
-// prevents automatic logout
-  //  setCurrentUser(user:User){
-  //   localStorage.setItem("loggedUser", JSON.stringify(user))
-  //   this.currentUserSource.next(user)
-  //  }
+  deleteUser(id: number){
+    return this._http.delete(this.url + '/register/'+ id)
+  }
 
+  updateUser(id: number, data: any): Observable<User>{
+    return this._http.patch<User>(this.url + '/register/'+ id, data)
+  }
 }
