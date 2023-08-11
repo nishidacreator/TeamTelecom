@@ -14,4 +14,6 @@ export interface BajajFollowup{
   action : string
   teleCallerId : number
   teleCaller: User
+  date: Date
+  time: Date
 }

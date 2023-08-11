@@ -95,5 +95,34 @@ router.patch('/:id', async(req,res)=>{
       }
 })
 
+router.patch('/callback/:id', async(req,res)=>{
+  try {
+
+    const bsnl = {
+      date: req.body.date,
+      time: req.body.time
+    }
+      BsnlFollowup.update(bsnl, {
+          where: { id: req.params.id }
+        })
+          .then(num => {
+            if (num == 1) {
+              res.send({
+                message: "Bsnl was updated successfully."
+              });
+            } else {
+              res.send({
+                message: `Cannot update Bsnl with id=${id}. Maybe Bsnl was not found or req.body is empty!`
+              });
+            }
+          })
+    } catch (error) {
+      res.status(500).json({
+        status: "error",
+        message: error.message,
+      });
+    }
+})
+
 
 module.exports = router;

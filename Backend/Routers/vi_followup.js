@@ -91,4 +91,33 @@ router.patch('/:id', async(req,res)=>{
         });
       }
 })
+
+router.patch('/callback/:id', async(req,res)=>{
+  try {
+
+    const vi = {
+      date: req.body.date,
+      time: req.body.time
+    }
+      ViFollowup.update(vi, {
+          where: { id: req.params.id }
+        })
+          .then(num => {
+            if (num == 1) {
+              res.send({
+                message: "Vi was updated successfully."
+              });
+            } else {
+              res.send({
+                message: `Cannot update Vi with id=${id}. Maybe Vi was not found or req.body is empty!`
+              });
+            }
+          })
+    } catch (error) {
+      res.status(500).json({
+        status: "error",
+        message: error.message,
+      });
+    }
+})
 module.exports = router;

@@ -15,4 +15,6 @@ export interface ViFollowup{
   action : string
   teleCallerId : number
   teleCaller: User
+  date: Date
+  time: Date
 }

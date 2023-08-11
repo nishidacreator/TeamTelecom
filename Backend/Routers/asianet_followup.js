@@ -91,4 +91,33 @@ router.patch('/:id', async(req,res)=>{
         });
       }
 })
+
+router.patch('/callback/:id', async(req,res)=>{
+  try {
+
+    const asianet = {
+      date: req.body.date,
+      time: req.body.time
+    }
+      AsianetFollowup.update(asianet, {
+          where: { id: req.params.id }
+        })
+          .then(num => {
+            if (num == 1) {
+              res.send({
+                message: "Asianet was updated successfully."
+              });
+            } else {
+              res.send({
+                message: `Cannot update Asianet with id=${id}. Maybe Asianet was not found or req.body is empty!`
+              });
+            }
+          })
+    } catch (error) {
+      res.status(500).json({
+        status: "error",
+        message: error.message,
+      });
+    }
+})
 module.exports = router;

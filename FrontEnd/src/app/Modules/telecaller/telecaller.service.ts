@@ -92,12 +92,20 @@ export class TelecallerService {
     return this._http.get<FolloeUp[]>(this.url + '/followup')
   }
 
+  getFollowUpById(id: number):Observable<FolloeUp>{
+    return this._http.get<FolloeUp>(this.url + '/followup/' + id)
+  }
+
   addAsianetFollowUp(data: any){
     return this._http.post(this.url + '/asianetfollowUp', data)
   }
 
   getAsianetFollowUp():Observable<AsianetFollowup[]>{
     return this._http.get<AsianetFollowup[]>(this.url + '/asianetfollowUp')
+  }
+
+  getAsianetFollowUpById(id: number):Observable<AsianetFollowup>{
+    return this._http.get<AsianetFollowup>(this.url + '/asianetfollowUp/' + id)
   }
 
   addBajajFollowUp(data: any){
@@ -108,11 +116,51 @@ export class TelecallerService {
     return this._http.get<BajajFollowup[]>(this.url + '/bajajfollowUp')
   }
 
+  getBajajFollowUpById(id: number):Observable<BajajFollowup>{
+    return this._http.get<BajajFollowup>(this.url + '/bajajfollowUp/' + id)
+  }
+
   addViFollowUp(data: any){
     return this._http.post(this.url + '/vifollowUp', data)
   }
 
   getViFollowUp():Observable<ViFollowup[]>{
     return this._http.get<ViFollowup[]>(this.url + '/vifollowUp')
+  }
+
+  getViFollowUpById(id: number):Observable<ViFollowup>{
+    return this._http.get<ViFollowup>(this.url + '/vifollowUp/' + id)
+  }
+
+  updateBsnlFollowupResponse(id: number, data: any): Observable<FolloeUp>{
+    return this._http.patch<FolloeUp>(this.url + '/followup/' + id, data)
+  }
+
+  updateAsianetFollowupResponse(id: number, data: any): Observable<AsianetFollowup>{
+    return this._http.patch<AsianetFollowup>(this.url + '/asianetfollowup/' + id, data)
+  }
+
+  updateBajajFollowupResponse(id: number, data: any): Observable<BajajFollowup>{
+    return this._http.patch<BajajFollowup>(this.url + '/bajajfolllowup/' + id, data)
+  }
+
+  updateViFollowupResponse(id: number, data: any): Observable<ViFollowup>{
+    return this._http.patch<ViFollowup>(this.url + '/vifollowup/' + id, data)
+  }
+
+  updateBsnlFollowupCallBack(id: number, data: any): Observable<FolloeUp>{
+    return this._http.patch<FolloeUp>(this.url + '/followup/callback/' + id, data)
+  }
+
+  updateAsianetFollowupCallBack(id: number, data: any): Observable<AsianetFollowup>{
+    return this._http.patch<Asianet>(this.url + '/asianetfollowup/callback/' + id, data)
+  }
+
+  updateBajajFollowupCallBack(id: number, data: any): Observable<BajajFollowup>{
+    return this._http.patch<Bajaj>(this.url + '/bajajfollowup/callback/' + id, data)
+  }
+
+  updateViFollowupCallBack(id: number, data: any): Observable<ViFollowup>{
+    return this._http.patch<Vi>(this.url + '/vifollowup/callback/' + id, data)
   }
 }

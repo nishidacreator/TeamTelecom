@@ -8,6 +8,10 @@ import { Asianet } from '../../Models/asianet_base';
 import { Bajaj } from '../../Models/bajaj_base';
 import { Vi } from '../../Models/vi_base';
 import { FolloeUp } from '../../Models/followUp';
+import { AsianetFollowup } from '../../Models/asianet_followup';
+import { BajajFollowup } from '../../Models/bajaj_followup';
+import { ViFollowup } from '../../Models/vi_followup';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-customer',
@@ -17,11 +21,14 @@ import { FolloeUp } from '../../Models/followUp';
 export class CustomerComponent {
 
   userId!: number
-  constructor(private router: Router, private authService: AuthService, private teleCallerService: TelecallerService){
+  date!: any
+  constructor(private router: Router, private authService: AuthService, private teleCallerService: TelecallerService,
+    private datePipe: DatePipe){
     const token: any = localStorage.getItem('token')
       let user = JSON.parse(token)
       this.userId = user.id
-      console.log(this.userId)
+
+      this.date = this.datePipe.transform(new Date(), 'dd/MM/yyyy');
   }
 
   ngOnInit() {
@@ -36,9 +43,7 @@ export class CustomerComponent {
   data: any[] = []
   getData(){
     this.teleCallerService.getBsnl().subscribe(data =>{
-      console.log(data)
       this.bsnl = data.filter(x => x.teleCallerId === this.userId && x.status === null)
-      console.log(this.bsnl)
 
       this.teleCallerService.getAsianet().subscribe(data =>{
         this.asianet = data.filter(x => x.id === this.userId && x.status === null)
@@ -50,7 +55,6 @@ export class CustomerComponent {
             this.vi = data.filter(x => x.id === this.userId && x.status === null)
 
             this.data = [...this.bsnl, ...this.asianet, ...this.bajaj, ...this.vi];
-            console.log(this.data);
           })
         })
       })
@@ -58,11 +62,29 @@ export class CustomerComponent {
   }
 
   followSub!: Subscription
-  follow: FolloeUp[] = [];
+  bsnlFollow: FolloeUp[] = [];
+  asianetFollow: AsianetFollowup[] = [];
+  bajajFollow: BajajFollowup[] = [];
+  viFollow: ViFollowup[] = [];
+  follow: any[] = [];
   getFollowUp(){
     this.teleCallerService.getFollowUp().subscribe(data =>{
-      this.follow = data;
-      console.log(this.follow);
+      this.bsnlFollow = data.filter(x=> this.datePipe.transform(x.date, 'dd/MM/yyyy') === this.date);
+      console.log(this.bsnlFollow);
+
+      this.teleCallerService.getAsianetFollowUp().subscribe(data =>{
+        this.asianetFollow = data;
+
+        this.teleCallerService.getBajajFollowUp().subscribe(data =>{
+          this.bajajFollow = data;
+
+          this.teleCallerService.getViFollowUp().subscribe(data =>{
+            this.viFollow = data;
+
+            this.follow = [...this.bsnlFollow, ...this.asianetFollow, ...this.viFollow, ...this.bajajFollow]
+          })
+        })
+      })
     })
   }
 
@@ -70,4 +92,7 @@ export class CustomerComponent {
     this.router.navigateByUrl('/telecaller/customers/open/'+ id + '/' + projectId)
   }
 
+  openCustomerFollowup(id: number, projectId: number){
+    this.router.navigateByUrl('/telecaller/followupcustomers/open/'+ id + '/' + projectId)
+  }
 }
