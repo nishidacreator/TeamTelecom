@@ -13,6 +13,8 @@ import { UserComponent } from './components/user/user.component';
 import { ProjectTypeComponent } from './components/project-type/project-type.component';
 import { ProjectComponent } from './components/project/project.component';
 import { ProjectBaseComponent } from './components/project-base/project-base.component';
+import { DeleteBaseComponent } from './components/delete-base/delete-base.component';
+import { ExportBaseComponent } from './components/export-base/export-base.component';
 
 
 @NgModule({
@@ -27,7 +29,9 @@ import { ProjectBaseComponent } from './components/project-base/project-base.com
     UserComponent,
     ProjectTypeComponent,
     ProjectComponent,
-    ProjectBaseComponent
+    ProjectBaseComponent,
+    DeleteBaseComponent,
+    ExportBaseComponent
   ],
   imports: [
     CommonModule,

@@ -31,7 +31,10 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
 
-  const bajajfollowup = await BajajFollowup.findOne({where: {id: req.params.id}})
+  const bajajfollowup = await BajajFollowup.findOne({
+    where: {id: req.params.id},
+    include: [Project, 'caller']
+  })
 
   res.send(bajajfollowup);
 })
@@ -88,5 +91,78 @@ router.patch('/:id', async(req,res)=>{
           message: error.message,
         });
       }
+})
+
+router.patch('/callback/:id', async(req,res)=>{
+  try {
+
+    const bajaj = {
+      date: req.body.date,
+      time: req.body.time
+    }
+      BajajFollowup.update(bajaj, {
+          where: { id: req.params.id }
+        })
+          .then(num => {
+            if (num == 1) {
+              res.send({
+                message: "Bajaj was updated successfully."
+              });
+            } else {
+              res.send({
+                message: `Cannot update Bajaj with id=${id}. Maybe Bajaj was not found or req.body is empty!`
+              });
+            }
+          })
+    } catch (error) {
+      res.status(500).json({
+        status: "error",
+        message: error.message,
+      });
+    }
+})
+
+router.delete('/', async(req,res)=>{
+  try {
+
+      const result = await BajajFollowup.destroy({
+          where: { status: req.body.status },
+          force: true,
+      });
+
+      if (result === 0) {
+          return res.status(404).json({
+            status: "fail",
+            message: "Bajaj with that ID not found",
+          });
+        }
+    
+        res.status(204).json();
+      }  catch (error) {
+      res.send({error: error.message})
+  }
+  
+})
+
+router.delete('/alldata', async(req,res)=>{
+try {
+
+    const result = await BajajFollowup.destroy({
+        where: { },
+        force: true,
+    });
+
+    if (result === 0) {
+        return res.status(404).json({
+          status: "fail",
+          message: "Bajaj with that ID not found",
+        });
+      }
+  
+      res.status(204).json();
+    }  catch (error) {
+    res.send({error: error.message})
+}
+
 })
 module.exports = router;

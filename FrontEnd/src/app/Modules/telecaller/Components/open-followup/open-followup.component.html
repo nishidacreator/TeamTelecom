@@ -1,0 +1,268 @@
+
+
+<mat-grid-list cols="5" rowHeight="100px">
+  <mat-grid-tile [colspan]="2" [rowspan]="5" *ngIf="projectName === 'bsnl' && customer" >
+    <article class="leaderboard">
+      <header>
+
+        <h1 class="leaderboard__title"><span class="leaderboard__title--top">{{customer.firstName}}</span>
+          <span class="leaderboard__title--bottom">{{customer.lastName}}</span>
+          <span class="leaderboard__title--bottom">{{customer.employeeNo}}</span></h1>
+      </header>
+
+      <main class="leaderboard__profiles" *ngIf="customer">
+
+
+        <article class="leaderboard__profile">
+          <span class="material-icons" style="color: rgb(128, 128, 128); font-size: 40px;">contact_phone</span>
+          <span class="leaderboard__name"> {{customer.mobile}}</span><br>
+        </article>
+
+        <article class="leaderboard__profile">
+          <span class="material-icons" style="color: rgb(128, 128, 128); font-size: 40px;">cell_wifi</span>
+          <span class="leaderboard__name"> {{customer.age}}</span>
+        </article>
+
+        <article class="leaderboard__profile">
+          <span class="material-icons" style="color: rgb(128, 128, 128); font-size: 40px;">group_work</span>
+          <span class="leaderboard__name"> {{customer.gender}}</span>
+        </article>
+
+        <!-- <article class="leaderboard__profile">
+          <span class="material-icons" style="color: rgb(128, 128, 128); font-size: 40px;">pin_drop</span>
+          <span class="leaderboard__name"> {{customer.pinCode}}</span>
+        </article>
+
+        <article class="leaderboard__profile">
+          <span class="material-icons" style="color: rgb(128, 128, 128); font-size: 40px;">support_agent</span>
+          <span class="leaderboard__name"> {{customer.suggestedPlan}}</span>
+        </article> -->
+      </main>
+
+  </article>
+  </mat-grid-tile>
+
+  <mat-grid-tile [colspan]="2" [rowspan]="5" *ngIf="projectName === 'asianet' && customer">
+    <article class="leaderboard">
+      <header>
+
+        <h1 class="leaderboard__title"><span class="leaderboard__title--top">{{customer.name}}</span>
+          <span class="leaderboard__title--bottom">{{customer.region}}</span>
+          <span class="leaderboard__title--bottom">{{customer.subCode}}</span></h1>
+      </header>
+
+      <main class="leaderboard__profiles" *ngIf="customer">
+
+
+        <article class="leaderboard__profile">
+          <span class="material-icons" style="color: rgb(128, 128, 128); font-size: 40px;">contact_phone</span>
+          <span class="leaderboard__name"> {{customer.mobile}}</span><br>
+        </article>
+
+        <article class="leaderboard__profile">
+          <span class="material-icons" style="color: rgb(128, 128, 128); font-size: 40px;">cell_wifi</span>
+          <span class="leaderboard__name"> {{customer.balance}}</span>
+        </article>
+
+        <!-- <article class="leaderboard__profile">
+          <span class="material-icons" style="color: rgb(128, 128, 128); font-size: 40px;">group_work</span>
+          <span class="leaderboard__name"> {{customer.gender}}</span>
+        </article> -->
+
+        <!-- <article class="leaderboard__profile">
+          <span class="material-icons" style="color: rgb(128, 128, 128); font-size: 40px;">pin_drop</span>
+          <span class="leaderboard__name"> {{customer.pinCode}}</span>
+        </article>
+
+        <article class="leaderboard__profile">
+          <span class="material-icons" style="color: rgb(128, 128, 128); font-size: 40px;">support_agent</span>
+          <span class="leaderboard__name"> {{customer.suggestedPlan}}</span>
+        </article> -->
+      </main>
+
+  </article>
+  </mat-grid-tile>
+
+  <mat-grid-tile [colspan]="2" [rowspan]="5" *ngIf="projectName === 'bajaj' && customer">
+    <article class="leaderboard">
+      <header>
+
+        <h1 class="leaderboard__title"><span class="leaderboard__title--top">{{customer.name}}</span>
+          <span class="leaderboard__title--bottom">{{customer.subCode}}</span>
+          <!-- <span class="leaderboard__title--bottom">{{customer.employeeNo}}</span> -->
+        </h1>
+      </header>
+
+      <main class="leaderboard__profiles" *ngIf="customer">
+
+
+        <article class="leaderboard__profile">
+          <span class="material-icons" style="color: rgb(128, 128, 128); font-size: 40px;">contact_phone</span>
+          <span class="leaderboard__name"> {{customer.mobile}}</span><br>
+        </article>
+
+        <article class="leaderboard__profile">
+          <span class="material-icons" style="color: rgb(128, 128, 128); font-size: 40px;">cell_wifi</span>
+          <span class="leaderboard__name"> {{customer.emi}}</span>
+        </article>
+
+        <article class="leaderboard__profile">
+          <span class="material-icons" style="color: rgb(128, 128, 128); font-size: 40px;">group_work</span>
+          <span class="leaderboard__name"> {{customer.product}}</span>
+        </article>
+
+        <!-- <article class="leaderboard__profile">
+          <span class="material-icons" style="color: rgb(128, 128, 128); font-size: 40px;">pin_drop</span>
+          <span class="leaderboard__name"> {{customer.pinCode}}</span>
+        </article>
+
+        <article class="leaderboard__profile">
+          <span class="material-icons" style="color: rgb(128, 128, 128); font-size: 40px;">support_agent</span>
+          <span class="leaderboard__name"> {{customer.suggestedPlan}}</span>
+        </article> -->
+      </main>
+
+  </article>
+  </mat-grid-tile>
+
+  <mat-grid-tile [colspan]="2" [rowspan]="5" *ngIf="projectName === 'vi' && customer">
+    <article class="leaderboard">
+      <header>
+
+        <h1 class="leaderboard__title"><span class="leaderboard__title--top">{{customer.custName}}</span>
+          <span class="leaderboard__title--bottom">{{customer.campionName}}</span>
+          <!-- <span class="leaderboard__title--bottom">{{customer.employeeNo}}</span> -->
+        </h1>
+      </header>
+
+      <main class="leaderboard__profiles" *ngIf="customer">
+
+
+        <article class="leaderboard__profile">
+          <span class="material-icons" style="color: rgb(128, 128, 128); font-size: 40px;">contact_phone</span>
+          <span class="leaderboard__name"> {{customer.mobileNumber}}</span><br>
+        </article>
+
+        <article class="leaderboard__profile">
+          <span class="material-icons" style="color: rgb(128, 128, 128); font-size: 40px;">cell_wifi</span>
+          <span class="leaderboard__name"> {{customer.currentPlan}}</span>
+        </article>
+
+        <article class="leaderboard__profile">
+          <span class="material-icons" style="color: rgb(128, 128, 128); font-size: 40px;">group_work</span>
+          <span class="leaderboard__name"> {{customer.noOfConnections}}</span>
+        </article>
+
+        <article class="leaderboard__profile">
+          <span class="material-icons" style="color: rgb(128, 128, 128); font-size: 40px;">pin_drop</span>
+          <span class="leaderboard__name"> {{customer.pinCode}}</span>
+        </article>
+
+        <article class="leaderboard__profile">
+          <span class="material-icons" style="color: rgb(128, 128, 128); font-size: 40px;">support_agent</span>
+          <span class="leaderboard__name"> {{customer.suggestedPlan}}</span>
+        </article>
+      </main>
+
+  </article>
+  </mat-grid-tile>
+
+
+  <mat-grid-tile [colspan]="3" [rowspan]="5" *ngIf="!nextStatus">
+    <body>
+      <form [formGroup]="customerForm">
+        <br><h1>STATUS</h1>
+        <ol class="olcards">
+          <li style="--cardColor:#fc374e">
+            <div class="content" (click)="missed()">
+              <div class="icon"><span class="material-icons">phone_missed</span></div>
+              <div class="title">RNR</div>
+            </div>
+          </li>
+          <li style="--cardColor:#36aeb3">
+            <div class="content"  (click)="callBack()">
+              <div class="icon">
+                <span class="material-icons">phone_forwarded</span></div>
+              <div class="title" *ngIf="!backStat">CALL BACK</div>
+            </div>
+            <div class="text">
+              <mat-form-field class="full-width" *ngIf="backStat">
+                <mat-label>Choose a date</mat-label>
+                <input matInput [matDatepicker]="picker" formControlName="date">
+                <mat-hint>MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+
+              <mat-form-field class="full-width" *ngIf="backStat">
+                <input  type="time" matInput  placeholder="Start Time" formControlName="time">
+              </mat-form-field>
+            </div>
+          </li>
+          <li style="--cardColor:#162d59">
+            <div class="content" (click)="busy()">
+              <div class="icon">
+                <span class="material-icons">phone_disabled</span>
+              </div>
+              <div class="title">CALL BUSY</div>
+
+            </div>
+          </li>
+          <li style="--cardColor:#f15f0e">
+            <div class="content" (click)="answered()" answerStat>
+              <div class="icon"><span class="material-icons">phone_in_talk</span>
+              </div>
+              <div class="title" *ngIf="!answerStat">ANSWERED</div>
+            </div>
+            <div class="text">
+              <mat-radio-group *ngIf="answerStat" formControlName="answer">
+                <mat-radio-button value="Intrested">Intrested</mat-radio-button>
+                <mat-radio-button value="NotIntrested">Not Intrested</mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </li>
+        </ol>
+        <button mat-raised-button class="btn" type="button" (click)="onSubmit()"
+        [disabled]="status == null">Next</button>
+      </form>
+    </body>
+  </mat-grid-tile>
+
+  <mat-grid-tile [colspan]="3" [rowspan]="5" *ngIf="nextStatus">
+    <body>
+      <form [formGroup]="nextForm" >
+        <mat-card class="background">
+          <div class="row">
+            <div class="col">
+              <mat-form-field class="full-width">
+                <textarea matInput placeholder="Remarks" formControlName="remarks"></textarea>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col">
+              <mat-form-field class="full-width">
+                <textarea matInput placeholder="FreeText" formControlName="freeText"></textarea>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col">
+              <mat-form-field class="full-width">
+                <textarea matInput placeholder="Action" formControlName="action"></textarea>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <mat-card-actions>
+            <button mat-raised-button class="btn" type="button" (click)="saveData()">save</button>
+          </mat-card-actions>
+        </mat-card>
+      </form>
+    </body>
+  </mat-grid-tile>
+</mat-grid-list>
+
+

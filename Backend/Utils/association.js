@@ -56,6 +56,15 @@ async function syncModel(){
     Project.hasMany(FollowUp, {foreignKey: 'projectId'})
     FollowUp.belongsTo(Project)
 
+    Project.hasMany(AsianetFollowup, {foreignKey: 'projectId'})
+    AsianetFollowup.belongsTo(Project)
+
+    Project.hasMany(BajajFollowup, {foreignKey: 'projectId'})
+    BajajFollowup.belongsTo(Project)
+
+    Project.hasMany(ViFollowup, {foreignKey: 'projectId'})
+    ViFollowup.belongsTo(Project)
+
     User.hasMany(BsnlFollowup, {foreignKey: 'teleCallerId'})
     BsnlFollowup.belongsTo(User, {as: 'caller', foreignKey : 'teleCallerId'})
 
@@ -63,7 +72,7 @@ async function syncModel(){
     AsianetFollowup.belongsTo(User, {as: 'caller', foreignKey : 'teleCallerId'})
 
     User.hasMany(BajajFollowup, {foreignKey: 'teleCallerId'})
-    Bajaj.belongsTo(User, {as: 'caller', foreignKey : 'teleCallerId'})
+    BajajFollowup.belongsTo(User, {as: 'caller', foreignKey : 'teleCallerId'})
 
     User.hasMany(ViFollowup, {foreignKey: 'teleCallerId'})
     ViFollowup.belongsTo(User, {as: 'caller', foreignKey : 'teleCallerId'})

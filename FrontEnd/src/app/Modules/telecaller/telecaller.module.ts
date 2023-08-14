@@ -9,6 +9,8 @@ import { CustomerComponent } from './Components/customer/customer.component';
 import { OpenCustomerComponent } from './Components/open-customer/open-customer.component';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
+import { DatePipe } from '@angular/common';
+import { OpenFollowupComponent } from './Components/open-followup/open-followup.component'; // Import the DatePipe
 
 @NgModule({
   declarations: [
@@ -17,6 +19,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     NavbarComponent,
     CustomerComponent,
     OpenCustomerComponent,
+    OpenFollowupComponent,
 
   ],
   imports: [
@@ -25,6 +28,9 @@ import { ReactiveFormsModule } from '@angular/forms';
     MaterialModule,
     FormsModule,
     ReactiveFormsModule
+  ],
+  providers: [
+    DatePipe // Add DatePipe to providers
   ]
 })
 export class TelecallerModule { }

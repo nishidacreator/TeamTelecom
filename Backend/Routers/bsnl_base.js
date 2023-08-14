@@ -62,11 +62,11 @@ router.get('/:id', async (req, res) => {
   res.send(bsnl);
 })
 
-router.delete('/:id', async(req,res)=>{
+router.delete('/', async(req,res)=>{
     try {
-
+      console.log(req.body.status);
         const result = await Bsnl.destroy({
-            where: { id: req.params.id },
+            where: { status: req.body.status },
             force: true,
         });
 
@@ -82,6 +82,28 @@ router.delete('/:id', async(req,res)=>{
         res.send({error: error.message})
     }
     
+})
+
+router.delete('/alldata', async(req,res)=>{
+  try {
+    console.log(req.body.status);
+      const result = await Bsnl.destroy({
+          where: { },
+          force: true,
+      });
+
+      if (result === 0) {
+          return res.status(404).json({
+            status: "fail",
+            message: "Bsnl with that ID not found",
+          });
+        }
+    
+        res.status(204).json();
+      }  catch (error) {
+      res.send({error: error.message})
+  }
+  
 })
 
 router.patch('/:id', async(req,res)=>{

@@ -1,19 +1,17 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-// import { Customer } from '../../Models/customer';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AdminService } from 'src/app/Modules/admin/admin.service';
-import { Subscription } from 'rxjs';
-import { TelecallerService } from '../../telecaller.service';
+import { FormBuilder } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { AdminService } from 'src/app/Modules/admin/admin.service';
+import { TelecallerService } from '../../telecaller.service';
 
 @Component({
-  selector: 'app-open-customer',
-  templateUrl: './open-customer.component.html',
-  styleUrls: ['./open-customer.component.scss']
+  selector: 'app-open-followup',
+  templateUrl: './open-followup.component.html',
+  styleUrls: ['./open-followup.component.scss']
 })
-export class OpenCustomerComponent {
-
+export class OpenFollowupComponent {
   ngOnDestroy() {
     this.projetSub.unsubscribe();
   }
@@ -54,28 +52,28 @@ export class OpenCustomerComponent {
       console.log(this.projectName)
 
       if(this.projectName == 'bsnl'){
-        this.dataSub = this.teleCallerService.getBsnlById(this.id).subscribe(res=>{
+        this.dataSub = this.teleCallerService.getFollowUpById(this.id).subscribe(res=>{
           console.log(res)
           this.customer = res
         })
       }
 
       if(this.projectName == 'asianet'){
-        this.dataSub = this.teleCallerService.getAsianetById(this.id).subscribe(res=>{
+        this.dataSub = this.teleCallerService.getAsianetFollowUpById(this.id).subscribe(res=>{
           console.log(res)
           this.customer = res
         })
       }
 
       if(this.projectName == 'bajaj'){
-        this.dataSub = this.teleCallerService.getBajajById(this.id).subscribe(res=>{
+        this.dataSub = this.teleCallerService.getBajajFollowUpById(this.id).subscribe(res=>{
           console.log(res)
           this.customer = res
         })
       }
 
       if(this.projectName == 'vi'){
-        this.dataSub = this.teleCallerService.getViById(this.id).subscribe(res=>{
+        this.dataSub = this.teleCallerService.getViFollowUpById(this.id).subscribe(res=>{
           console.log(res)
           this.customer = res
         })
@@ -120,13 +118,12 @@ export class OpenCustomerComponent {
       date: this.customerForm.get('date')?.value,
       time: this.customerForm.get('time')?.value,
     }
-    console.log(this.status)
     if(this.status === "CallBack"){
       console.log(data)
       if(this.projectName === 'bsnl'){
-        this.teleCallerService.updateBsnlCallBack(this.id,data).subscribe(data =>{
+        this.teleCallerService.updateBsnlFollowupCallBack(this.id,data).subscribe(data =>{
 
-          this.teleCallerService.getBsnlById(this.id).subscribe(data =>{
+          this.teleCallerService.getAsianetFollowUpById(this.id).subscribe(data =>{
             console.log(data)
 
             this.teleCallerService.addFollowUp(data).subscribe(res=>{
@@ -137,9 +134,9 @@ export class OpenCustomerComponent {
       }
 
       if(this.projectName === 'asianet'){
-        this.teleCallerService.updateAsianetCallBack(this.id,data).subscribe(data =>{
+        this.teleCallerService.updateAsianetFollowupCallBack(this.id,data).subscribe(data =>{
 
-          this.teleCallerService.getAsianetById(this.id).subscribe(data =>{
+          this.teleCallerService.getAsianetFollowUpById(this.id).subscribe(data =>{
             console.log(data)
 
             this.teleCallerService.addAsianetFollowUp(data).subscribe(res=>{
@@ -150,9 +147,9 @@ export class OpenCustomerComponent {
       }
 
       if(this.projectName === 'bajaj'){
-        this.teleCallerService.updateBajajCallBack(this.id,data).subscribe(data =>{
+        this.teleCallerService.updateBajajFollowupCallBack(this.id,data).subscribe(data =>{
 
-          this.teleCallerService.getBajajById(this.id).subscribe(data =>{
+          this.teleCallerService.getBajajFollowUpById(this.id).subscribe(data =>{
             console.log(data)
 
             this.teleCallerService.addBajajFollowUp(data).subscribe(res=>{
@@ -163,9 +160,9 @@ export class OpenCustomerComponent {
       }
 
       if(this.projectName === 'vi'){
-        this.teleCallerService.updateViCallBack(this.id,data).subscribe(data =>{
+        this.teleCallerService.updateViFollowupCallBack(this.id,data).subscribe(data =>{
 
-          this.teleCallerService.getViById(this.id).subscribe(data =>{
+          this.teleCallerService.getViFollowUpById(this.id).subscribe(data =>{
             console.log(data)
 
             this.teleCallerService.addViFollowUp(data).subscribe(res=>{
@@ -187,7 +184,7 @@ export class OpenCustomerComponent {
       action : this.nextForm.get('action')?.value
     }
     if(this.projectName == 'bsnl'){
-      this.teleCallerService.updateBsnlResponse(this.id, data).subscribe(res=>{
+      this.teleCallerService.updateBsnlFollowupResponse(this.id, data).subscribe(res=>{
         console.log(res)
         if(this.status === '')
         this._snackBar.open("Response Updated successfully...","" ,{duration:3000})
@@ -196,7 +193,7 @@ export class OpenCustomerComponent {
     }
 
     if(this.projectName == 'asianet'){
-      this.teleCallerService.updateAsianetResponse(this.id, data).subscribe(res=>{
+      this.teleCallerService.updateAsianetFollowupResponse(this.id, data).subscribe(res=>{
         console.log(res)
         this._snackBar.open("Response Updated successfully...","" ,{duration:3000})
         this.clearControls()
@@ -204,7 +201,7 @@ export class OpenCustomerComponent {
     }
 
     if(this.projectName == 'bajaj'){
-      this.teleCallerService.updateBajajResponse(this.id, data).subscribe(res=>{
+      this.teleCallerService.updateBajajFollowupResponse(this.id, data).subscribe(res=>{
         console.log(res)
         this._snackBar.open("Response Updated successfully...","" ,{duration:3000})
         this.clearControls()
@@ -212,7 +209,7 @@ export class OpenCustomerComponent {
     }
 
     if(this.projectName == 'vi'){
-      this.teleCallerService.updateViResponse(this.id, data).subscribe(res=>{
+      this.teleCallerService.updateViFollowupResponse(this.id, data).subscribe(res=>{
         console.log(res)
         this._snackBar.open("Response Updated successfully...","" ,{duration:3000})
         this.clearControls()

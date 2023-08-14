@@ -7,11 +7,13 @@ export interface Asianet{
   name : string,
   balance : number
   mobile : number
-  
+
   status : string
   remarks : string
   freeText : string
   action : string
   teleCallerId : number
   teleCaller: User
+  date: Date
+  time: Date
 }
