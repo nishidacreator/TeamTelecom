@@ -55,11 +55,11 @@ router.get('/:id', async (req, res) => {
   res.send(vi);
 })
 
-router.delete('/:id', async(req,res)=>{
+router.delete('/', async(req,res)=>{
     try {
 
         const result = await Vi.destroy({
-            where: { id: req.params.id },
+            where: { status: req.body.status },
             force: true,
         });
 
@@ -76,6 +76,29 @@ router.delete('/:id', async(req,res)=>{
     }
     
 })
+
+router.delete('/alldata', async(req,res)=>{
+  try {
+
+      const result = await Vi.destroy({
+          where: {  },
+          force: true,
+      });
+
+      if (result === 0) {
+          return res.status(404).json({
+            status: "fail",
+            message: "Vi with that ID not found",
+          });
+        }
+    
+        res.status(204).json();
+      }  catch (error) {
+      res.send({error: error.message})
+  }
+  
+})
+
 
 router.patch('/:id', async(req,res)=>{
     try {
@@ -136,4 +159,6 @@ router.patch('/callback/:id', async(req,res)=>{
       });
     }
 })
+
+
 module.exports = router;

@@ -121,4 +121,48 @@ router.patch('/callback/:id', async(req,res)=>{
       });
     }
 })
+
+router.delete('/', async(req,res)=>{
+  try {
+
+      const result = await BajajFollowup.destroy({
+          where: { status: req.body.status },
+          force: true,
+      });
+
+      if (result === 0) {
+          return res.status(404).json({
+            status: "fail",
+            message: "Bajaj with that ID not found",
+          });
+        }
+    
+        res.status(204).json();
+      }  catch (error) {
+      res.send({error: error.message})
+  }
+  
+})
+
+router.delete('/alldata', async(req,res)=>{
+try {
+
+    const result = await BajajFollowup.destroy({
+        where: { },
+        force: true,
+    });
+
+    if (result === 0) {
+        return res.status(404).json({
+          status: "fail",
+          message: "Bajaj with that ID not found",
+        });
+      }
+  
+      res.status(204).json();
+    }  catch (error) {
+    res.send({error: error.message})
+}
+
+})
 module.exports = router;

@@ -34,4 +34,10 @@ export class NavbarComponent {
     this.router.navigateByUrl('')
   }
 
+  barStatus = true;
+
+  viewBar(){
+    this.barStatus = !this.barStatus
+  }
+
 }

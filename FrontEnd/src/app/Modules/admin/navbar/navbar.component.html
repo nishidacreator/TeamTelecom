@@ -43,31 +43,31 @@
 
           <div class="ui-row-2">
 
-            <div class="left-sidebar">
+            <div class="left-sidebar" (click)="viewBar()">
 
-              <div>
+              <div *ngIf="barStatus" >
                 <span class="material-icons" routerLink="home">home</span>
               </div>
 
-              <div>
+              <div *ngIf="barStatus" >
                 <span class="material-icons" routerLink="clients">person</span>
               </div>
 
-              <div>
+              <div *ngIf="barStatus" >
                 <span class="material-icons" routerLink="projects">assignment</span>
               </div>
 
-              <div>
+              <div *ngIf="barStatus" >
                 <span class="material-icons" routerLink="projectbase">task</span>
               </div>
 
-              <div>
-                <span class="material-icons" routerLink="projectbase">upload_file</span>
+              <div *ngIf="barStatus" >
+                <span class="material-icons" routerLink="exportbase">download</span>
               </div>
 
-              <div>
+              <!-- <div>
                 <span class="material-icons" routerLink="upload">upload_file</span>
-              </div>
+              </div> -->
 
             </div>
 
@@ -77,6 +77,6 @@
    <!-- </div>
   </mat-sidenav-content>
 </mat-sidenav-container> -->
-</div>
+  </div>
 </div>
 

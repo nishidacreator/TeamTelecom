@@ -10,21 +10,24 @@ import { UserComponent } from './components/user/user.component';
 import { ProjectTypeComponent } from './components/project-type/project-type.component';
 import { ProjectComponent } from './components/project/project.component';
 import { ProjectBaseComponent } from './components/project-base/project-base.component';
+import { DeleteBaseComponent } from './components/delete-base/delete-base.component';
+import { ExportBaseComponent } from './components/export-base/export-base.component';
 
 const routes: Routes = [
   {path: '', component:NavbarComponent,
     children:[
       {path: '', component: DashboardComponent},
-      // {path: 'home', component: HomeComponent},
+      {path: 'home', component: DashboardComponent},
       {path: 'projectbase', component: ProjectBaseComponent},
       {path: 'clients', component: ClientsComponent},
       {path: 'projects', component: ProjectComponent},
+      {path: 'exportbase', component: ExportBaseComponent},
 
       {path: 'settings', component: SettingsComponent},
       {path: 'settings/role', component: RoleComponent},
       {path: 'settings/user', component: UserComponent},
       {path: 'settings/projecttype', component: ProjectTypeComponent},
-
+      {path: 'settings/deletebase', component: DeleteBaseComponent}
     ]
   }
 ];
