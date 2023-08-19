@@ -71,7 +71,8 @@ router.patch('/:id', async(req,res)=>{
           status: req.body.status,
           freeText: req.body.freeText,
           remarks: req.body.remarks,
-          action: req.body.action
+          action: req.body.action,
+          callTime: req.body.callTime
         }
         BsnlFollowup.update(bsnlfollowup, {
             where: { id: req.params.id }

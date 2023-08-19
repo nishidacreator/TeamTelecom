@@ -16,11 +16,6 @@ router.post('/', async (req, res) => {
             return res.status(400).send({ message: 'User already exists in this phone number' })  
         }
 
-        const userEmail = await User.findOne({where: {email: email}});
-        if (userEmail) {
-            return res.status(400).send({ message: 'Email is already registered' })  
-        }
-
         const pass = await bcrypt.hash(password, 10);
 
         const newUser = new User({
@@ -28,17 +23,34 @@ router.post('/', async (req, res) => {
             phoneNumber : phoneNumber, 
             password : pass, 
             roleId : roleId, 
-            status : status,
-            employeeNo : employeeNo,
-            email: email
+            status : status
         });
 
         await newUser.save();
-        console.log(newUser)
 
-        // res.send(newUser)
+        const userId = newUser.id;
+        let empNo = newUser.name + newUser.id
+        console.log(empNo)
 
-        res.status(200).send({id:newUser.id, name:newUser.name, email:newUser.email});
+        let data  = {
+          employeeNo : empNo
+        }
+
+        console.log(userId)
+        User.update(data, {
+          where: { id: userId },
+        })
+          .then(num => {
+            if (num == 1) {
+              res.send({newUser});
+            } else {
+              res.send({
+                message: `Cannot update User with id=${id}. Maybe User was not found or req.body is empty!`
+              });
+            }
+          })
+
+        // res.status(200).send({id:newUser.id, name:newUser.name, email:newUser.email});
         } catch (error) {
             res.send({error : error.message});
         }   

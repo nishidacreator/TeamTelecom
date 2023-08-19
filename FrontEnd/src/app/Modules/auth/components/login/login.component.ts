@@ -11,7 +11,7 @@ import{AuthService} from '../../auth.service';
 export class LoginComponent implements OnInit {
   loginForm = this.fb.group({
 
-    email: [null, [Validators.required,Validators.email]],
+    employeeNo: [null, [Validators.required]],
     password:[null,Validators.required,]
 
 

@@ -28,12 +28,12 @@ export class ProjectComponent {
   }
 
   projectForm = this.fb.group({
-    startDate: ['', Validators.required],
+    startDate: [''],
     projectName: ['', Validators.required],
     description: [''],
     endDate: [''],
-    clientId: ['', Validators.required],
-    teamLeadId: ['', Validators.required],
+    clientId: [''],
+    teamLeadId: [''],
     imageUrl: [''],
     projectTypeId: ['', Validators.required]
   });
@@ -145,6 +145,7 @@ export class ProjectComponent {
   getProjects(){
     this.projectsubscription = this.adminService.getProject().subscribe((res)=>{
       this.projects = res
+      console.log(this.projects)
     })
   }
 

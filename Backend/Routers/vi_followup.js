@@ -6,9 +6,9 @@ const Project = require('../Models/project');
 router.post('/', async (req, res) => {
     try {  
       
-          const { mobileNumber, custName, campionName, currentPlan, noOfConnections, pinCode, suggestedPlan, status, remarks, freeText, action, teleCallerId, projectId, date, time } = req.body;
+          const { mobileNumber, custName, campionName, currentPlan, noOfConnections, pinCode, suggestedPlan, status, remarks, freeText, action, Teleby, projectId, date, time } = req.body;
 
-          const result = new ViFollowup({mobileNumber, custName, campionName, currentPlan, noOfConnections, pinCode, suggestedPlan, status, remarks, freeText, action, teleCallerId, projectId, date, time});
+          const result = new ViFollowup({mobileNumber, custName, campionName, currentPlan, noOfConnections, pinCode, suggestedPlan, status, remarks, freeText, action, Teleby, projectId, date, time});
 
           await result.save();
 
@@ -67,7 +67,8 @@ router.patch('/:id', async(req,res)=>{
         status: req.body.status,
         freeText: req.body.freeText,
         remarks: req.body.remarks,
-        action: req.body.action
+        action: req.body.action,
+        callTime: req.body.callTime
       }
 
         ViFollowup.update(vifollowup, {

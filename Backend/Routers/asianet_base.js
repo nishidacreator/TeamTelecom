@@ -2,12 +2,14 @@ const express = require('express');
 const Asianet = require('../Models/asianet_base');
 const Project = require('../Models/project');
 const router = express.Router();
+const multer = require('../Utils/multer');
+const excelToJson = require('convert-excel-to-json');
+const fs = require('fs-extra');
 
-
-router.post('/', async (req, res) => {
+router.post('/', multer.single('imageUrl'), async (req, res) => {
     try {
       const imageUrl = req.file ? req.file.path : null;
-
+      console.log(imageUrl);
       if(imageUrl != null){
           const filePath = 'uploads/' + req.file.filename;
 
@@ -23,7 +25,12 @@ router.post('/', async (req, res) => {
       
           fs.remove(filePath);
 
-          const jsonWithoutSheetName = excelData.Sheet1;
+          const jsonWithoutSheetName = excelData.Base;
+
+          const projectId = req.body.projectId;
+          for(let i = 0; i < jsonWithoutSheetName.length; i++){
+            jsonWithoutSheetName[i].projectId = projectId;
+          }
 
           const asianet = await Asianet.bulkCreate(jsonWithoutSheetName)
 
@@ -106,7 +113,8 @@ router.patch('/:id', async(req,res)=>{
         status: req.body.status,
         freeText: req.body.freeText,
         remarks: req.body.remarks,
-        action: req.body.action
+        action: req.body.action,
+        callTime: req.body.callTime
       }
         Asianet.update(asianet, {
             where: { id: req.params.id }

@@ -22,12 +22,11 @@ export class UserComponent {
 
   userForm = this.fb.group({
     name: ['', Validators.required],
-    employeeNo: ['', Validators.required],
-    phoneNumber: ['',[Validators.required,  Validators.pattern("^[0-9 +]*$"),Validators.minLength(10),Validators.maxLength(14)]],
-    email: ['', [Validators.required, Validators.email]],
+    phoneNumber: ['',[ Validators.pattern("^[0-9 +]*$"),Validators.minLength(10),Validators.maxLength(14)]],
     password:['',Validators.required],
     roleId: ['', Validators.required],
-    status: [false, Validators.required]
+    status: ['', Validators.required],
+    employeeNo: ['']
   });
 
   ngOnDestroy(): void {
@@ -47,7 +46,9 @@ export class UserComponent {
   }
 
   onSubmit(){
+    console.log(this.userForm.getRawValue())
     this.authService.addUser(this.userForm.getRawValue()).subscribe((res)=>{
+      console.log(res)
       this._snackBar.open("User added successfully...","" ,{duration:3000})
       this.clearControls()
     },(error=>{
@@ -62,7 +63,7 @@ export class UserComponent {
     Object.keys(this.userForm.controls).forEach(key=>{this.userForm.get(key)?.setErrors(null)})
   }
 
-  displayedColumns : string[] = ['id','name', 'employeeId','phoneNumber', 'email','roleId','status','manage']
+  displayedColumns : string[] = ['id','name', 'employeeId','phoneNumber','roleId','status','manage']
 
   users : User[]=[];
   userSubscriptions! : Subscription;
@@ -107,7 +108,6 @@ export class UserComponent {
     this.userForm.patchValue({
       name : name,
       phoneNumber : phoneNumber,
-      email : email,
       roleId : roleId,
       status : status,
       employeeNo : employeeNo

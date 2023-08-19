@@ -44,17 +44,16 @@
             </div>
             <div id="response" class="hidden">
               <div id="messages"></div>
-              <progress class="progress" id="file-progress" value="0">
-                <span>0</span>%
-              </progress>
+              <mat-progress-bar *ngIf="isUploading" mode="indeterminate" [value]="uploadProgress"></mat-progress-bar>
             </div>
           </label>
         </div>
         </div>
+
     </div>
 
     <mat-card-actions>
-      <button  mat-raised-button  type="submit" [disabled]="!baseForm.valid">
+      <button  mat-raised-button  type="submit" [disabled]="!baseForm.valid || !btnStat">
         <span class="material-icons" style="font-size: 25px;">save</span>
       </button>&nbsp;&nbsp;
     </mat-card-actions>

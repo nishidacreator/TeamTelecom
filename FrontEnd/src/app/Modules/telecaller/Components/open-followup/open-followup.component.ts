@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AdminService } from 'src/app/Modules/admin/admin.service';
 import { TelecallerService } from '../../telecaller.service';
@@ -19,7 +19,7 @@ export class OpenFollowupComponent {
   id!: number
   projectId!: number
   constructor(public route: ActivatedRoute, private fb: FormBuilder, private adminService: AdminService,
-    private teleCallerService: TelecallerService, private _snackBar: MatSnackBar){
+    private teleCallerService: TelecallerService, private _snackBar: MatSnackBar, private router: Router){
     this.id = this.route.snapshot.params['id'];
     this.projectId = route.snapshot.params['projectId'];
   }
@@ -181,7 +181,8 @@ export class OpenFollowupComponent {
       status : this.status,
       remarks : this.nextForm.get('remarks')?.value,
       freeText: this.nextForm.get('freeText')?.value,
-      action : this.nextForm.get('action')?.value
+      action : this.nextForm.get('action')?.value,
+      callTime: Date.now()
     }
     if(this.projectName == 'bsnl'){
       this.teleCallerService.updateBsnlFollowupResponse(this.id, data).subscribe(res=>{
@@ -215,7 +216,7 @@ export class OpenFollowupComponent {
         this.clearControls()
       })
     }
-
+    this.router.navigateByUrl('/telecaller/customers')
   }
 
   clearControls(){

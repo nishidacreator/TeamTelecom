@@ -31,6 +31,9 @@ app.use('/projectType', ProjectType);
 const Client = require('../Routers/client');
 app.use('/client', Client);
 
+const Status = require('../Routers/status');
+app.use('/status', Status);
+
 // PROJECT BASE
 const Bsnl = require('../Routers/bsnl_base');
 app.use('/bsnl', Bsnl);
@@ -55,6 +58,18 @@ app.use('/bajajfollowUp', BajajFollow);
 
 const ViFollow = require('../Routers/vi_followup');
 app.use('/vifollowUp', ViFollow);
+
+const AsianetSales = require('../Routers/asianet_sales_base');
+app.use('/asianetsales', AsianetSales);
+
+const ViCollection = require('../Routers/vi_collection');
+app.use('/vicollections', ViCollection);
+
+const AsianetSalesFollow = require('../Routers/asianet_sales_followup');
+app.use('/asianetsalesfollow', AsianetSalesFollow);
+
+const ViCollectionFollow = require('../Routers/vi_collection_followup');
+app.use('/vicollectionsfollow', ViCollectionFollow);
 
 const port = process.env.PORT;
 app.listen(port, () => {

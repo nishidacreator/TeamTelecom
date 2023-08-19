@@ -15,38 +15,41 @@
           <tr *ngFor="let content of follow">
             <td>
               <a *ngIf="content.project.projectName.toLowerCase() === 'bsnl'">{{content.firstName}}</a>
-              <a *ngIf="content.project.projectName.toLowerCase() === 'asianet'">{{content.name}}</a>
+              <a *ngIf="content.project.projectName.toLowerCase() === 'asianet'">{{content.Name}}</a>
               <a *ngIf="content.project.projectName.toLowerCase() === 'bajaj'">{{content.bajaj_base.name}}</a>
               <a *ngIf="content.project.projectName.toLowerCase() === 'vi'">{{content.vi_base.custName}}</a>
             </td>
 
             <td>
               <a *ngIf="content.project.projectName.toLowerCase() === 'bsnl'">{{content.mobile}}</a>
-              <a *ngIf="content.project.projectName.toLowerCase() === 'asianet'">{{content.mobile}}</a>
+              <a *ngIf="content.project.projectName.toLowerCase() === 'asianet'">{{content.Mobile}}</a>
               <a *ngIf="content.project.projectName.toLowerCase() === 'bajaj'">{{content.mobile}}</a>
               <a *ngIf="content.project.projectName.toLowerCase() === 'vi'">{{content.mobileNumber}}</a>
             </td>
             <td>
-              {{content.project.projectName | uppercase}}- Followup
+              {{content.project.projectName | uppercase}}- Followup<br>{{content.time}}
             </td>
             <td>
               <mat-icon (click)="openCustomerFollowup(content.id, content.project.id)">phone</mat-icon>
             </td>
         </tr>
 
-        <tr *ngFor="let content of data">
+        <tr *ngFor="let content of paginatedData">
           <td>
             <a *ngIf="content.project.projectName.toLowerCase() === 'bsnl'">{{content.firstName}}</a>
-            <a *ngIf="content.project.projectName.toLowerCase() === 'asianet'">{{content.name}}</a>
+            <a *ngIf="content.project.projectName.toLowerCase() === 'asianetsales'">{{content.Name}}</a>
+            <a *ngIf="content.project.projectName.toLowerCase() === 'asianetcollections'">{{content.Name}}</a>
             <a *ngIf="content.project.projectName.toLowerCase() === 'bajaj'">{{content.name}}</a>
-            <a *ngIf="content.project.projectName.toLowerCase() === 'vi'">{{content.custName}}</a>
+            <a *ngIf="content.project.projectName.toLowerCase() === 'visales'">{{content.custName}}</a>
+            <a *ngIf="content.project.projectName.toLowerCase() === 'vicollections'">{{content.custName}}</a>
           </td>
 
           <td>
             <a *ngIf="content.project.projectName.toLowerCase() === 'bsnl'">{{content.mobile}}</a>
-            <a *ngIf="content.project.projectName.toLowerCase() === 'asianet'">{{content.mobile}}</a>
+            <a *ngIf="content.project.projectName.toLowerCase() === 'asianet'">{{content.Mobile}}</a>
             <a *ngIf="content.project.projectName.toLowerCase() === 'bajaj'">{{content.mobile}}</a>
-            <a *ngIf="content.project.projectName.toLowerCase() === 'vi'">{{content.mobileNumber}}</a>
+            <a *ngIf="content.project.projectName.toLowerCase() === 'visales'">{{content.mobileNumber}}</a>
+            <a *ngIf="content.project.projectName.toLowerCase() === 'vicollections'">{{content.mobileNumber}}</a>
           </td>
           <td>
             {{content.project.projectName | uppercase}}
@@ -57,4 +60,5 @@
       </tr>
     <tbody>
   </table>
+  <mat-paginator [length]="data.length" [pageSize]="pageSize" (page)="onPageChange($event)"></mat-paginator>
 </div>

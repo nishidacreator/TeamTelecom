@@ -41,17 +41,17 @@ async function syncModel(){
     Project.hasMany(Vi, {foreignKey: 'projectId'})
     Vi.belongsTo(Project)
 
-    User.hasMany(Bsnl, {foreignKey: 'teleCallerId'})
-    Bsnl.belongsTo(User, {as: 'teleCaller', foreignKey : 'teleCallerId'})
+    User.hasMany(Bsnl, {foreignKey: 'Teleby'})
+    Bsnl.belongsTo(User, {as: 'teleCaller', foreignKey : 'Teleby'})
 
-    User.hasMany(Asianet, {foreignKey: 'teleCallerId'})
-    Asianet.belongsTo(User, {as: 'teleCaller', foreignKey : 'teleCallerId'})
+    User.hasMany(Asianet, {foreignKey: 'Teleby'})
+    Asianet.belongsTo(User, {as: 'teleCaller', foreignKey : 'Teleby'})
 
-    User.hasMany(Bajaj, {foreignKey: 'teleCallerId'})
-    Bajaj.belongsTo(User, {as: 'teleCaller', foreignKey : 'teleCallerId'})
+    User.hasMany(Bajaj, {foreignKey: 'Teleby'})
+    Bajaj.belongsTo(User, {as: 'teleCaller', foreignKey : 'Teleby'})
 
-    User.hasMany(Vi, {foreignKey: 'teleCallerId'})
-    Vi.belongsTo(User, {as: 'teleCaller', foreignKey : 'teleCallerId'})
+    User.hasMany(Vi, {foreignKey: 'Teleby'})
+    Vi.belongsTo(User, {as: 'teleCaller', foreignKey : 'Teleby'})
 
     Project.hasMany(FollowUp, {foreignKey: 'projectId'})
     FollowUp.belongsTo(Project)
@@ -65,29 +65,17 @@ async function syncModel(){
     Project.hasMany(ViFollowup, {foreignKey: 'projectId'})
     ViFollowup.belongsTo(Project)
 
-    User.hasMany(BsnlFollowup, {foreignKey: 'teleCallerId'})
-    BsnlFollowup.belongsTo(User, {as: 'caller', foreignKey : 'teleCallerId'})
+    User.hasMany(BsnlFollowup, {foreignKey: 'Teleby'})
+    BsnlFollowup.belongsTo(User, {as: 'caller', foreignKey : 'Teleby'})
 
-    User.hasMany(AsianetFollowup, {foreignKey: 'teleCallerId'})
-    AsianetFollowup.belongsTo(User, {as: 'caller', foreignKey : 'teleCallerId'})
+    User.hasMany(AsianetFollowup, {foreignKey: 'Teleby'})
+    AsianetFollowup.belongsTo(User, {as: 'caller', foreignKey : 'Teleby'})
 
-    User.hasMany(BajajFollowup, {foreignKey: 'teleCallerId'})
-    BajajFollowup.belongsTo(User, {as: 'caller', foreignKey : 'teleCallerId'})
+    User.hasMany(BajajFollowup, {foreignKey: 'Teleby'})
+    BajajFollowup.belongsTo(User, {as: 'caller', foreignKey : 'Teleby'})
 
-    User.hasMany(ViFollowup, {foreignKey: 'teleCallerId'})
-    ViFollowup.belongsTo(User, {as: 'caller', foreignKey : 'teleCallerId'})
-
-    // Bsnl.hasMany(FollowUp, {foreignKey: 'baseId'})
-    // FollowUp.belongsTo(Bsnl, {as: 'bsnl_base', foreignKey: 'baseId'})
-
-    // Asianet.hasMany(FollowUp, {foreignKey: 'baseId'})
-    // FollowUp.belongsTo(Asianet, {as: 'asianet_base', foreignKey: 'baseId'})
-
-    // Bajaj.hasMany(FollowUp, {foreignKey: 'baseId'})
-    // FollowUp.belongsTo(Bajaj, {as: 'bajaj_base', foreignKey: 'baseId'})
-
-    // Vi.hasMany(FollowUp, {foreignKey: 'baseId'})
-    // FollowUp.belongsTo(Vi, {as: 'vi_base', foreignKey: 'baseId'})
+    User.hasMany(ViFollowup, {foreignKey: 'Teleby'})
+    ViFollowup.belongsTo(User, {as: 'caller', foreignKey : 'Teleby'})
 
     await sequelize.sync({alter : true})
 
@@ -106,6 +94,18 @@ async function syncModel(){
             {typeName: 'Sales'},
             {typeName: 'Support'},
             {typeName: 'Collection'},
+        ])
+    }
+
+    const project = await Project.findAll({})
+    if(project.length === 0){
+        Project.bulkCreate([
+            {projectName: 'AsianetSales', projectTypeId: 1},
+            {projectName: 'ViSales', projectTypeId: 1},
+            {projectName: 'AsianetCollections', projectTypeId: 3},
+            {projectName: 'ViCollections', projectTypeId: 3},
+            {projectName: 'Bajaj', projectTypeId: 2},
+            {projectName: 'Bsnl', projectTypeId: 2}
         ])
     }
 }

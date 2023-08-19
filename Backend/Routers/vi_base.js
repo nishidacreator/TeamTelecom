@@ -2,8 +2,11 @@ const express = require('express');
 const Vi = require('../Models/vi_base');
 const router = express.Router();
 const Project = require('../Models/project');
+const multer = require('../Utils/multer');
+const excelToJson = require('convert-excel-to-json');
+const fs = require('fs-extra');
 
-router.post('/', async (req, res) => {
+router.post('/', multer.single('imageUrl'), async (req, res) => {
     try {  
       
       const imageUrl = req.file ? req.file.path : null;
@@ -23,7 +26,13 @@ router.post('/', async (req, res) => {
       
           fs.remove(filePath);
 
-          const jsonWithoutSheetName = excelData.Sheet1;
+          const jsonWithoutSheetName = excelData.Base;
+
+          const projectId = req.body.projectId;
+          for(let i = 0; i < jsonWithoutSheetName.length; i++){
+            jsonWithoutSheetName[i].projectId = projectId;
+          }
+
 
           const vi = await Vi.bulkCreate(jsonWithoutSheetName)
 
@@ -106,17 +115,17 @@ router.patch('/:id', async(req,res)=>{
         status: req.body.status,
         freeText: req.body.freeText,
         remarks: req.body.remarks,
-        action: req.body.action
+        action: req.body.action,
+        callTime: req.body.callTime
       }
+      console.log(vi)
 
-        Vi.update(vi, {
+      const result =  Vi.update(vi, {
             where: { id: req.params.id }
           })
             .then(num => {
               if (num == 1) {
-                res.send({
-                  message: "Vi was updated successfully."
-                });
+                res.send(result);
               } else {
                 res.send({
                   message: `Cannot update Vi with id=${id}. Maybe Vi was not found or req.body is empty!`
