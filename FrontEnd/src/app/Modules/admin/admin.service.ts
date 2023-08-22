@@ -6,6 +6,7 @@ import { ProjectType } from './models/projectType';
 import { Client } from './models/client';
 import { Project } from './models/project';
 import { Status } from './models/status';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class AdminService {
 
   constructor(private _http:HttpClient) { }
 
-  url = 'http://localhost:8000'
+  url = environment.baseUrl
 
   // PROJECT TYPE
   getProjectTypeById(id: number):Observable<ProjectType>{
