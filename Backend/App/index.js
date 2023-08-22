@@ -72,6 +72,6 @@ const ViCollectionFollow = require('../Routers/vi_collection_followup');
 app.use('/vicollectionsfollow', ViCollectionFollow);
 
 const port = process.env.PORT;
-app.listen(port, () => {
+app.listen(8000, () => {
     console.log(`server started on port ${port}`);
 })

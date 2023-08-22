@@ -14,6 +14,7 @@ const BsnlFollowup = require('../Models/followUp');
 const AsianetFollowup = require('../Models/asianet_followup');
 const BajajFollowup = require('../Models/bajaj_followup');
 const ViFollowup = require('../Models/vi_followup');
+const bcrypt = require('bcrypt');
 
 async function syncModel(){
 
@@ -77,6 +78,7 @@ async function syncModel(){
     User.hasMany(ViFollowup, {foreignKey: 'Teleby'})
     ViFollowup.belongsTo(User, {as: 'caller', foreignKey : 'Teleby'})
 
+
     await sequelize.sync({alter : true})
 
     //BULK CREATE
@@ -85,6 +87,15 @@ async function syncModel(){
         Role.bulkCreate([
             {roleName : 'Admin', status: true},
             {roleName : 'Telecaller', status: true}
+        ])
+    }
+
+    const pass = await bcrypt.hash('Admin', 10);
+
+    const user = await User.findAll({})
+    if(user.length === 0){
+        User.bulkCreate([
+            {name: 'Admin',password:pass,roleId:1}
         ])
     }
 
