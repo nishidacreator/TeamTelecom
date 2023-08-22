@@ -95,7 +95,7 @@ async function syncModel(){
     const user = await User.findAll({})
     if(user.length === 0){
         User.bulkCreate([
-            {name: 'Admin',password:pass,roleId:1}
+            {name: 'Admin',password:pass,roleId:1, employeeNo:'Admin1'}
         ])
     }
 
@@ -111,12 +111,12 @@ async function syncModel(){
     const project = await Project.findAll({})
     if(project.length === 0){
         Project.bulkCreate([
-            {projectName: 'AsianetSales', projectTypeId: 1},
-            {projectName: 'ViSales', projectTypeId: 1},
-            {projectName: 'AsianetCollections', projectTypeId: 3},
-            {projectName: 'ViCollections', projectTypeId: 3},
-            {projectName: 'Bajaj', projectTypeId: 2},
-            {projectName: 'Bsnl', projectTypeId: 2}
+            {projectName: 'AsianetSales', projectTypeId: 1, clientId:null},
+            {projectName: 'ViSales', projectTypeId: 1, clientId:null},
+            {projectName: 'AsianetCollections', projectTypeId: 3, clientId:null},
+            {projectName: 'ViCollections', projectTypeId: 3, clientId:null},
+            {projectName: 'Bajaj', projectTypeId: 2, clientId:null},
+            {projectName: 'Bsnl', projectTypeId: 2, clientId:null}
         ])
     }
 }
