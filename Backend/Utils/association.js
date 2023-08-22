@@ -27,8 +27,8 @@ async function syncModel(){
     User.hasMany(Project, {foreignKey: 'teamLeadId'})
     Project.belongsTo(User, {as: 'teamLead', foreignKey : 'teamLeadId'})
 
-    Client.hasMany(Project, {foreignKey: 'clientId'})
-    Project.belongsTo(Client)
+    // Client.hasMany(Project, {foreignKey: 'clientId'})
+    // Project.belongsTo(Client)
 
     Project.hasMany(Bsnl, {foreignKey: 'projectId'})
     Bsnl.belongsTo(Project)

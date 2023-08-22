@@ -7,7 +7,7 @@ const Project = sequelize.define('project', {
   imageUrl: {type: DataTypes.STRING},
   teamLeadId: {type: DataTypes.INTEGER},
   description: {type: DataTypes.STRING},
-  clientId: {type: DataTypes.INTEGER, allowNull: true},
+  // clientId: {type: DataTypes.INTEGER},
   projectTypeId: {type: DataTypes.INTEGER, allowNull: false},
   endDate: {type: DataTypes.DATE}
 },
