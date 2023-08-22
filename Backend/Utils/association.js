@@ -79,7 +79,7 @@ async function syncModel(){
     ViFollowup.belongsTo(User, {as: 'caller', foreignKey : 'Teleby'})
 
 
-    await sequelize.sync({force : true})
+    await sequelize.sync({alter : true})
 
     //BULK CREATE
     const role = await Role.findAll({})
