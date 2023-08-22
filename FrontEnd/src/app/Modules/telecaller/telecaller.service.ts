@@ -9,6 +9,7 @@ import { FolloeUp } from './Models/followUp';
 import { AsianetFollowup } from './Models/asianet_followup';
 import { BajajFollowup } from './Models/bajaj_followup';
 import { ViFollowup } from './Models/vi_followup';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ export class TelecallerService {
 
   constructor(private _http:HttpClient) { }
 
-  url = 'http://localhost:8000'
+  url = environment.baseUrl
 
   // BSNL
   getBsnl(): Observable<Bsnl[]>{
