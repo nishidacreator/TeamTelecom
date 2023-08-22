@@ -22,7 +22,8 @@ import {MatDividerModule} from '@angular/material/divider';
 import {MatGridListModule} from '@angular/material/grid-list';
 import { MatRadioModule } from '@angular/material/radio';
 import { ReactiveFormsModule } from '@angular/forms';
-
+import {MatPaginatorModule} from '@angular/material/paginator';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 @NgModule({
   declarations: [],
   imports: [
@@ -48,7 +49,9 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatGridListModule,
     MatDividerModule,
     MatRadioModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatPaginatorModule,
+    MatProgressBarModule
   ],
   exports: [
     MatFormFieldModule,
@@ -72,7 +75,9 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatGridListModule,
     MatDividerModule,
     MatRadioModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatPaginatorModule,
+    MatProgressBarModule
   ]
 })
 export class MaterialModule { }

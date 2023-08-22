@@ -14,7 +14,7 @@ export interface ViFollowup{
   freeText : string
   action : string
   teleCallerId : number
-  teleCaller: User
+  caller: User
   date: Date
   time: Date
 }

@@ -6,6 +6,7 @@ import { Project } from '../../models/project';
 import { AdminService } from '../../admin.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { HttpEventType } from '@angular/common/http';
 
 @Component({
   selector: 'app-project-base',
@@ -17,7 +18,8 @@ export class ProjectBaseComponent {
   constructor(private adminService: AdminService, private fb: FormBuilder, private _snackBar: MatSnackBar){}
 
   baseForm = this.fb.group({
-    projectId: ['', Validators.required]
+    projectId: ['', Validators.required],
+
   })
 
   ngOnInit(){
@@ -25,7 +27,9 @@ export class ProjectBaseComponent {
   }
 
   selectedFile!: File
+  btnStat = false;
   fileUpload(event: any) {
+    this.btnStat = true;
     this.selectedFile = event.target.files[0];
   }
 
@@ -40,6 +44,9 @@ export class ProjectBaseComponent {
 
   }
 
+  percent = 50;
+  isUploading = false;
+  uploadProgress = 0;
   onSubmit(){
     console.log(this.baseForm.get('projectId')?.value)
     if (this.selectedFile) {
@@ -47,6 +54,7 @@ export class ProjectBaseComponent {
       formData.append('imageUrl', this.selectedFile, this.selectedFile.name);
 
       const projectId = this.baseForm.get('projectId')?.value;
+
       if (projectId) {
         formData.append('projectId', projectId);
       }
@@ -55,33 +63,199 @@ export class ProjectBaseComponent {
         console.log(res);
 
         if(res.projectName.toLowerCase() === 'bsnl'){
-          this.adminService.addBsnl(formData).subscribe(data => {
-            console.log(data);
-          })
+          this.isUploading = true;
+          // Simulate an upload with a timeout
+          setTimeout(() => {
+            this.adminService.addBsnl(formData).subscribe(event => {
+              if (event.type === HttpEventType.UploadProgress) {
+                if (event.total) {
+                  this.uploadProgress = Math.round((100 * event.loaded) / event.total);
+                } else {
+                  this.uploadProgress = 0; // Unable to calculate progress without total
+                }
+              }else if (event.type === HttpEventType.Response) {
+                this.isUploading = false;
+                console.log('File uploaded successfully:', event.body);
+                this._snackBar.open("Projects added successfully...","" ,{duration:3000})
+                this.clearControls()
+              }
+            })
+          }, 3000);
+
+          // Simulate upload progress update
+          const interval = setInterval(() => {
+            if (this.uploadProgress < 100) {
+              this.uploadProgress += 10;
+            } else {
+              clearInterval(interval);
+            }
+          }, 300);
+
+
         }
 
-        if(res.projectName.toLowerCase() === 'asianet'){
-          this.adminService.addAsianet(formData).subscribe(data => {
-            console.log(data);
-          })
+        if(res.projectName.toLowerCase() === 'asianetsales'){
+          this.isUploading = true;
+          // Simulate an upload with a timeout
+          setTimeout(() => {
+            this.adminService.addAsianetSales(formData).subscribe(event => {
+              if (event.type === HttpEventType.UploadProgress) {
+                if (event.total) {
+                  this.uploadProgress = Math.round((100 * event.loaded) / event.total);
+                } else {
+                  this.uploadProgress = 0; // Unable to calculate progress without total
+                }
+              }else if (event.type === HttpEventType.Response) {
+                this.isUploading = false;
+                console.log('File uploaded successfully:', event.body);
+                this._snackBar.open("File uploaded successfully...","" ,{duration:3000})
+                this.clearControls()
+              }
+            })
+          }, 3000);
+
+          // Simulate upload progress update
+          const interval = setInterval(() => {
+            if (this.uploadProgress < 100) {
+              this.uploadProgress += 10;
+            } else {
+              clearInterval(interval);
+            }
+          }, 300);
+
+
+        }
+
+        if(res.projectName.toLowerCase() === 'asianetcollections'){
+          this.isUploading = true;
+          // Simulate an upload with a timeout
+          setTimeout(() => {
+            this.adminService.addAsianet(formData).subscribe(event => {
+              if (event.type === HttpEventType.UploadProgress) {
+                if (event.total) {
+                  this.uploadProgress = Math.round((100 * event.loaded) / event.total);
+                } else {
+                  this.uploadProgress = 0; // Unable to calculate progress without total
+                }
+              }else if (event.type === HttpEventType.Response) {
+                this.isUploading = false;
+                console.log('File uploaded successfully:', event.body);
+                this._snackBar.open("File uploaded successfully...","" ,{duration:3000})
+                this.clearControls()
+              }
+            })
+          }, 3000);
+
+          // Simulate upload progress update
+          const interval = setInterval(() => {
+            if (this.uploadProgress < 100) {
+              this.uploadProgress += 10;
+            } else {
+              clearInterval(interval);
+            }
+          }, 300);
+
+
         }
 
         if(res.projectName.toLowerCase() === 'bajaj'){
-          this.adminService.addBajaj(formData).subscribe(data => {
-            console.log(data);
-          })
+          this.isUploading = true;
+          // Simulate an upload with a timeout
+          setTimeout(() => {
+            this.adminService.addBajaj(formData).subscribe(event => {
+              if (event.type === HttpEventType.UploadProgress) {
+                if (event.total) {
+                  this.uploadProgress = Math.round((100 * event.loaded) / event.total);
+                } else {
+                  this.uploadProgress = 0; // Unable to calculate progress without total
+                }
+              }else if (event.type === HttpEventType.Response) {
+                this.isUploading = false;
+                console.log('File uploaded successfully:', event.body);
+                this._snackBar.open("Projects added successfully...","" ,{duration:3000})
+                this.clearControls()
+              }
+            })
+          }, 3000);
+
+          // Simulate upload progress update
+          const interval = setInterval(() => {
+            if (this.uploadProgress < 100) {
+              this.uploadProgress += 10;
+            } else {
+              clearInterval(interval);
+            }
+          }, 300);
+
+
         }
 
-        if(res.projectName.toLowerCase() === 'vi'){
-          this.adminService.addVi(formData).subscribe(data => {
-            console.log(data);
-          })
+        if(res.projectName.toLowerCase() === 'visales'){
+          this.isUploading = true;
+          // Simulate an upload with a timeout
+          setTimeout(() => {
+            this.adminService.addVi(formData).subscribe(event => {
+              if (event.type === HttpEventType.UploadProgress) {
+                if (event.total) {
+                  this.uploadProgress = Math.round((100 * event.loaded) / event.total);
+                } else {
+                  this.uploadProgress = 0; // Unable to calculate progress without total
+                }
+              }else if (event.type === HttpEventType.Response) {
+                this.isUploading = false;
+                console.log('File uploaded successfully:', event.body);
+                this._snackBar.open("Projects added successfully...","" ,{duration:3000})
+                this.clearControls()
+              }
+            })
+          }, 3000);
+
+          // Simulate upload progress update
+          const interval = setInterval(() => {
+            if (this.uploadProgress < 100) {
+              this.uploadProgress += 10;
+            } else {
+              clearInterval(interval);
+            }
+          }, 300);
+
+
+        }
+
+        if(res.projectName.toLowerCase() === 'vicollections'){
+          this.isUploading = true;
+          // Simulate an upload with a timeout
+          setTimeout(() => {
+            this.adminService.addViCollections(formData).subscribe(event => {
+              if (event.type === HttpEventType.UploadProgress) {
+                if (event.total) {
+                  this.uploadProgress = Math.round((100 * event.loaded) / event.total);
+                } else {
+                  this.uploadProgress = 0; // Unable to calculate progress without total
+                }
+              }else if (event.type === HttpEventType.Response) {
+                this.isUploading = false;
+                console.log('File uploaded successfully:', event.body);
+                this._snackBar.open("Projects added successfully...","" ,{duration:3000})
+                this.clearControls()
+              }
+            })
+          }, 3000);
+
+          // Simulate upload progress update
+          const interval = setInterval(() => {
+            if (this.uploadProgress < 100) {
+              this.uploadProgress += 10;
+            } else {
+              clearInterval(interval);
+            }
+          }, 300);
+
+
         }
       })
     }
 
-    this._snackBar.open("Projects added successfully...","" ,{duration:3000})
-    this.clearControls()
   }
 
   clearControls(){

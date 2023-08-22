@@ -78,9 +78,9 @@ p {
     float: left;
     clear: both;
     width: 100%;
-    &.hidden {
-      display: none;
-    }
+    // &.hidden {
+    //   // display: none;
+    // }
     #messages {
       margin-bottom: .5rem;
     }

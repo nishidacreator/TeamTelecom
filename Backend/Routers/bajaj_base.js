@@ -23,7 +23,13 @@ router.post('/', async (req, res) => {
       
           fs.remove(filePath);
 
-          const jsonWithoutSheetName = excelData.Sheet1;
+          const jsonWithoutSheetName = excelData.Base;
+
+          const projectId = req.body.projectId;
+          for(let i = 0; i < jsonWithoutSheetName.length; i++){
+            jsonWithoutSheetName[i].projectId = projectId;
+          }
+
 
           const bajaj = await Bajaj.bulkCreate(jsonWithoutSheetName)
 

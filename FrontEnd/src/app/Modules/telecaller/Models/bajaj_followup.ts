@@ -13,7 +13,7 @@ export interface BajajFollowup{
   freeText : string
   action : string
   teleCallerId : number
-  teleCaller: User
+  caller: User
   date: Date
   time: Date
 }

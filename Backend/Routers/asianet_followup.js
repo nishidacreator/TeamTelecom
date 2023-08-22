@@ -6,9 +6,9 @@ const router = express.Router();
 
 router.post('/', async (req, res) => {
     try {
-      const { region, subCode, name, balance, mobile, status, remarks, freeText, action, teleCallerId, projectId, date, time } = req.body;
+      const { Region, Subcode, Name, Address, Package, Scheme, Phone, Balance, Mobile, Teleby, projectId, date, time } = req.body;
 
-      const result = new AsianetFollowup({region, subCode, name, balance, mobile, status, remarks, freeText, action, teleCallerId, projectId, date, time});
+      const result = new AsianetFollowup({Region, Subcode, Name, Address, Package, Scheme, Phone, Balance, Mobile, Teleby, projectId, date, time});
 
       await result.save();
 
@@ -68,7 +68,8 @@ router.patch('/:id', async(req,res)=>{
         status: req.body.status,
         freeText: req.body.freeText,
         remarks: req.body.remarks,
-        action: req.body.action
+        action: req.body.action,
+        callTime: req.body.callTime
       }
         AsianetFollowup.update(asianetfollowup, {
             where: { id: req.params.id }

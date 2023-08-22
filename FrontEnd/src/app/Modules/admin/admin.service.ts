@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { ProjectType } from './models/projectType';
 import { Client } from './models/client';
 import { Project } from './models/project';
+import { Status } from './models/status';
 
 @Injectable({
   providedIn: 'root'
@@ -79,23 +80,51 @@ export class AdminService {
     return this._http.patch<Project>(this.url + '/project/'+ id, data)
   }
 
+  // status
+  getStatusById(id: any):Observable<Status>{
+    return this._http.get<Status>(this.url + '/status/'+ id)
+  }
+
+  getStatus(): Observable<Status[]>{
+    return this._http.get<Status[]>(this.url + '/status')
+  }
+
+  addStatus(data: any){
+    return this._http.post(this.url + '/status', data)
+  }
+
+  deleteStatus(id: number){
+    return this._http.delete(this.url + '/status/'+ id)
+  }
+
+  updateStatus(id: number, data: any): Observable<Status>{
+    return this._http.patch<Status>(this.url + '/status/'+ id, data)
+  }
 
   // PROJECT BASE
 
   addBsnl(data: any){
-    return this._http.post(this.url + '/bsnl', data);
+    return this._http.post(this.url + '/bsnl', data, {reportProgress: true, observe: 'events'});
   }
 
   addAsianet(data: any){
-    return this._http.post(this.url + '/asianet', data);
+    return this._http.post(this.url + '/asianet', data, {reportProgress: true, observe: 'events'});
+  }
+
+  addAsianetSales(data: any){
+    return this._http.post(this.url + '/asianetsales', data, {reportProgress: true, observe: 'events'});
   }
 
   addBajaj(data: any){
-    return this._http.post(this.url + '/bajaj', data);
+    return this._http.post(this.url + '/bajaj', data, {reportProgress: true, observe: 'events'});
   }
 
   addVi(data: any){
-    return this._http.post(this.url + '/vi', data);
+    return this._http.post(this.url + '/vi', data, {reportProgress: true, observe: 'events'});
+  }
+
+  addViCollections(data: any){
+    return this._http.post(this.url + '/vicollections', data, {reportProgress: true, observe: 'events'});
   }
 
   deleteBsnl(data: any){

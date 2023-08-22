@@ -17,7 +17,8 @@ const Bsnl = sequelize.define('bsnl',{
     teleCallerId : {type : DataTypes.INTEGER, allowNull: false},
     projectId: {type : DataTypes.INTEGER, allowNull: false},
     date: {type: DataTypes.DATEONLY},
-    time: {type: DataTypes.TIME}
+    time: {type: DataTypes.TIME},
+    callTime: {type: DataTypes.DATE}
 },
 {
     freezeTableName: true,

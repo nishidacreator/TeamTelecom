@@ -39,7 +39,10 @@ export class ExportBaseComponent {
     const currentDate = new Date();
     const formattedDate = currentDate.toISOString().split('T')[0];
 
+
     if(this.exportForm.getRawValue().type === 'Base'){
+      const excludedFields = ['teleCallerId', 'projectId', 'teleCaller', 'project'];
+
         this.adminService.getProjectById(this.exportForm.getRawValue().projectId).subscribe((res)=>{
 
           if(res.projectName.toLowerCase() === 'bsnl'){
@@ -54,7 +57,7 @@ export class ExportBaseComponent {
               // EXCEL
               // Get the headings based on the first client object
               const firstClient = this.data[0];
-              const headings = Object.keys(firstClient);
+              const headings = Object.keys(firstClient).filter(key => !excludedFields.includes(key));
 
               const formattedHeadings = headings.map(heading => `-- ${heading.toUpperCase()} --`);
 
@@ -109,7 +112,7 @@ export class ExportBaseComponent {
 
               // Get the headings based on the first client object
               const firstClient = this.data[0];
-              const headings = Object.keys(firstClient);
+              const headings = Object.keys(firstClient).filter(key => !excludedFields.includes(key));
 
               const formattedHeadings = headings.map(heading => `-- ${heading.toUpperCase()} --`);
 
@@ -164,7 +167,7 @@ export class ExportBaseComponent {
 
               // Get the headings based on the first client object
               const firstClient = this.data[0];
-              const headings = Object.keys(firstClient);
+              const headings = Object.keys(firstClient).filter(key => !excludedFields.includes(key));
 
               const formattedHeadings = headings.map(heading => `-- ${heading.toUpperCase()} --`);
 
@@ -219,7 +222,7 @@ export class ExportBaseComponent {
 
               // Get the headings based on the first client object
               const firstClient = this.data[0];
-              const headings = Object.keys(firstClient);
+              const headings = Object.keys(firstClient).filter(key => !excludedFields.includes(key));
 
               const formattedHeadings = headings.map(heading => `-- ${heading.toUpperCase()} --`);
 
@@ -264,6 +267,9 @@ export class ExportBaseComponent {
           }
         })
     }else{
+
+      const excludedFields = ['teleCallerId', 'projectId', 'caller', 'project'];
+
       this.adminService.getProjectById(this.exportForm.getRawValue().projectId).subscribe((res)=>{
 
         if(res.projectName.toLowerCase() === 'bsnl'){
@@ -278,7 +284,7 @@ export class ExportBaseComponent {
 
             // Get the headings based on the first client object
             const firstClient = this.data[0];
-            const headings = Object.keys(firstClient);
+            const headings = Object.keys(firstClient).filter(key => !excludedFields.includes(key));
 
             const formattedHeadings = headings.map(heading => `-- ${heading.toUpperCase()} --`);
 
@@ -333,7 +339,7 @@ export class ExportBaseComponent {
 
             // Get the headings based on the first client object
             const firstClient = this.data[0];
-            const headings = Object.keys(firstClient);
+            const headings = Object.keys(firstClient).filter(key => !excludedFields.includes(key));
 
             const formattedHeadings = headings.map(heading => `-- ${heading.toUpperCase()} --`);
 
@@ -388,7 +394,7 @@ export class ExportBaseComponent {
 
             // Get the headings based on the first client object
             const firstClient = this.data[0];
-            const headings = Object.keys(firstClient);
+            const headings = Object.keys(firstClient).filter(key => !excludedFields.includes(key));
 
             const formattedHeadings = headings.map(heading => `-- ${heading.toUpperCase()} --`);
 

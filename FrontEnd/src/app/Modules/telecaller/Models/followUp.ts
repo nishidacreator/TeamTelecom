@@ -20,7 +20,7 @@ export interface FolloeUp{
   freeText : string,
   action : string,
   teleCallerId : number
-  teleCaller: User
+  caller: User
   projectId: number
   project: Project
   date: Date

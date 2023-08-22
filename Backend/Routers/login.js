@@ -7,9 +7,9 @@ const jwtTokens = require('../Utils/jsonWebTokens');
 
 router.post('/', async(req, res)=> {
     try {
-        const { email, password } = req.body;
+        const { employeeNo, password } = req.body;
 
-        const user = await User.findOne({where: { email: email }});
+        const user = await User.findOne({where: { employeeNo: employeeNo }});
 
         if(!user){
                 return res.status(404).send({ message: 'User not found' });
@@ -21,7 +21,7 @@ router.post('/', async(req, res)=> {
             return res.status(401).send({ message: 'incorrect password' });
         }
 
-        let userToken = {id:user.id, name:user.name, email: user.email, role: user.roleId};
+        let userToken = {id:user.id, name:user.name, employeeNo: user.employeeNo, role: user.roleId};
         console.log(userToken);
 
         let token = jwtTokens(userToken);
@@ -29,7 +29,7 @@ router.post('/', async(req, res)=> {
 
         res.cookie('refreshtoken', token.refreshToken, {httpOnly : true})
 
-        return res.status(200).send({"token" : token, "role": user.roleId, "name" : user.name, "id" : user.id});
+        return res.status(200).send({"token" : token, "role": user.roleId, "name" : user.name, "id" : user.id, "employeeNo": user.employeeNo});
 
     } catch (error) {
         res.send(error);

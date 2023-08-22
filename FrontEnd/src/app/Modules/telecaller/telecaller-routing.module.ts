@@ -10,7 +10,7 @@ import { OpenFollowupComponent } from './Components/open-followup/open-followup.
 const routes: Routes = [
   {path: '', component:NavbarComponent,
   children:[
-    {path: 'home', component: DashboardComponent},
+    {path: '', component: DashboardComponent},
     {path: '', component:HomeComponent},
     {path: 'customers', component:CustomerComponent},
     {path: 'customers/open/:id/:projectId', component:OpenCustomerComponent},

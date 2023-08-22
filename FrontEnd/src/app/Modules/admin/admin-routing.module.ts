@@ -1,3 +1,4 @@
+import { Status } from './models/status';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -12,6 +13,7 @@ import { ProjectComponent } from './components/project/project.component';
 import { ProjectBaseComponent } from './components/project-base/project-base.component';
 import { DeleteBaseComponent } from './components/delete-base/delete-base.component';
 import { ExportBaseComponent } from './components/export-base/export-base.component';
+import { StatusComponent } from './components/status/status.component';
 
 const routes: Routes = [
   {path: '', component:NavbarComponent,
@@ -26,6 +28,7 @@ const routes: Routes = [
       {path: 'settings', component: SettingsComponent},
       {path: 'settings/role', component: RoleComponent},
       {path: 'settings/user', component: UserComponent},
+      {path: 'settings/status', component: StatusComponent},
       {path: 'settings/projecttype', component: ProjectTypeComponent},
       {path: 'settings/deletebase', component: DeleteBaseComponent}
     ]
