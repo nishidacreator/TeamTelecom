@@ -43,6 +43,19 @@ router.post('/', async (req, res) => {
 
 router.get('/', async (req, res) => {
 
+  const status = req.query.status;
+
+    const bajaj = await Bajaj.findAll({ 
+      where: { status },
+      include: [Project, 'teleCaller'],
+      order:['id']
+    })
+
+    res.send(bajaj);
+})
+
+router.get('/all', async (req, res) => {
+
     const bajaj = await Bajaj.findAll({ 
       include: [Project, 'teleCaller'],
       order:['id']
@@ -60,9 +73,9 @@ router.get('/:id', async (req, res) => {
 
 router.delete('/', async(req,res)=>{
     try {
-
+        const status = req.query.status;
         const result = await Bajaj.destroy({
-            where: { status: req.body.status },
+            where: { status },
             force: true,
         });
 
@@ -139,7 +152,9 @@ router.patch('/followup/:id', async(req,res)=>{
 
     const bajaj = {
       date: req.body.date,
-      time: req.body.time
+      time: req.body.time,
+      callTime: req.body.callTime,
+      status: req.body.status
     }
 
       Bajaj.update(bajaj, {
@@ -162,5 +177,15 @@ router.patch('/followup/:id', async(req,res)=>{
         message: error.message,
       });
     }
+})
+
+router.get('/caller', async (req, res) => {
+
+  const asianet = await Bajaj.findAll({ 
+    include: [Project, 'teleCaller'],
+    order:['id']
+  })
+
+  res.send(asianet);
 })
 module.exports = router;

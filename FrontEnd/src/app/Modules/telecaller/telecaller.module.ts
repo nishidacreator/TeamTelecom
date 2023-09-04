@@ -10,7 +10,9 @@ import { OpenCustomerComponent } from './Components/open-customer/open-customer.
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
-import { OpenFollowupComponent } from './Components/open-followup/open-followup.component'; // Import the DatePipe
+import { OpenFollowupComponent } from './Components/open-followup/open-followup.component';
+import { ViewComponent } from './Components/view/view.component';
+import { ViewTodayComponent } from './Components/view-today/view-today.component'; // Import the DatePipe
 
 @NgModule({
   declarations: [
@@ -20,6 +22,8 @@ import { OpenFollowupComponent } from './Components/open-followup/open-followup.
     CustomerComponent,
     OpenCustomerComponent,
     OpenFollowupComponent,
+    ViewComponent,
+    ViewTodayComponent,
 
   ],
   imports: [

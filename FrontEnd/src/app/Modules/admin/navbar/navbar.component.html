@@ -65,9 +65,9 @@
                 <span class="material-icons" routerLink="exportbase">download</span>
               </div>
 
-              <!-- <div>
-                <span class="material-icons" routerLink="upload">upload_file</span>
-              </div> -->
+              <div *ngIf="barStatus">
+                <span class="material-icons" routerLink="viewbase">preview</span>
+              </div>
 
             </div>
 

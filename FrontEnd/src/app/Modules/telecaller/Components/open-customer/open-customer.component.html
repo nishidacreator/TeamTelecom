@@ -47,12 +47,16 @@
       <header>
 
         <h1 class="leaderboard__title"><span class="leaderboard__title--top">{{customer.Name}}</span>
-          <span class="leaderboard__title--bottom">{{customer.Region}}</span>
-          <span class="leaderboard__title--bottom">{{customer.Subcode}}</span></h1>
+          <span class="leaderboard__title--bottom">{{customer.Region}}</span></h1>
       </header>
 
       <main class="leaderboard__profiles" *ngIf="customer">
 
+
+        <article class="leaderboard__profile">
+          <span class="material-icons" style="color: rgb(128, 128, 128); font-size: 40px;">vpn_key</span>
+          <span class="leaderboard__name"> {{customer.Subcode}}</span><br>
+        </article>
 
         <article class="leaderboard__profile">
           <span class="material-icons" style="color: rgb(128, 128, 128); font-size: 40px;">contact_phone</span>
@@ -94,6 +98,11 @@
 
       <main class="leaderboard__profiles" *ngIf="customer">
 
+
+        <article class="leaderboard__profile">
+          <span class="material-icons" style="color: rgb(128, 128, 128); font-size: 40px;">vpn_key</span>
+          <span class="leaderboard__name"> {{customer.Subcode}}</span><br>
+        </article>
 
         <article class="leaderboard__profile">
           <span class="material-icons" style="color: rgb(128, 128, 128); font-size: 40px;">contact_phone</span>
@@ -212,9 +221,8 @@
     <article class="leaderboard">
       <header>
 
-        <h1 class="leaderboard__title"><span class="leaderboard__title--top">{{customer.custName}}</span>
+        <h1 class="leaderboard__title"><span class="leaderboard__title--top">{{customer.Name}}</span>
           <span class="leaderboard__title--bottom">{{customer.campionName}}</span>
-          <!-- <span class="leaderboard__title--bottom">{{customer.employeeNo}}</span> -->
         </h1>
       </header>
 
@@ -222,28 +230,33 @@
 
 
         <article class="leaderboard__profile">
+          <span class="material-icons" style="color: rgb(128, 128, 128); font-size: 40px;">vpn_key</span>
+          <span class="leaderboard__name"> {{customer.Subcode}}</span><br>
+        </article>
+        
+        <article class="leaderboard__profile">
           <span class="material-icons" style="color: rgb(128, 128, 128); font-size: 40px;">contact_phone</span>
-          <span class="leaderboard__name"> {{customer.mobileNumber}}</span><br>
+          <span class="leaderboard__name"> {{customer.Mobile}}<br>{{customer.Phone}}</span><br>
         </article>
 
         <article class="leaderboard__profile">
-          <span class="material-icons" style="color: rgb(128, 128, 128); font-size: 40px;">cell_wifi</span>
-          <span class="leaderboard__name"> {{customer.currentPlan}}</span>
+          <span class="material-icons" style="color: rgb(128, 128, 128); font-size: 40px;">contact_mail</span>
+          <span class="leaderboard__name"> {{customer.Address}}</span>
         </article>
 
         <article class="leaderboard__profile">
-          <span class="material-icons" style="color: rgb(128, 128, 128); font-size: 40px;">group_work</span>
-          <span class="leaderboard__name"> {{customer.noOfConnections}}</span>
+          <span class="material-icons" style="color: rgb(128, 128, 128); font-size: 40px;">perm_data_setting</span>
+          <span class="leaderboard__name"> {{customer.Package}}</span>
         </article>
 
         <article class="leaderboard__profile">
-          <span class="material-icons" style="color: rgb(128, 128, 128); font-size: 40px;">pin_drop</span>
-          <span class="leaderboard__name"> {{customer.pinCode}}</span>
+          <span class="material-icons" style="color: rgb(128, 128, 128); font-size: 40px;">calendar_today</span>
+          <span class="leaderboard__name"> {{customer.Scheme}}</span>
         </article>
 
         <article class="leaderboard__profile">
-          <span class="material-icons" style="color: rgb(128, 128, 128); font-size: 40px;">support_agent</span>
-          <span class="leaderboard__name"> {{customer.suggestedPlan}}</span>
+          <span class="material-icons" style="color: rgb(128, 128, 128); font-size: 40px;">account_balance_wallet</span>
+          <span class="leaderboard__name"> {{customer.Balance}}</span>
         </article>
       </main>
 
@@ -340,7 +353,8 @@
             </div>
           </mat-card-content>
           <mat-card-actions>
-          <button  mat-raised-button type="button" [disabled]="!statusForm.valid" (click)="onSubmit()">ADD</button>&nbsp;&nbsp;
+            <button *ngIf="backStat"  mat-raised-button type="button" [disabled]="!statusForm.valid" (click)="onSubmit()">ADD</button>&nbsp;&nbsp;
+            <button *ngIf="!backStat"  mat-raised-button type="button" (click)="onSubmit()">ADD</button>&nbsp;&nbsp;
           </mat-card-actions>
         </mat-card>
       </form>

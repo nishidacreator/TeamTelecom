@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { TelecallerService } from '../telecaller.service';
 import { DatePipe } from '@angular/common';
+import { AdminService } from '../../admin/admin.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -18,7 +19,7 @@ export class DashboardComponent {
 
   userId: number;
   date: any;
-  constructor(private telecallerService: TelecallerService, private datePipe: DatePipe){
+  constructor(private telecallerService: TelecallerService, private datePipe: DatePipe, private adminService: AdminService){
     const token: any = localStorage.getItem('token')
       let user = JSON.parse(token)
       this.userId = user.id
@@ -39,21 +40,29 @@ export class DashboardComponent {
   pendCall!: number;
   data: any[] = [];
   getCompletedCalls(){
-    this.bsnlSub = this.telecallerService.getBsnl().subscribe(data =>{
-      let bsnl = data.filter(x=>x.teleCallerId === this.userId)
+    // this.bsnlSub = this.telecallerService.getBsnlCaller().subscribe(data =>{
+    //   let bsnl = data.filter(x=>x.teleCallerId === this.userId)
 
-      this.asianetSub = this.telecallerService.getAsianet().subscribe(data =>{
+      this.asianetSub = this.adminService.getAllAsianetSales().subscribe(data =>{
         let asianet = data.filter(x=>x.teleCaller.id === this.userId)
 
-        this.bajajSub = this.telecallerService.getBajaj().subscribe(data =>{
+        this.bajajSub = this.adminService.getAllBajaj().subscribe(data =>{
           let bajaj = data.filter(x=>x.teleCaller.id === this.userId)
 
-          this.viSub = this.telecallerService.getVi().subscribe(data =>{
+          this.viSub = this.adminService.getAllViCollections().subscribe(data =>{
             let vi = data.filter(x=>x.teleCaller.id === this.userId)
 
-            this.data = [...bsnl, ...asianet, ...bajaj, ...vi];
-            this.comCall = this.data.filter(x => x.status != null).length
-            this.pendCall = this.data.filter(x => x.status === null).length
+            this.asianetSub = this.adminService.getAllAsianetCollections().subscribe(data =>{
+              let asianetColl = data.filter(x=>x.teleCaller.id === this.userId)
+
+              this.asianetSub = this.adminService.getAllViSales().subscribe(data =>{
+                let viSale = data.filter(x=>x.teleCaller.id === this.userId)
+
+                this.data = [...asianet, ...bajaj, ...vi, ...asianetColl, ...viSale];
+                this.comCall = this.data.filter(x => x.status != null).length
+                this.pendCall = this.data.filter(x => x.status === null).length
+              // })
+            })
           })
         })
       })
@@ -63,20 +72,28 @@ export class DashboardComponent {
   follow: any[] = [];
   followCount!: number
   getFollowupCalls(){
-    this.telecallerService.getFollowUp().subscribe(data =>{
-      let bsnlFollow = data.filter(x=>x.caller.id === this.userId)
+    // this.telecallerService.getFollowUpCaller().subscribe(data =>{
+    //   let bsnlFollow = data.filter(x=>x.caller.id === this.userId)
 
-      this.telecallerService.getAsianetFollowUp().subscribe(data =>{
-        let asianetFollow = data.filter(x=>x.caller.id === this.userId);
+      this.adminService.getAllAsianetSalesFollowup().subscribe(data =>{
+        let asianetFollow = data.filter(x=>x.caller.id === this.userId)
 
-        this.telecallerService.getBajajFollowUp().subscribe(data =>{
-          let bajajFollow = data.filter(x=>x.caller.id === this.userId);
+        this.adminService.getAllBajajFollowup().subscribe(data =>{
+          let bajajFollow = data.filter(x=>x.caller.id === this.userId)
 
-          this.telecallerService.getViFollowUp().subscribe(data =>{
-            let viFollow = data.filter(x=>x.caller.id === this.userId);
+          this.adminService.getAllViCollectionsFollowup().subscribe(data =>{
+            let viFollow = data.filter(x=>x.caller.id === this.userId)
 
-            this.follow = [...bsnlFollow, ...asianetFollow, ...viFollow, ...bajajFollow]
-            this.followCount = this.follow.filter(x => x.status != null).length
+            this.adminService.getAllAsianetCollectionsFollowup().subscribe(data =>{
+              let asianetColl = data.filter(x=>x.caller.id === this.userId)
+
+              this.adminService.getAllViSalesFollowup().subscribe(data =>{
+                let viSale = data.filter(x=>x.caller.id === this.userId)
+
+                this.follow = [ ...asianetFollow, ...viFollow, ...bajajFollow, ...asianetColl, ...viSale]
+                this.followCount = this.follow.filter(x => x.status != null).length
+              // })
+            })
           })
         })
       })

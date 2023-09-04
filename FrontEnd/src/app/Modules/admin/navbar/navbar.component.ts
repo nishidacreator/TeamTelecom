@@ -13,7 +13,7 @@ import { AuthService } from '../../auth/auth.service';
 export class NavbarComponent {
   isExpanded : boolean = false;
 
-  userName: string
+  userName!: string
   userId!: number
   constructor(private breakpointObserver: BreakpointObserver, private authService: AuthService, private router: Router,
     private _snackBar: MatSnackBar,private dialog: MatDialog) {
@@ -21,7 +21,7 @@ export class NavbarComponent {
     const token: any = localStorage.getItem('token')
     let user = JSON.parse(token)
     console.log(user)
-    this.userName = user.employeeNo.toUpperCase()
+    // this.userName = user.employeeNo.toUpperCase()
     this.userId = user.id
   }
 

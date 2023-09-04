@@ -16,6 +16,7 @@ import { ProjectBaseComponent } from './components/project-base/project-base.com
 import { DeleteBaseComponent } from './components/delete-base/delete-base.component';
 import { ExportBaseComponent } from './components/export-base/export-base.component';
 import { StatusComponent } from './components/status/status.component';
+import { ViewComponent } from './components/view/view.component';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { StatusComponent } from './components/status/status.component';
     ProjectBaseComponent,
     DeleteBaseComponent,
     ExportBaseComponent,
-    StatusComponent
+    StatusComponent,
+    ViewComponent
   ],
   imports: [
     CommonModule,

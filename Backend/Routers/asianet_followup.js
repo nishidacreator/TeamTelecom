@@ -1,6 +1,7 @@
 const express = require('express');
 const AsianetFollowup = require('../Models/asianet_followup');
 const Project = require('../Models/project');
+const User = require('../Models/user');
 const router = express.Router();
 
 
@@ -21,12 +22,25 @@ router.post('/', async (req, res) => {
 
 router.get('/', async (req, res) => {
 
-    const asianetfollowup = await AsianetFollowup.findAll({ 
+  const status = req.query.status;
+
+    const asianet = await AsianetFollowup.findAll({ 
+      where: {status},
       include: [Project, 'caller'],
       order:['id']
     })
 
-    res.send(asianetfollowup);
+    res.send(asianet);
+})
+
+router.get('/all', async (req, res) => {
+
+    const asianet = await AsianetFollowup.findAll({ 
+      include: [Project, 'caller'],
+      order:['id']
+    })
+
+    res.send(asianet);
 })
 
 router.get('/:id', async (req, res) => {
@@ -41,7 +55,7 @@ router.get('/:id', async (req, res) => {
 
 router.delete('/:id', async(req,res)=>{
     try {
-
+        
         const result = await AsianetFollowup.destroy({
             where: { id: req.params.id },
             force: true,
@@ -98,7 +112,9 @@ router.patch('/callback/:id', async(req,res)=>{
 
     const asianet = {
       date: req.body.date,
-      time: req.body.time
+      time: req.body.time,
+      callTime: req.body.callTime,
+      status: req.body.status
     }
       AsianetFollowup.update(asianet, {
           where: { id: req.params.id }
@@ -124,9 +140,10 @@ router.patch('/callback/:id', async(req,res)=>{
 
 router.delete('/', async(req,res)=>{
   try {
-
+      const status = req.query.status;
+      
       const result = await AsianetFollowup.destroy({
-          where: { status: req.body.status },
+          where: { status },
           force: true,
       });
 
@@ -165,4 +182,29 @@ try {
 }
 
 })
+
+
+router.get('/caller', async (req, res) => {
+  try {
+    const asianet = await AsianetFollowup.findAll({ 
+      include: [
+        {
+          model: Project, // Include the Project model
+          as: 'project', // Use the alias if you have defined one in your associations
+        },
+        {
+          model: User, // Include the TeleCaller model
+          as: 'caller', // Use the alias if you have defined one in your associations
+        },
+      ],
+      order: [['id', 'ASC']], // Correct the order syntax
+    });
+
+    res.send(asianet);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error'); // Handle errors gracefully
+  }
+});
+
 module.exports = router;

@@ -14,6 +14,7 @@ import { ProjectBaseComponent } from './components/project-base/project-base.com
 import { DeleteBaseComponent } from './components/delete-base/delete-base.component';
 import { ExportBaseComponent } from './components/export-base/export-base.component';
 import { StatusComponent } from './components/status/status.component';
+import { ViewComponent } from './components/view/view.component';
 
 const routes: Routes = [
   {path: '', component:NavbarComponent,
@@ -24,6 +25,7 @@ const routes: Routes = [
       {path: 'clients', component: ClientsComponent},
       {path: 'projects', component: ProjectComponent},
       {path: 'exportbase', component: ExportBaseComponent},
+      {path: 'viewbase', component: ViewComponent},
 
       {path: 'settings', component: SettingsComponent},
       {path: 'settings/role', component: RoleComponent},

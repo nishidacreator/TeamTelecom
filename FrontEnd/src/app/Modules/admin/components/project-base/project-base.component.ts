@@ -19,7 +19,6 @@ export class ProjectBaseComponent {
 
   baseForm = this.fb.group({
     projectId: ['', Validators.required],
-
   })
 
   ngOnInit(){
@@ -98,6 +97,7 @@ export class ProjectBaseComponent {
           this.isUploading = true;
           // Simulate an upload with a timeout
           setTimeout(() => {
+            console.log(formData)
             this.adminService.addAsianetSales(formData).subscribe(event => {
               if (event.type === HttpEventType.UploadProgress) {
                 if (event.total) {

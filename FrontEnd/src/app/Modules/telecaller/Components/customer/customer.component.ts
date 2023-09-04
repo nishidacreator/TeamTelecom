@@ -13,6 +13,11 @@ import { BajajFollowup } from '../../Models/bajaj_followup';
 import { ViFollowup } from '../../Models/vi_followup';
 import { DatePipe } from '@angular/common';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { AsianetSaleFollowup } from '../../Models/asianet_sales_followup';
+import { ViCollectionFollowup } from '../../Models/vi_collection_followup';
+import { AsianetSalesBase } from '../../Models/asianet_sales_base';
+import { ViCollection } from '../../Models/vi_collection_base';
+import { AdminService } from 'src/app/Modules/admin/admin.service';
 
 @Component({
   selector: 'app-customer',
@@ -27,10 +32,15 @@ export class CustomerComponent {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
+  onPageChange(event: PageEvent): void {
+    const startIndex = event.pageIndex * event.pageSize;
+    this.paginatedData = this.data.slice(startIndex, startIndex + event.pageSize);
+  }
+
   userId!: number
   date!: any
   constructor(private router: Router, private authService: AuthService, private teleCallerService: TelecallerService,
-    private datePipe: DatePipe){
+    private datePipe: DatePipe, private adminService: AdminService){
     const token: any = localStorage.getItem('token')
       let user = JSON.parse(token)
       this.userId = user.id
@@ -38,38 +48,43 @@ export class CustomerComponent {
       this.date = this.datePipe.transform(new Date(), 'dd/MM/yyyy');
   }
 
-  onPageChange(event: PageEvent): void {
-    const startIndex = event.pageIndex * event.pageSize;
-    this.paginatedData = this.data.slice(startIndex, startIndex + event.pageSize);
-  }
+
 
   ngOnInit() {
-    this.getData();
     this.getFollowUp()
+    this.getData();
   }
 
-  bsnl: any[] = []
-  asianet: any[] = []
-  bajaj: any[] = []
-  vi: any[] = []
-  data: any[] = []
+  bsnlSub!: Subscription;
+  asianetSub!: Subscription;
+  bajajSub!: Subscription;
+  viSub!: Subscription;
+  comCall!: number;
+  pendCall!: number;
+  data: any[] = [];
   getData(){
-    this.teleCallerService.getBsnl().subscribe(data =>{
-      this.bsnl = data.filter(x => x.teleCallerId === this.userId && x.status === null)
+    console.log(this.userId)
+    this.asianetSub = this.adminService.getAllAsianetSales().subscribe(data =>{
+      let asianet = data.filter(x=>x.teleCaller.id === this.userId && x.status === null)
 
-      this.teleCallerService.getAsianet().subscribe(data =>{
-        this.asianet = data.filter(x => x.teleCaller.id === this.userId && x.status === null)
+      this.bajajSub = this.adminService.getAllBajaj().subscribe(data =>{
+        let bajaj = data.filter(x=>x.teleCaller.id === this.userId && x.status === null)
 
-        this.teleCallerService.getBajaj().subscribe(data =>{
-          this.bajaj = data.filter(x => x.teleCaller.id === this.userId && x.status === null)
+        this.viSub = this.adminService.getAllViCollections().subscribe(data =>{
+          let vi = data.filter(x=>x.teleCaller.id === this.userId && x.status === null)
 
-          this.teleCallerService.getVi().subscribe(data =>{
-            this.vi = data.filter(x => x.teleCaller.id === this.userId && x.status === null)
+          this.asianetSub = this.adminService.getAllAsianetCollections().subscribe(data =>{
+            let asianetColl = data.filter(x=>x.teleCaller.id === this.userId && x.status === null)
 
-            this.data = [...this.bsnl, ...this.asianet, ...this.bajaj, ...this.vi];
-            console.log(this.data);
+            this.asianetSub = this.adminService.getAllViSales().subscribe(data =>{
+              let viSale = data.filter(x=>x.teleCaller.id === this.userId && x.status === null)
 
-            this.paginatedData = this.data.slice(0, this.pageSize);
+              this.data = [...asianet, ...bajaj, ...vi, ...asianetColl, ...viSale];
+                console.log(this.data);
+
+                this.paginatedData = this.data.slice(0, this.pageSize);
+              // })
+            })
           })
         })
       })
@@ -81,22 +96,33 @@ export class CustomerComponent {
   asianetFollow: AsianetFollowup[] = [];
   bajajFollow: BajajFollowup[] = [];
   viFollow: ViFollowup[] = [];
+  asianetSaleFollow: AsianetSaleFollowup[] = [];
+  viCollectionFollow: ViCollectionFollowup[] = [];
   follow: any[] = [];
   getFollowUp(){
-    this.teleCallerService.getFollowUp().subscribe(data =>{
-      this.bsnlFollow = data.filter(x=> this.datePipe.transform(x.date, 'dd/MM/yyyy') === this.date && x.status === null && x.caller.id === this.userId);
-      console.log(this.bsnlFollow);
+    // this.teleCallerService.getFollowUpCaller().subscribe(data =>{
+    //   this.bsnlFollow = data.filter(x=> this.datePipe.transform(x.date, 'dd/MM/yyyy') === this.date && x.status === null && x.caller.id === this.userId);
+    //   console.log(this.bsnlFollow);
 
-      this.teleCallerService.getAsianetFollowUp().subscribe(data =>{
-        this.asianetFollow = data.filter(x=> this.datePipe.transform(x.date, 'dd/MM/yyyy') === this.date && x.status === null  && x.caller.id === this.userId);
+          this.adminService.getAllAsianetSalesFollowup().subscribe(data =>{
+            let asianetFollow = data.filter(x=> this.datePipe.transform(x.date, 'dd/MM/yyyy') === this.date && x.status === null  && x.caller.id === this.userId);
 
-        this.teleCallerService.getBajajFollowUp().subscribe(data =>{
-          this.bajajFollow = data.filter(x=> this.datePipe.transform(x.date, 'dd/MM/yyyy') === this.date && x.status === null  && x.caller.id === this.userId);
+            this.adminService.getAllBajajFollowup().subscribe(data =>{
+              let bajajFollow = data.filter(x=> this.datePipe.transform(x.date, 'dd/MM/yyyy') === this.date && x.status === null  && x.caller.id === this.userId);
 
-          this.teleCallerService.getViFollowUp().subscribe(data =>{
-            this.viFollow = data.filter(x=> this.datePipe.transform(x.date, 'dd/MM/yyyy') === this.date && x.status === null  && x.caller.id === this.userId);
+              this.adminService.getAllViCollectionsFollowup().subscribe(data =>{
+                let viFollow = data.filter(x=> this.datePipe.transform(x.date, 'dd/MM/yyyy') === this.date && x.status === null  && x.caller.id === this.userId);
 
-            this.follow = [...this.bsnlFollow, ...this.asianetFollow, ...this.viFollow, ...this.bajajFollow]
+                this.adminService.getAllAsianetCollectionsFollowup().subscribe(data =>{
+                  let asianetColl = data.filter(x=> this.datePipe.transform(x.date, 'dd/MM/yyyy') === this.date && x.status === null  && x.caller.id === this.userId);
+
+                  this.adminService.getAllViSalesFollowup().subscribe(data =>{
+                    let viSale = data.filter(x=> this.datePipe.transform(x.date, 'dd/MM/yyyy') === this.date && x.status === null  && x.caller.id === this.userId);
+
+                    this.follow = [ ...asianetFollow, ...viFollow, ...bajajFollow, ...asianetColl, ...viSale]
+                  console.log(this.follow)
+              // })
+            })
           })
         })
       })

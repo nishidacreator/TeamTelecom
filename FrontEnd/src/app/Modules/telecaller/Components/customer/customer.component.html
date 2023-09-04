@@ -15,16 +15,20 @@
           <tr *ngFor="let content of follow">
             <td>
               <a *ngIf="content.project.projectName.toLowerCase() === 'bsnl'">{{content.firstName}}</a>
-              <a *ngIf="content.project.projectName.toLowerCase() === 'asianet'">{{content.Name}}</a>
+              <a *ngIf="content.project.projectName.toLowerCase() === 'asianetsales'">{{content.Name}}</a>
+              <a *ngIf="content.project.projectName.toLowerCase() === 'asianetcollections'">{{content.Name}}</a>
               <a *ngIf="content.project.projectName.toLowerCase() === 'bajaj'">{{content.bajaj_base.name}}</a>
-              <a *ngIf="content.project.projectName.toLowerCase() === 'vi'">{{content.vi_base.custName}}</a>
+              <a *ngIf="content.project.projectName.toLowerCase() === 'visales'">{{content.custName}}</a>
+              <a *ngIf="content.project.projectName.toLowerCase() === 'vicollections'">{{content.Name}}</a>
             </td>
 
             <td>
               <a *ngIf="content.project.projectName.toLowerCase() === 'bsnl'">{{content.mobile}}</a>
-              <a *ngIf="content.project.projectName.toLowerCase() === 'asianet'">{{content.Mobile}}</a>
+              <a *ngIf="content.project.projectName.toLowerCase() === 'asianetsales'">{{content.Mobile}}</a>
+              <a *ngIf="content.project.projectName.toLowerCase() === 'asianetcollections'">{{content.Mobile}}</a>
               <a *ngIf="content.project.projectName.toLowerCase() === 'bajaj'">{{content.mobile}}</a>
-              <a *ngIf="content.project.projectName.toLowerCase() === 'vi'">{{content.mobileNumber}}</a>
+              <a *ngIf="content.project.projectName.toLowerCase() === 'visales'">{{content.mobileNumber}}</a>
+              <a *ngIf="content.project.projectName.toLowerCase() === 'vicollections'">{{content.Mobile}}</a>
             </td>
             <td>
               {{content.project.projectName | uppercase}}- Followup<br>{{content.time}}
@@ -41,15 +45,16 @@
             <a *ngIf="content.project.projectName.toLowerCase() === 'asianetcollections'">{{content.Name}}</a>
             <a *ngIf="content.project.projectName.toLowerCase() === 'bajaj'">{{content.name}}</a>
             <a *ngIf="content.project.projectName.toLowerCase() === 'visales'">{{content.custName}}</a>
-            <a *ngIf="content.project.projectName.toLowerCase() === 'vicollections'">{{content.custName}}</a>
+            <a *ngIf="content.project.projectName.toLowerCase() === 'vicollections'">{{content.Name}}</a>
           </td>
 
           <td>
             <a *ngIf="content.project.projectName.toLowerCase() === 'bsnl'">{{content.mobile}}</a>
-            <a *ngIf="content.project.projectName.toLowerCase() === 'asianet'">{{content.Mobile}}</a>
+            <a *ngIf="content.project.projectName.toLowerCase() === 'asianetcollections'">{{content.Mobile}}</a>
+            <a *ngIf="content.project.projectName.toLowerCase() === 'asianetsales'">{{content.Mobile}}</a>
             <a *ngIf="content.project.projectName.toLowerCase() === 'bajaj'">{{content.mobile}}</a>
             <a *ngIf="content.project.projectName.toLowerCase() === 'visales'">{{content.mobileNumber}}</a>
-            <a *ngIf="content.project.projectName.toLowerCase() === 'vicollections'">{{content.mobileNumber}}</a>
+            <a *ngIf="content.project.projectName.toLowerCase() === 'vicollections'">{{content.Mobile}}</a>
           </td>
           <td>
             {{content.project.projectName | uppercase}}

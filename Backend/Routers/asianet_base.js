@@ -42,10 +42,33 @@ router.post('/', multer.single('imageUrl'), async (req, res) => {
     }
 })
 
-router.get('/', async (req, res) => {
+router.get('/caller', async (req, res) => {
 
     const asianet = await Asianet.findAll({ 
       include: [Project, 'teleCaller'],
+      order:['id']
+    })
+
+    res.send(asianet);
+})
+
+router.get('/', async (req, res) => {
+
+  const status = req.query.status;
+
+    const asianet = await Asianet.findAll({ 
+      where: {status},
+      include: [Project, 'teleCaller'],
+      order:['id']
+    })
+
+    res.send(asianet);
+})
+
+router.get('/all', async (req, res) => {
+
+    const asianet = await Asianet.findAll({ 
+      include: [Project, 'teleCaller' ],
       order:['id']
     })
 
@@ -64,9 +87,10 @@ router.get('/:id', async (req, res) => {
 
 router.delete('/', async(req,res)=>{
     try {
+        const status = req.query.status;
 
         const result = await Asianet.destroy({
-            where: { status: req.body.status },
+            where: { status },
             force: true,
         });
 
@@ -143,7 +167,9 @@ router.patch('/callback/:id', async(req,res)=>{
 
     const asianet = {
       date: req.body.date,
-      time: req.body.time
+      time: req.body.time,
+      callTime: req.body.callTime,
+      status: req.body.status
     }
       Asianet.update(asianet, {
           where: { id: req.params.id }

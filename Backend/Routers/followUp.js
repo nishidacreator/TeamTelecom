@@ -101,7 +101,9 @@ router.patch('/callback/:id', async(req,res)=>{
 
     const bsnl = {
       date: req.body.date,
-      time: req.body.time
+      time: req.body.time,
+      callTime: req.body.callTime,
+      status: req.body.status
     }
       BsnlFollowup.update(bsnl, {
           where: { id: req.params.id }
@@ -167,6 +169,16 @@ try {
     res.send({error: error.message})
 }
 
+})
+
+router.get('/caller', async (req, res) => {
+
+  const asianet = await BsnlFollowup.findAll({ 
+    include: [Project, 'teleCaller'],
+    order:['id']
+  })
+
+  res.send(asianet);
 })
 
 
