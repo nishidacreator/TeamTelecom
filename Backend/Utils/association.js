@@ -16,7 +16,6 @@ const BsnlFollowup = require('../Models/followUp');
 const AsianetFollowup = require('../Models/asianet_followup');
 const BajajFollowup = require('../Models/bajaj_followup');
 const ViFollowup = require('../Models/vi_followup');
-const bcrypt = require('bcrypt');
 const AsianetSalesFollowup = require('../Models/asianet_sales_followup');
 const ViCollectionFollowup = require('../Models/vi_collection_followup');
 const ViCollection = require('../Models/vi_collection');
