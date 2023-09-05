@@ -21,13 +21,27 @@ router.post('/', async (req, res) => {
 
 router.get('/', async (req, res) => {
 
-    const vicollectionfollowup = await ViCollectionFollowup.findAll({ 
+  const status = req.query.status;
+
+    const result = await ViCollectionFollowup.findAll({ 
+      where: {status},
       include: [Project, 'caller'],
       order:['id']
     })
 
-    res.send(vicollectionfollowup);
+    res.send(result);
 })
+
+router.get('/all', async (req, res) => {
+
+    const result = await ViCollectionFollowup.findAll({ 
+      include: [Project, 'caller'],
+      order:['id']
+    })
+
+    res.send(result);
+})
+
 
 router.get('/:id', async (req, res) => {
 
@@ -98,7 +112,9 @@ router.patch('/callback/:id', async(req,res)=>{
 
     const vicollection = {
       date: req.body.date,
-      time: req.body.time
+      time: req.body.time,
+      callTime: req.body.callTime,
+      status: req.body.status
     }
       ViCollectionFollowup.update(vicollection, {
           where: { id: req.params.id }
@@ -124,9 +140,9 @@ router.patch('/callback/:id', async(req,res)=>{
 
 router.delete('/', async(req,res)=>{
   try {
-
+      const status = req.query.status;
       const result = await ViCollectionFollowup.destroy({
-          where: { status: req.body.status },
+          where: { status },
           force: true,
       });
 
@@ -164,5 +180,15 @@ try {
     res.send({error: error.message})
 }
 
+})
+
+router.get('/caller', async (req, res) => {
+
+  const asianet = await ViCollectionFollowup.findAll({ 
+    include: [Project, 'teleCaller'],
+    order:['id']
+  })
+
+  res.send(asianet);
 })
 module.exports = router;

@@ -2,9 +2,10 @@ import { Component } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { AdminService } from 'src/app/Modules/admin/admin.service';
 import { TelecallerService } from '../../telecaller.service';
+import { Status } from 'src/app/Modules/admin/models/status';
 
 @Component({
   selector: 'app-open-followup',
@@ -24,22 +25,24 @@ export class OpenFollowupComponent {
     this.projectId = route.snapshot.params['projectId'];
   }
 
-  nextForm = this.fb.group({
+  statusForm = this.fb.group({
+    statusId: [''],
+    date: [''],
+    time: [''],
     remarks: [''],
     freeText: [''],
     action: ['']
   })
 
-  customerForm = this.fb.group({
-    status: [''],
-    date: [''],
-    time: [''],
-    answer: ['']
-  })
-
   data: any
   ngOnInit(){
     this.getProjectId()
+    this.getStatus()
+  }
+
+  status$!: Observable<Status[]>
+  getStatus(){
+    this.status$ = this.adminService.getStatus()
   }
 
   projectName!: string;
@@ -58,7 +61,14 @@ export class OpenFollowupComponent {
         })
       }
 
-      if(this.projectName == 'asianet'){
+      if(this.projectName == 'asianetsales'){
+        this.dataSub = this.teleCallerService.getAsianetSalesFollowUpById(this.id).subscribe(res=>{
+          console.log(res)
+          this.customer = res
+        })
+      }
+
+      if(this.projectName == 'asianetcollections'){
         this.dataSub = this.teleCallerService.getAsianetFollowUpById(this.id).subscribe(res=>{
           console.log(res)
           this.customer = res
@@ -72,8 +82,15 @@ export class OpenFollowupComponent {
         })
       }
 
-      if(this.projectName == 'vi'){
+      if(this.projectName == 'visales'){
         this.dataSub = this.teleCallerService.getViFollowUpById(this.id).subscribe(res=>{
+          console.log(res)
+          this.customer = res
+        })
+      }
+
+      if(this.projectName == 'vicollections'){
+        this.dataSub = this.teleCallerService.getViCollectionFollowUpById(this.id).subscribe(res=>{
           console.log(res)
           this.customer = res
         })
@@ -81,147 +98,171 @@ export class OpenFollowupComponent {
     })
   }
 
-
-  status!: string
-  missed(){
-    this.status = "RNR"
-  }
-
   backStat: boolean = false
   callBack(){
     this.backStat = !this.backStat
-
-    this.status = "CallBack"
-  }
-
-  busy(){
-    this.status = "CallBusy"
-  }
-
-  answerStat: boolean = false
-  answered(){
-    this.answerStat = !this.answerStat
-    this.status = "CallAnswered"
   }
 
   nextStatus: boolean = false
   remarks!: any
   onSubmit(){
-    this.nextStatus = true
-    if(this.status === "CallAnswered"){
-      if(this.customerForm.get('answer')?.value != undefined || null){
-        this.remarks = this.customerForm.get('answer')?.value
-        this.nextForm.get('remarks')?.setValue(this.remarks)
-      }
-    }
     let data = {
-      date: this.customerForm.get('date')?.value,
-      time: this.customerForm.get('time')?.value,
-    }
-    if(this.status === "CallBack"){
-      console.log(data)
-      if(this.projectName === 'bsnl'){
-        this.teleCallerService.updateBsnlFollowupCallBack(this.id,data).subscribe(data =>{
-
-          this.teleCallerService.getAsianetFollowUpById(this.id).subscribe(data =>{
-            console.log(data)
-
-            this.teleCallerService.addFollowUp(data).subscribe(res=>{
-              console.log(res)
-            })
-          })
-        })
-      }
-
-      if(this.projectName === 'asianet'){
-        this.teleCallerService.updateAsianetFollowupCallBack(this.id,data).subscribe(data =>{
-
-          this.teleCallerService.getAsianetFollowUpById(this.id).subscribe(data =>{
-            console.log(data)
-
-            this.teleCallerService.addAsianetFollowUp(data).subscribe(res=>{
-              console.log(res)
-            })
-          })
-        })
-      }
-
-      if(this.projectName === 'bajaj'){
-        this.teleCallerService.updateBajajFollowupCallBack(this.id,data).subscribe(data =>{
-
-          this.teleCallerService.getBajajFollowUpById(this.id).subscribe(data =>{
-            console.log(data)
-
-            this.teleCallerService.addBajajFollowUp(data).subscribe(res=>{
-              console.log(res)
-            })
-          })
-        })
-      }
-
-      if(this.projectName === 'vi'){
-        this.teleCallerService.updateViFollowupCallBack(this.id,data).subscribe(data =>{
-
-          this.teleCallerService.getViFollowUpById(this.id).subscribe(data =>{
-            console.log(data)
-
-            this.teleCallerService.addViFollowUp(data).subscribe(res=>{
-              console.log(res)
-            })
-          })
-        })
-      }
-
-    }
-
-  }
-
-  saveData(){
-    let data = {
-      status : this.status,
-      remarks : this.nextForm.get('remarks')?.value,
-      freeText: this.nextForm.get('freeText')?.value,
-      action : this.nextForm.get('action')?.value,
+      status : this.statusForm.get('statusId')?.value,
+      remarks : this.statusForm.get('remarks')?.value,
+      freeText : this.statusForm.get('freeText')?.value,
+      action : this.statusForm.get('action')?.value,
       callTime: Date.now()
     }
-    if(this.projectName == 'bsnl'){
-      this.teleCallerService.updateBsnlFollowupResponse(this.id, data).subscribe(res=>{
-        console.log(res)
-        if(this.status === '')
-        this._snackBar.open("Response Updated successfully...","" ,{duration:3000})
-        this.clearControls()
-      })
+    console.log(data)
+
+    let statData = {
+      status : 'CallBack',
+      date: this.statusForm.get('date')?.value,
+      time: this.statusForm.get('time')?.value,
+      callTime: Date.now()
     }
 
-    if(this.projectName == 'asianet'){
-      this.teleCallerService.updateAsianetFollowupResponse(this.id, data).subscribe(res=>{
-        console.log(res)
-        this._snackBar.open("Response Updated successfully...","" ,{duration:3000})
-        this.clearControls()
-      })
-    }
 
-    if(this.projectName == 'bajaj'){
-      this.teleCallerService.updateBajajFollowupResponse(this.id, data).subscribe(res=>{
-        console.log(res)
-        this._snackBar.open("Response Updated successfully...","" ,{duration:3000})
-        this.clearControls()
-      })
-    }
+    this.adminService.getStatusById(this.statusForm.getRawValue().statusId).subscribe(res =>{
+      if(this.backStat){
+        console.log(this.projectName)
+        if(this.projectName === 'bsnl'){
+          this.teleCallerService.updateBsnlFollowupCallBack(this.id,statData).subscribe(data =>{
 
-    if(this.projectName == 'vi'){
-      this.teleCallerService.updateViFollowupResponse(this.id, data).subscribe(res=>{
-        console.log(res)
-        this._snackBar.open("Response Updated successfully...","" ,{duration:3000})
-        this.clearControls()
-      })
-    }
+            this.teleCallerService.getFollowUpById(this.id).subscribe(data =>{
+              console.log(data)
+
+              this.teleCallerService.addFollowUp(data).subscribe(res=>{
+                console.log(res)
+              })
+            })
+          })
+        }
+
+        if(this.projectName === 'asianetcollections'){
+          console.log(statData)
+          this.teleCallerService.updateAsianetFollowupCallBack(this.id,statData).subscribe(data =>{
+
+            this.teleCallerService.getAsianetFollowUpById(this.id).subscribe(data =>{
+              console.log(data)
+
+              this.teleCallerService.addAsianetFollowUp(data).subscribe(res=>{
+                console.log(res)
+              })
+            })
+          })
+        }
+
+        if(this.projectName === 'asianetsales'){
+          this.teleCallerService.updateAsianetSalesCallBack(this.id,statData).subscribe(data =>{
+
+            this.teleCallerService.getAsianetSalesFollowUpById(this.id).subscribe(data =>{
+              console.log(data)
+
+              this.teleCallerService.addAsianetSalesFollowUp(data).subscribe(res=>{
+                console.log(res)
+              })
+            })
+          })
+        }
+
+        if(this.projectName === 'bajaj'){
+          this.teleCallerService.updateBajajFollowupCallBack(this.id,statData).subscribe(data =>{
+
+            this.teleCallerService.getBajajFollowUpById(this.id).subscribe(data =>{
+              console.log(data)
+
+              this.teleCallerService.addBajajFollowUp(data).subscribe(res=>{
+                console.log(res)
+              })
+            })
+          })
+        }
+
+        if(this.projectName === 'visales'){
+          this.teleCallerService.updateViFollowupCallBack(this.id,statData).subscribe(data =>{
+
+            this.teleCallerService.getViFollowUpById(this.id).subscribe(data =>{
+              console.log(data)
+
+              this.teleCallerService.addViFollowUp(data).subscribe(res=>{
+                console.log(res)
+              })
+            })
+          })
+        }
+
+        if(this.projectName === 'vicollections'){
+          this.teleCallerService.updateViFollowupCallBack(this.id,statData).subscribe(data =>{
+
+            this.teleCallerService.getViCollectionFollowUpById(this.id).subscribe(data =>{
+              console.log(data)
+
+              this.teleCallerService.addViCollectionFollowUp(data).subscribe(res=>{
+                console.log(res)
+              })
+            })
+          })
+        }
+
+      }
+      else{
+        if(this.projectName == 'bsnl'){
+          this.teleCallerService.updateBsnlFollowupResponse(this.id, data).subscribe(res=>{
+            console.log(res)
+            this._snackBar.open("Response Updated successfully...","" ,{duration:3000})
+          })
+        }
+
+        if(this.projectName == 'asianetcollections'){
+          console.log(data)
+          this.teleCallerService.updateAsianetFollowupResponse(this.id, data).subscribe(res=>{
+            console.log(res)
+            this._snackBar.open("Response Updated successfully...","" ,{duration:3000})
+          })
+        }
+
+        if(this.projectName == 'asianetsales'){
+          console.log(data)
+          this.teleCallerService.updateAsianetSalesFollowupResponse(this.id, data).subscribe(res=>{
+            console.log(res)
+            this._snackBar.open("Response Updated successfully...","" ,{duration:3000})
+          })
+        }
+
+        if(this.projectName == 'bajaj'){
+          this.teleCallerService.updateBajajFollowupResponse(this.id, data).subscribe(res=>{
+            console.log(res)
+            this._snackBar.open("Response Updated successfully...","" ,{duration:3000})
+          })
+        }
+
+        if(this.projectName == 'visales'){
+          console.log(data)
+          this.teleCallerService.updateViFollowupResponse(this.id, data).subscribe(res=>{
+            console.log(res)
+            this._snackBar.open("Response Updated successfully...","" ,{duration:3000})
+          })
+        }
+
+        if(this.projectName == 'vicollections'){
+          this.teleCallerService.updateViCollectionFollowupResponse(this.id, data).subscribe(res=>{
+            console.log(res)
+            this._snackBar.open("Response Updated successfully...","" ,{duration:3000})
+          })
+        }
+      }
+
+    })
+    this.clearControls();
     this.router.navigateByUrl('/telecaller/customers')
+
   }
 
   clearControls(){
-    this.nextForm.reset()
-    this.nextForm.setErrors(null)
-    Object.keys(this.nextForm.controls).forEach(key=>{this.nextForm.get(key)?.setErrors(null)})
+    this.statusForm.reset()
+    this.statusForm.setErrors(null)
+    Object.keys(this.statusForm.controls).forEach(key=>{this.statusForm.get(key)?.setErrors(null)})
   }
+
 }

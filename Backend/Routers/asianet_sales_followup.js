@@ -6,9 +6,9 @@ const router = express.Router();
 
 router.post('/', async (req, res) => {
     try {
-      const { region, subCode, name, balance, mobile, status, remarks, freeText, action, teleCallerId, projectId, date, time } = req.body;
+      const { Region, Subcode, Name, Address, Package, Scheme, Phone, Balance, Mobile, Teleby, projectId, date, time } = req.body;
 
-      const result = new AsianetSalesFollowup({region, subCode, name, balance, mobile, status, remarks, freeText, action, teleCallerId, projectId, date, time});
+      const result = new AsianetSalesFollowup({Region, Subcode, Name, Address, Package, Scheme, Phone, Balance, Mobile, Teleby, projectId, date, time});
 
       await result.save();
 
@@ -21,12 +21,25 @@ router.post('/', async (req, res) => {
 
 router.get('/', async (req, res) => {
 
-    const asianetfollowup = await AsianetSalesFollowup.findAll({ 
+  const status = req.query.status;
+
+    const asianet = await AsianetSalesFollowup.findAll({ 
+      where: {status},
       include: [Project, 'caller'],
       order:['id']
     })
 
-    res.send(asianetfollowup);
+    res.send(asianet);
+})
+
+router.get('/all', async (req, res) => {
+
+    const asianet = await AsianetSalesFollowup.findAll({ 
+      include: [Project, 'caller'],
+      order:['id']
+    })
+
+    res.send(asianet);
 })
 
 router.get('/:id', async (req, res) => {
@@ -98,7 +111,9 @@ router.patch('/callback/:id', async(req,res)=>{
 
     const asianet = {
       date: req.body.date,
-      time: req.body.time
+      time: req.body.time,
+      callTime: req.body.callTime,
+      status: req.body.status
     }
       AsianetSalesFollowup.update(asianet, {
           where: { id: req.params.id }
@@ -124,9 +139,9 @@ router.patch('/callback/:id', async(req,res)=>{
 
 router.delete('/', async(req,res)=>{
   try {
-
+      const status = req.query.status;
       const result = await AsianetSalesFollowup.destroy({
-          where: { status: req.body.status },
+          where: { status },
           force: true,
       });
 
@@ -164,5 +179,15 @@ try {
     res.send({error: error.message})
 }
 
+})
+
+router.get('/caller', async (req, res) => {
+
+  const asianet = await AsianetSalesFollowup.findAll({ 
+    include: [Project, 'teleCaller'],
+    order:['id']
+  })
+
+  res.send(asianet);
 })
 module.exports = router;

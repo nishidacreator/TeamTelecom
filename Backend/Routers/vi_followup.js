@@ -6,9 +6,9 @@ const Project = require('../Models/project');
 router.post('/', async (req, res) => {
     try {  
       
-          const { mobileNumber, custName, campionName, currentPlan, noOfConnections, pinCode, suggestedPlan, status, remarks, freeText, action, Teleby, projectId, date, time } = req.body;
+          const { mobileNumber, custName, campionName, currentPlan, noOfConnections, pinCode, suggestedPlan, remarks, freeText, action, Teleby, projectId, date, time } = req.body;
 
-          const result = new ViFollowup({mobileNumber, custName, campionName, currentPlan, noOfConnections, pinCode, suggestedPlan, status, remarks, freeText, action, Teleby, projectId, date, time});
+          const result = new ViFollowup({mobileNumber, custName, campionName, currentPlan, noOfConnections, pinCode, suggestedPlan, remarks, freeText, action, Teleby, projectId, date, time});
 
           await result.save();
 
@@ -21,13 +21,27 @@ router.post('/', async (req, res) => {
 
 router.get('/', async (req, res) => {
 
-    const vifollowup = await ViFollowup.findAll({ 
+  const status = req.query.status;
+
+    const result = await ViFollowup.findAll({ 
+      where: {status},
       include: [Project, 'caller'],
       order:['id']
     })
 
-    res.send(vifollowup);
+    res.send(result);
 })
+
+router.get('/all', async (req, res) => {
+
+    const result = await ViFollowup.findAll({ 
+      include: [Project, 'caller'],
+      order:['id']
+    })
+
+    res.send(result);
+})
+
 
 router.get('/:id', async (req, res) => {
 
@@ -98,7 +112,9 @@ router.patch('/callback/:id', async(req,res)=>{
 
     const vi = {
       date: req.body.date,
-      time: req.body.time
+      time: req.body.time,
+      callTime: req.body.callTime,
+      status: req.body.status
     }
       ViFollowup.update(vi, {
           where: { id: req.params.id }
@@ -124,9 +140,9 @@ router.patch('/callback/:id', async(req,res)=>{
 
 router.delete('/', async(req,res)=>{
   try {
-
+      const status = req.query.status;
       const result = await ViFollowup.destroy({
-          where: { status: req.body.status },
+          where: { status },
           force: true,
       });
 
@@ -164,5 +180,15 @@ try {
     res.send({error: error.message})
 }
 
+})
+
+router.get('/caller', async (req, res) => {
+
+  const asianet = await ViFollowup.findAll({ 
+    include: [Project, 'teleCaller'],
+    order:['id']
+  })
+
+  res.send(asianet);
 })
 module.exports = router;

@@ -1,6 +1,6 @@
 import { User } from "../../auth/models/user"
 
-export interface AsianetSaleFollowup{
+export interface ViCollection{
   id: number;
   Region : string
   Subcode : string
@@ -18,8 +18,8 @@ export interface AsianetSaleFollowup{
   remarks : string
   freeText : string
   action : string
-  caller: User
+  teleCallerId : number
+  teleCaller: User
   date: Date
   time: Date
-  Teleby: number
 }

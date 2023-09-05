@@ -9,6 +9,10 @@ import { FolloeUp } from './Models/followUp';
 import { AsianetFollowup } from './Models/asianet_followup';
 import { BajajFollowup } from './Models/bajaj_followup';
 import { ViFollowup } from './Models/vi_followup';
+import { AsianetSaleFollowup } from './Models/asianet_sales_followup';
+import { ViCollection } from './Models/vi_collection_base';
+import { ViCollectionFollowup } from './Models/vi_collection_followup';
+import { AsianetSalesBase } from './Models/asianet_sales_base';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -21,8 +25,8 @@ export class TelecallerService {
   url = environment.baseUrl
 
   // BSNL
-  getBsnl(): Observable<Bsnl[]>{
-    return this._http.get<Bsnl[]>(this.url + '/bsnl');
+  getBsnlCaller(): Observable<Bsnl[]>{
+    return this._http.get<Bsnl[]>(this.url + '/bsnl/caller');
   }
 
   getBsnlById(id: number): Observable<Bsnl>{
@@ -38,8 +42,9 @@ export class TelecallerService {
   }
 
   // BAJAJ
-  getBajaj(): Observable<Bajaj[]>{
-    return this._http.get<Bajaj[]>(this.url + '/bajaj');
+
+  getBajajCaller(): Observable<Bajaj[]>{
+    return this._http.get<Bajaj[]>(this.url + '/bajaj/caller');
   }
 
   getBajajById(id: number): Observable<Bajaj>{
@@ -58,8 +63,8 @@ export class TelecallerService {
     return this._http.post(this.url + '/bajajfollowUp', data)
   }
 
-  getBajajFollowUp():Observable<BajajFollowup[]>{
-    return this._http.get<BajajFollowup[]>(this.url + '/bajajfollowUp')
+  getBajajFollowUpCaller():Observable<BajajFollowup[]>{
+    return this._http.get<BajajFollowup[]>(this.url + '/bajajfollowUp/caller')
   }
 
   getBajajFollowUpById(id: number):Observable<BajajFollowup>{
@@ -75,8 +80,9 @@ export class TelecallerService {
   }
 
   // ASIANET
-  getAsianet(): Observable<Asianet[]>{
-    return this._http.get<Asianet[]>(this.url + '/asianet');
+
+  getAsianetCaller(): Observable<Asianet[]>{
+    return this._http.get<Asianet[]>(this.url + '/asianet/caller');
   }
 
   getAsianetById(id: number): Observable<Asianet>{
@@ -95,8 +101,8 @@ export class TelecallerService {
     return this._http.post(this.url + '/asianetfollowUp', data)
   }
 
-  getAsianetFollowUp():Observable<AsianetFollowup[]>{
-    return this._http.get<AsianetFollowup[]>(this.url + '/asianetfollowUp')
+  getAsianetFollowCaller(): Observable<AsianetFollowup[]>{
+    return this._http.get<AsianetFollowup[]>(this.url + '/asianetfollowUp/caller');
   }
 
   getAsianetFollowUpById(id: number):Observable<AsianetFollowup>{
@@ -112,8 +118,8 @@ export class TelecallerService {
   }
 
   // ASIANET SALES
-  getAsianetSales(): Observable<Asianet[]>{
-    return this._http.get<Asianet[]>(this.url + '/asianetsales');
+  getAsianetSalesCaller(): Observable<AsianetSalesBase[]>{
+    return this._http.get<AsianetSalesBase[]>(this.url + '/asianetsales/caller');
   }
 
   getAsianetSalesById(id: number): Observable<Asianet>{
@@ -132,12 +138,12 @@ export class TelecallerService {
     return this._http.post<Bsnl>(this.url + '/asianetsalesfollow', data)
   }
 
-  getAsianetSalesFollowUp():Observable<FolloeUp[]>{
-    return this._http.get<FolloeUp[]>(this.url + '/asianetsalesfollow')
+  getAsianetSalesFollowUpCaller():Observable<AsianetSaleFollowup[]>{
+    return this._http.get<AsianetSaleFollowup[]>(this.url + '/asianetsalesfollow/caller')
   }
 
-  getAsianetSalesFollowUpById(id: number):Observable<FolloeUp>{
-    return this._http.get<FolloeUp>(this.url + '/asianetsalesfollow/' + id)
+  getAsianetSalesFollowUpById(id: number):Observable<AsianetSaleFollowup>{
+    return this._http.get<AsianetSaleFollowup>(this.url + '/asianetsalesfollow/' + id)
   }
 
   updateAsianetSalesFollowupResponse(id: number, data: any): Observable<FolloeUp>{
@@ -149,8 +155,9 @@ export class TelecallerService {
   }
 
   // VI
-  getVi(): Observable<Vi[]>{
-    return this._http.get<Vi[]>(this.url + '/vi');
+
+  getViCaller(): Observable<Vi[]>{
+    return this._http.get<Vi[]>(this.url + '/vi/caller');
   }
 
   getViById(id: number): Observable<Vi>{
@@ -169,8 +176,8 @@ export class TelecallerService {
     return this._http.post(this.url + '/vifollowUp', data)
   }
 
-  getViFollowUp():Observable<ViFollowup[]>{
-    return this._http.get<ViFollowup[]>(this.url + '/vifollowUp')
+  getViFollowUpCaller():Observable<ViFollowup[]>{
+    return this._http.get<ViFollowup[]>(this.url + '/vifollowUp/caller')
   }
 
   getViFollowUpById(id: number):Observable<ViFollowup>{
@@ -186,40 +193,41 @@ export class TelecallerService {
   }
 
   // VICOLLECTIONS
-  getViCollections(): Observable<Vi[]>{
-    return this._http.get<Vi[]>(this.url + '/vicollections');
+  getViCollectionsCaller(): Observable<ViCollection[]>{
+    return this._http.get<ViCollection[]>(this.url + '/vicollections/caller');
   }
 
-  getViCollectionsById(id: number): Observable<Vi>{
-    return this._http.get<Vi>(this.url + '/vicollections/' +id);
+  getViCollectionsById(id: number): Observable<ViCollection>{
+    return this._http.get<ViCollection>(this.url + '/vicollections/' +id);
   }
 
-  updateViCollectionsResponse(id: number, data: any): Observable<Vi>{
-    return this._http.patch<Vi>(this.url + '/vicollections/' + id, data)
+  updateViCollectionsResponse(id: number, data: any): Observable<ViCollection>{
+    return this._http.patch<ViCollection>(this.url + '/vicollections/' + id, data)
   }
 
-  updateViCollectionsCallBack(id: number, data: any): Observable<Vi>{
-    return this._http.patch<Vi>(this.url + '/vicollections/callback/' + id, data)
+  updateViCollectionsCallBack(id: number, data: any): Observable<ViCollection>{
+    console.log(id)
+    return this._http.patch<ViCollection>(this.url + '/vicollections/callback/' + id, data)
   }
 
   addViCollectionFollowUp(data: any){
     return this._http.post<Bsnl>(this.url + '/vicollectionsfollow', data)
   }
 
-  getViCollectionFollowUp():Observable<FolloeUp[]>{
-    return this._http.get<FolloeUp[]>(this.url + '/vicollectionsfollow')
+  getViCollectionFollowUpCaller():Observable<ViCollectionFollowup[]>{
+    return this._http.get<ViCollectionFollowup[]>(this.url + '/vicollectionsfollow/caller')
   }
 
-  getViCollectionFollowUpById(id: number):Observable<FolloeUp>{
-    return this._http.get<FolloeUp>(this.url + '/vicollectionsfollow/' + id)
+  getViCollectionFollowUpById(id: number):Observable<ViCollectionFollowup>{
+    return this._http.get<ViCollectionFollowup>(this.url + '/vicollectionsfollow/' + id)
   }
 
-  updateViCollectionFollowupResponse(id: number, data: any): Observable<FolloeUp>{
-    return this._http.patch<FolloeUp>(this.url + '/vicollectionsfollow/' + id, data)
+  updateViCollectionFollowupResponse(id: number, data: any): Observable<ViCollectionFollowup>{
+    return this._http.patch<ViCollectionFollowup>(this.url + '/vicollectionsfollow/' + id, data)
   }
 
-  updateViCollectionFollowupCallBack(id: number, data: any): Observable<FolloeUp>{
-    return this._http.patch<FolloeUp>(this.url + '/vicollectionsfollow/callback/' + id, data)
+  updateViCollectionFollowupCallBack(id: number, data: any): Observable<ViCollectionFollowup>{
+    return this._http.patch<ViCollectionFollowup>(this.url + '/vicollectionsfollow/callback/' + id, data)
   }
 
   // FOLLOUP
@@ -227,8 +235,8 @@ export class TelecallerService {
     return this._http.post<Bsnl>(this.url + '/followup', data)
   }
 
-  getFollowUp():Observable<FolloeUp[]>{
-    return this._http.get<FolloeUp[]>(this.url + '/followup')
+  getFollowUpCaller():Observable<FolloeUp[]>{
+    return this._http.get<FolloeUp[]>(this.url + '/followup/caller')
   }
 
   getFollowUpById(id: number):Observable<FolloeUp>{

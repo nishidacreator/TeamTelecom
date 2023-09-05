@@ -22,4 +22,5 @@ export interface Asianet{
   teleCaller: User
   date: Date
   time: Date
+  callTime: Date
 }

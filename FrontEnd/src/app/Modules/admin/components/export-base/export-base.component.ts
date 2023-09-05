@@ -49,7 +49,7 @@ export class ExportBaseComponent {
                    // Specify the file name with the current date
             this.fileName = `bsnl_base${formattedDate}.csv`;
 
-            this.tealeCallerService.getBsnl().subscribe(res=>{
+            this.tealeCallerService.getBsnlCaller().subscribe(res=>{
               console.log(res)
               this.data = res
 
@@ -105,7 +105,7 @@ export class ExportBaseComponent {
             // Specify the file name with the current date
             this.fileName = `asianet_base${formattedDate}.csv`;
 
-            this.tealeCallerService.getAsianet().subscribe(res=>{
+            this.tealeCallerService.getAsianetCaller().subscribe(res=>{
               console.log(res)
               this.data = res
 
@@ -160,7 +160,7 @@ export class ExportBaseComponent {
             // Specify the file name with the current date
             this.fileName = `bajaj_base${formattedDate}.csv`;
 
-            this.tealeCallerService.getBajaj().subscribe(res=>{
+            this.tealeCallerService.getBajajCaller().subscribe(res=>{
               console.log(res)
               this.data = res
 
@@ -215,7 +215,7 @@ export class ExportBaseComponent {
             // Specify the file name with the current date
             this.fileName = `vi_base${formattedDate}.csv`;
 
-            this.tealeCallerService.getVi().subscribe(res=>{
+            this.tealeCallerService.getViCaller().subscribe(res=>{
               console.log(res)
               this.data = res
 
@@ -276,7 +276,7 @@ export class ExportBaseComponent {
                  // Specify the file name with the current date
           this.fileName = `bsnl_followup${formattedDate}.csv`;
 
-          this.tealeCallerService.getFollowUp().subscribe(res=>{
+          this.tealeCallerService.getFollowUpCaller().subscribe(res=>{
             console.log(res)
             this.data = res
 
@@ -332,7 +332,7 @@ export class ExportBaseComponent {
           // Specify the file name with the current date
           this.fileName = `asianet_followup${formattedDate}.csv`;
 
-          this.tealeCallerService.getAsianetFollowUp().subscribe(res=>{
+          this.tealeCallerService.getAsianetSalesFollowUpCaller().subscribe(res=>{
             console.log(res)
             this.data = res
 
@@ -387,7 +387,7 @@ export class ExportBaseComponent {
           // Specify the file name with the current date
           this.fileName = `bajaj_followup${formattedDate}.csv`;
 
-          this.tealeCallerService.getBajajFollowUp().subscribe(res=>{
+          this.tealeCallerService.getBajajFollowUpCaller().subscribe(res=>{
             console.log(res)
             this.data = res
 
@@ -442,7 +442,7 @@ export class ExportBaseComponent {
           // Specify the file name with the current date
           this.fileName = `vi_followup${formattedDate}.csv`;
 
-          this.tealeCallerService.getViFollowUp().subscribe(res=>{
+          this.tealeCallerService.getViFollowUpCaller().subscribe(res=>{
             console.log(res)
             this.data = res
 

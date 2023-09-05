@@ -6,9 +6,9 @@ const Project = require('../Models/project');
 
 router.post('/', async (req, res) => {
     try {
-      const { subCode, name, balance, mobile, emi, product, status, remarks, freeText, action, teleCallerId, projectId, date, time } = req.body;
+      const { subCode, name, balance, mobile, emi, product, status, remarks, freeText, action, Teleby, projectId, date, time } = req.body;
 
-      const result = new BajajFollowup({subCode, name, balance, mobile, emi, product, status, remarks, freeText, action, teleCallerId, projectId, date, time});
+      const result = new BajajFollowup({subCode, name, balance, mobile, emi, product, status, remarks, freeText, action, Teleby, projectId, date, time});
 
       await result.save();
 
@@ -21,12 +21,25 @@ router.post('/', async (req, res) => {
 
 router.get('/', async (req, res) => {
 
-    const bajajfollowup = await BajajFollowup.findAll({ 
+  const status = req.query.status;
+
+    const result = await BajajFollowup.findAll({ 
+      where: {status},
       include: [Project, 'caller'],
       order:['id']
     })
 
-    res.send(bajajfollowup);
+    res.send(result);
+})
+
+router.get('/all', async (req, res) => {
+
+    const result = await BajajFollowup.findAll({ 
+      include: [Project, 'caller'],
+      order:['id']
+    })
+
+    res.send(result);
 })
 
 router.get('/:id', async (req, res) => {
@@ -99,7 +112,9 @@ router.patch('/callback/:id', async(req,res)=>{
 
     const bajaj = {
       date: req.body.date,
-      time: req.body.time
+      time: req.body.time,
+      callTime: req.body.callTime,
+      status: req.body.status
     }
       BajajFollowup.update(bajaj, {
           where: { id: req.params.id }
@@ -125,9 +140,10 @@ router.patch('/callback/:id', async(req,res)=>{
 
 router.delete('/', async(req,res)=>{
   try {
+      const status = req.query.status;
 
       const result = await BajajFollowup.destroy({
-          where: { status: req.body.status },
+          where: { status },
           force: true,
       });
 
@@ -165,5 +181,15 @@ try {
     res.send({error: error.message})
 }
 
+})
+
+router.get('/caller', async (req, res) => {
+
+  const asianet = await BajajFollowup.findAll({ 
+    include: [Project, 'teleCaller'],
+    order:['id']
+  })
+
+  res.send(asianet);
 })
 module.exports = router;

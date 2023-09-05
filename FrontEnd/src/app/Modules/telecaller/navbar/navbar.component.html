@@ -1,62 +1,3 @@
-<!-- <mat-sidenav-container autosize class="sidenav-container">
-  <mat-sidenav class="sidenav" [ngClass]="{'rotated': isExpanded}" #sidenav mode="side" opened="true">
-    <mat-toolbar>
-      <span *ngIf="isExpanded" style="margin-right: 8px;">
-        <img style="width: 100%; height: 100%;" src="../../../../assets/img/tm.png" routerLink="home">
-      </span>
-      <span *ngIf="!isExpanded" style="margin-right: 8px;">
-        <img style="width: 100%; height: 100%;" src="../../../../assets/img/tm.png" routerLink="home">
-      </span>
-      <mat-icon class="chevron_icon" style="color: rgb(56, 121, 151); font-size: 25px;"
-      (click)="isExpanded = !isExpanded"[ngClass]="{'rotated': isExpanded}">chevron_right</mat-icon>
-    </mat-toolbar>
-    <mat-nav-list>
-
-
-      <mat-list-item style="margin-left: 9px;" [routerLinkActive]="['active']" routerLink="home">
-        <mat-icon style="color: rgb(56, 121, 151); font-size: 25px; margin-right: 3px; ">dashboard</mat-icon>
-        <a *ngIf="isExpanded">DASHBOARD</a>
-      </mat-list-item>
-
-
-      <mat-accordion>
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              <mat-icon style="color:  rgb(56, 121, 151); margin-right: 5px;" routerLink="customers">verified_user</mat-icon>
-               <a *ngIf="isExpanded">CUSTOMERS</a>
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-
-
-        </mat-expansion-panel>
-      </mat-accordion>
-
-
-
-
-
-    </mat-nav-list>
-  </mat-sidenav>
-  <mat-sidenav-content>
-    <mat-toolbar style="background-color:  rgb(79, 124, 192); color: white;" >
-
-      <span>TASK MANAGER - BACKLOG</span>
-
-      <div class="nav_main">
-          <mat-icon (click)="myProfile()">perm_identity</mat-icon>
-          <mat-icon class="nav_username">notification_important</mat-icon>
-          <mat-icon class="nav_username" routerLink="settings">settings</mat-icon>
-          <mat-icon class="nav_username" (click)="logOut()">power_settings_new</mat-icon>
-        </div>
-    </mat-toolbar>
-
-   <div class="content-section">
-    <router-outlet></router-outlet>
-   </div>
-  </mat-sidenav-content>
-</mat-sidenav-container> -->
-
 
 
 <div class="dashboard-river">
@@ -114,20 +55,20 @@
           </div>
 
           <div>
+            <span class="material-icons" routerLink="view">preview</span>
+          </div>
+
+          <div>
+            <span class="material-icons" routerLink="viewtoday">today</span>
+          </div>
+
+          <!-- <div>
             <span class="material-icons" routerLink="upload">upload_file</span>
           </div>
 
           <div>
             <span class="material-icons" routerLink="upload">upload_file</span>
-          </div>
-
-          <div>
-            <span class="material-icons" routerLink="upload">upload_file</span>
-          </div>
-
-          <div>
-            <span class="material-icons" routerLink="upload">upload_file</span>
-          </div>
+          </div> -->
 
         </div>
 

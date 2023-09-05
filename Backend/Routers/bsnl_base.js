@@ -43,8 +43,10 @@ router.post('/', multer.single('imageUrl'), async (req, res) => {
 })
 
 router.get('/', async (req, res) => {
+  const status = req.query.status;
 
     const bsnl = await Bsnl.findAll({ 
+      wheere: { status },
       include: [Project, 'teleCaller'],
       order:['id']
     })
@@ -64,9 +66,9 @@ router.get('/:id', async (req, res) => {
 
 router.delete('/', async(req,res)=>{
     try {
-      console.log(req.body.status);
+        const status = req.query.status;
         const result = await Bsnl.destroy({
-            where: { status: req.body.status },
+            where: { status },
             force: true,
         });
 
@@ -142,7 +144,9 @@ router.patch('/callback/:id', async(req,res)=>{
   try {
       const bsnlfollowup = {
         date: req.body.date,
-        time: req.body.time
+        time: req.body.time,
+        callTime: req.body.callTime,
+        status: req.body.status
       }
       Bsnl.update(bsnlfollowup, {
           where: { id: req.params.id }
@@ -164,5 +168,15 @@ router.patch('/callback/:id', async(req,res)=>{
         message: error.message,
       });
     }
+})
+
+router.get('/caller', async (req, res) => {
+
+  const asianet = await Bsnl.findAll({ 
+    include: [Project, 'teleCaller'],
+    order:['id']
+  })
+
+  res.send(asianet);
 })
 module.exports = router;
