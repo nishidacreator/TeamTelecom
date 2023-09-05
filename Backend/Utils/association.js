@@ -16,6 +16,7 @@ const BsnlFollowup = require('../Models/followUp');
 const AsianetFollowup = require('../Models/asianet_followup');
 const BajajFollowup = require('../Models/bajaj_followup');
 const ViFollowup = require('../Models/vi_followup');
+const bcrypt = require('bcrypt');
 const AsianetSalesFollowup = require('../Models/asianet_sales_followup');
 const ViCollectionFollowup = require('../Models/vi_collection_followup');
 const ViCollection = require('../Models/vi_collection');
@@ -34,8 +35,8 @@ async function syncModel(){
     User.hasMany(Project, {foreignKey: 'teamLeadId'})
     Project.belongsTo(User, {as: 'teamLead', foreignKey : 'teamLeadId'})
 
-    Client.hasMany(Project, {foreignKey: 'clientId'})
-    Project.belongsTo(Client)
+    // Client.hasMany(Project, {foreignKey: 'clientId'})
+    // Project.belongsTo(Client)
 
     Project.hasMany(Bsnl, {foreignKey: 'projectId'})
     Bsnl.belongsTo(Project)
@@ -109,6 +110,7 @@ async function syncModel(){
     User.hasMany(ViCollectionFollowup, {foreignKey: 'Teleby'})
     ViCollectionFollowup.belongsTo(User, {as: 'caller', foreignKey : 'Teleby'})
 
+
     await sequelize.sync({alter : true})
 
     //BULK CREATE
@@ -120,12 +122,12 @@ async function syncModel(){
         ])
     }
 
+    const pass = await bcrypt.hash('admin', 10);
+
     const user = await User.findAll({})
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash('123456', salt)
     if(user.length === 0){
         User.bulkCreate([
-            {name: "komu", phoneNumber: "2222222222", password: hashedPassword, roleId: 1, employeeNo: 'Komu1'}
+            {name: 'Admin',password:pass,roleId:1, employeeNo:'Admin1'}
         ])
     }
 
@@ -141,12 +143,12 @@ async function syncModel(){
     const project = await Project.findAll({})
     if(project.length === 0){
         Project.bulkCreate([
-            {projectName: 'AsianetSales', projectTypeId: 1},
-            {projectName: 'ViSales', projectTypeId: 1},
-            {projectName: 'AsianetCollections', projectTypeId: 3},
-            {projectName: 'ViCollections', projectTypeId: 3},
-            {projectName: 'Bajaj', projectTypeId: 2},
-            {projectName: 'Bsnl', projectTypeId: 2}
+            {projectName: 'AsianetSales', projectTypeId: 1, clientId:null},
+            {projectName: 'ViSales', projectTypeId: 1, clientId:null},
+            {projectName: 'AsianetCollections', projectTypeId: 3, clientId:null},
+            {projectName: 'ViCollections', projectTypeId: 3, clientId:null},
+            {projectName: 'Bajaj', projectTypeId: 2, clientId:null},
+            {projectName: 'Bsnl', projectTypeId: 2, clientId:null}
         ])
     }
 }

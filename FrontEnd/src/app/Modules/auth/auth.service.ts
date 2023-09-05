@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { catchError, map, mapTo, Observable, of, ReplaySubject, startWith, tap } from 'rxjs';
 import { User } from './models/user';
 import { Role } from './models/role';
+import { environment } from 'src/environments/environment';
 // import { environment } from 'src/environments/environment';
 
 
@@ -26,7 +27,7 @@ export class AuthService {
     startWith()
   );
 
-  url = 'http://localhost:8000'
+  url = environment.baseUrl
 
   saveUser(data:any){
     return this._http.post(this.url+'/register',data)

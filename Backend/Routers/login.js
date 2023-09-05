@@ -8,7 +8,7 @@ const jwtTokens = require('../Utils/jsonWebTokens');
 router.post('/', async(req, res)=> {
     try {
         const { employeeNo, password } = req.body;
-
+        console.log('Login attempted')
         const user = await User.findOne({where: { employeeNo: employeeNo }});
 
         if(!user){

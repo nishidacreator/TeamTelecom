@@ -16,6 +16,7 @@ import { ViFollowup } from '../telecaller/Models/vi_followup';
 import { ViCollectionFollowup } from '../telecaller/Models/vi_collection_followup';
 import { BajajFollowup } from '../telecaller/Models/bajaj_followup';
 import { AsianetSaleFollowup } from '../telecaller/Models/asianet_sales_followup';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +25,7 @@ export class AdminService {
 
   constructor(private _http:HttpClient) { }
 
-  url = 'http://localhost:8000'
+  url = environment.baseUrl
 
   // PROJECT TYPE
   getProjectTypeById(id: number):Observable<ProjectType>{

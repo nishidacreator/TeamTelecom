@@ -13,6 +13,7 @@ import { AsianetSaleFollowup } from './Models/asianet_sales_followup';
 import { ViCollection } from './Models/vi_collection_base';
 import { ViCollectionFollowup } from './Models/vi_collection_followup';
 import { AsianetSalesBase } from './Models/asianet_sales_base';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,7 @@ export class TelecallerService {
 
   constructor(private _http:HttpClient) { }
 
-  url = 'http://localhost:8000'
+  url = environment.baseUrl
 
   // BSNL
   getBsnlCaller(): Observable<Bsnl[]>{
