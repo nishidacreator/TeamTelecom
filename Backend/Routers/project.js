@@ -51,7 +51,7 @@ router.post('/', multer.single('imageUrl'), async (req, res) => {
 
 router.get('/', async (req, res) => {
 
-    const result = await Project.findAll({ order:['id'], include: [ProjectType, 'teamLead', Client]})
+    const result = await Project.findAll({ order:['id'], include: [ProjectType, 'teamLead']})
 
     res.send(result);
 })
