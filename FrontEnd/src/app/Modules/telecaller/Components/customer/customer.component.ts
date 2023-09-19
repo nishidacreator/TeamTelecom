@@ -3,10 +3,6 @@ import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/Modules/auth/auth.service';
 import { TelecallerService } from '../../telecaller.service';
-import { Bsnl } from '../../Models/bsnl_base';
-import { Asianet } from '../../Models/asianet_base';
-import { Bajaj } from '../../Models/bajaj_base';
-import { Vi } from '../../Models/vi_base';
 import { FolloeUp } from '../../Models/followUp';
 import { AsianetFollowup } from '../../Models/asianet_followup';
 import { BajajFollowup } from '../../Models/bajaj_followup';
@@ -15,8 +11,6 @@ import { DatePipe } from '@angular/common';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { AsianetSaleFollowup } from '../../Models/asianet_sales_followup';
 import { ViCollectionFollowup } from '../../Models/vi_collection_followup';
-import { AsianetSalesBase } from '../../Models/asianet_sales_base';
-import { ViCollection } from '../../Models/vi_collection_base';
 import { AdminService } from 'src/app/Modules/admin/admin.service';
 
 @Component({
