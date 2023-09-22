@@ -10,11 +10,11 @@ router.post('/', async (req, res) => {
     try {
         const { name, phoneNumber, email, password, roleId, status, employeeNo } = req.body;
 
-        const user = await User.findOne({where: {phoneNumber: phoneNumber}});
+        // const user = await User.findOne({where: {phoneNumber: phoneNumber}});
 
-        if (user) {
-            return res.status(400).send({ message: 'User already exists in this phone number' })  
-        }
+        // if (user) {
+        //     return res.status(400).send({ message: 'User already exists in this phone number' })  
+        // }
 
         const pass = await bcrypt.hash(password, 10);
 

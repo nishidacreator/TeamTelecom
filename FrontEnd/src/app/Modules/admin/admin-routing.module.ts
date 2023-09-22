@@ -15,6 +15,7 @@ import { DeleteBaseComponent } from './components/delete-base/delete-base.compon
 import { ExportBaseComponent } from './components/export-base/export-base.component';
 import { StatusComponent } from './components/status/status.component';
 import { ViewComponent } from './components/view/view.component';
+import { HandOverComponent } from './components/hand-over/hand-over.component';
 
 const routes: Routes = [
   {path: '', component:NavbarComponent,
@@ -32,7 +33,8 @@ const routes: Routes = [
       {path: 'settings/user', component: UserComponent},
       {path: 'settings/status', component: StatusComponent},
       {path: 'settings/projecttype', component: ProjectTypeComponent},
-      {path: 'settings/deletebase', component: DeleteBaseComponent}
+      {path: 'settings/deletebase', component: DeleteBaseComponent},
+      {path: 'settings/handover', component: HandOverComponent}
     ]
   }
 ];
