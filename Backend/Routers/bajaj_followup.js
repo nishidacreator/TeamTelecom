@@ -8,7 +8,7 @@ router.post('/', async (req, res) => {
     try {
       const { subCode, name, balance, mobile, emi, product, status, remarks, freeText, action, Teleby, projectId, date, time } = req.body;
 
-      const result = new BajajFollowup({subCode, name, balance, mobile, emi, product, status, remarks, freeText, action, Teleby, projectId, date, time});
+      const result = new BajajFollowup({subCode, name, balance, mobile, emi, product, status, remarks, freeText, action, Teleby, projectId, date, time, status: 1});
 
       await result.save();
 
@@ -191,5 +191,76 @@ router.get('/caller', async (req, res) => {
   })
 
   res.send(asianet);
+})
+
+router.patch('/bulkupdate/:id', async (req, res) => {
+  try {
+    const asianet = {
+      teleCallerId: req.body.Teleby,
+    }
+      BajajFollowup.update(asianet, {
+          where: { id: req.params.id }
+        })
+          .then(num => {
+            if (num == 1) {
+              res.send({
+                message: "BajajFollowup was updated successfully."
+              });
+            } else {
+              res.send({
+                message: `Cannot update BajajFollowup with id=${id}. Maybe BajajFollowup was not found or req.body is empty!`
+              });
+            }
+          })
+    } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+router.patch('/update/:id', async(req,res)=>{
+  try {
+      BajajFollowup.update(req.body, {
+          where: { id: req.params.id }
+        })
+          .then(num => {
+            if (num == 1) {
+              res.send({
+                message: "BajajFollowup was updated successfully."
+              });
+            } else {
+              res.send({
+                message: `Cannot update BajajFollowup with id=${id}. Maybe BajajFollowup was not found or req.body is empty!`
+              });
+            }
+          })
+    } catch (error) {
+      res.status(500).json({
+        status: "error",
+        message: error.message,
+      });
+    }
+})
+
+router.delete('/:id', async(req,res)=>{
+  try {
+
+      const result = await BajajFollowup.destroy({
+          where: { id: req.params.id },
+          force: true,
+      });
+
+      if (result === 0) {
+          return res.status(404).json({
+            status: "fail",
+            message: "BajajFollowup with that ID not found",
+          });
+        }
+    
+        res.status(204).json();
+      }  catch (error) {
+      res.send({error: error.message})
+  }
+  
 })
 module.exports = router;

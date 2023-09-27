@@ -24,7 +24,8 @@ export class DashboardComponent {
       let user = JSON.parse(token)
       this.userId = user.id
 
-      this.date = this.datePipe.transform(new Date(), 'dd/MM/yyyy');
+      this.date = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
+      console.log(this.date)
   }
 
   ngOnInit() {
@@ -59,8 +60,8 @@ export class DashboardComponent {
                 let viSale = data.filter(x=>x.teleCaller.id === this.userId)
 
                 this.data = [...asianet, ...bajaj, ...vi, ...asianetColl, ...viSale];
-                this.comCall = this.data.filter(x => x.status != null).length
-                this.pendCall = this.data.filter(x => x.status === null).length
+                this.comCall = this.data.filter(x => x.status != 1).length
+                this.pendCall = this.data.filter(x => x.status === 1).length
               // })
             })
           })
@@ -71,6 +72,7 @@ export class DashboardComponent {
 
   follow: any[] = [];
   followCount!: number
+  todayCount!: number
   getFollowupCalls(){
     // this.telecallerService.getFollowUpCaller().subscribe(data =>{
     //   let bsnlFollow = data.filter(x=>x.caller.id === this.userId)
@@ -91,7 +93,9 @@ export class DashboardComponent {
                 let viSale = data.filter(x=>x.caller.id === this.userId)
 
                 this.follow = [ ...asianetFollow, ...viFollow, ...bajajFollow, ...asianetColl, ...viSale]
-                this.followCount = this.follow.filter(x => x.status != null).length
+
+                this.followCount = this.follow.filter(x => x.status != 1).length
+                this.todayCount = this.follow.filter(x => x.status === 1 && x.date === this.date).length
               // })
             })
           })

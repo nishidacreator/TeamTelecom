@@ -9,7 +9,7 @@ const BajajFollowup = sequelize.define('bajajfollowup',{
     emi : {type : DataTypes.STRING, allowNull : false},
 
     product : {type : DataTypes.STRING, allowNull : false},
-    status : {type : DataTypes.STRING},
+    status : {type : DataTypes.INTEGER},
     remarks : {type : DataTypes.STRING},
     freeText : {type : DataTypes.STRING},
     action : {type : DataTypes.STRING},

@@ -25,7 +25,7 @@ export class UserComponent {
     phoneNumber: ['',[ Validators.pattern("^[0-9 +]*$"),Validators.minLength(10),Validators.maxLength(14)]],
     password:['',Validators.required],
     roleId: ['', Validators.required],
-    status: ['', Validators.required],
+    status: [false],
     employeeNo: ['']
   });
 

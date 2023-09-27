@@ -12,7 +12,7 @@ const ViFollowup = sequelize.define('vifollowup',{
     suggestedPlan : {type : DataTypes.STRING, allowNull : false},
     contactNo: {type : DataTypes.STRING},
 
-    status : {type : DataTypes.STRING},
+    status : {type : DataTypes.INTEGER},
     remarks : {type : DataTypes.STRING},
     freeText : {type : DataTypes.STRING},
     action : {type : DataTypes.STRING},

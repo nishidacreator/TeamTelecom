@@ -35,8 +35,6 @@ const Status = require('../Routers/status');
 app.use('/status', Status);
 
 // PROJECT BASE
-const Bsnl = require('../Routers/bsnl_base');
-app.use('/bsnl', Bsnl);
 
 const Asianet = require('../Routers/asianet_base');
 app.use('/asianet', Asianet);
@@ -46,9 +44,6 @@ app.use('/bajaj', Bajaj);
 
 const Vi = require('../Routers/vi_base');
 app.use('/vi', Vi);
-
-const FollowUp = require('../Routers/followUp');
-app.use('/followUp', FollowUp);
 
 const AsianetFollow = require('../Routers/asianet_followup');
 app.use('/asianetfollowUp', AsianetFollow);

@@ -1,3 +1,4 @@
+import { Status } from "../../admin/models/status";
 import { User } from "../../auth/models/user"
 
 export interface AsianetSalesBase{
@@ -14,7 +15,9 @@ export interface AsianetSalesBase{
   Balance : number
   Mobile : string
 
-  status : string
+  callStatus : Status
+  status : number
+
   remarks : string
   freeText : string
   action : string
@@ -22,4 +25,5 @@ export interface AsianetSalesBase{
   teleCaller: User
   date: Date
   time: Date
+  callTime: Date
 }

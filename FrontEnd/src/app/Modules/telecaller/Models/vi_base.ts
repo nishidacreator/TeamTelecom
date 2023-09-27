@@ -1,3 +1,4 @@
+import { Status } from "../../admin/models/status";
 import { User } from "../../auth/models/user"
 
 export interface Vi{
@@ -9,7 +10,9 @@ export interface Vi{
   noOfConnections : number
   pinCode : string
   suggestedPlan : string
-  status : string
+
+  callStatus : Status
+  status : number
   remarks : string
   freeText : string
   action : string

@@ -15,6 +15,9 @@ import { Status } from 'src/app/Modules/admin/models/status';
 export class OpenFollowupComponent {
   ngOnDestroy() {
     this.projetSub.unsubscribe();
+    if(this.statSub){
+      this.statSub.unsubscribe();
+    }
   }
 
   id!: number
@@ -45,6 +48,20 @@ export class OpenFollowupComponent {
     this.status$ = this.adminService.getStatus()
   }
 
+  backStat: boolean = false
+  statSub!: Subscription;
+  status(id: number){
+    this.statSub = this.adminService.getStatusById(id).subscribe(s=>{
+      if(s.status === 'Call Back'){
+        this.backStat = true;
+      }
+      else{
+        this.backStat = false;
+      }
+    })
+  }
+
+
   projectName!: string;
   projetSub!: Subscription;
   customer!: any | undefined
@@ -52,15 +69,6 @@ export class OpenFollowupComponent {
   getProjectId(){
     this.projetSub = this.adminService.getProjectById(this.projectId).subscribe(data => {
       this.projectName = data.projectName.toLowerCase();
-      console.log(this.projectName)
-
-      if(this.projectName == 'bsnl'){
-        this.dataSub = this.teleCallerService.getFollowUpById(this.id).subscribe(res=>{
-          console.log(res)
-          this.customer = res
-        })
-      }
-
       if(this.projectName == 'asianetsales'){
         this.dataSub = this.teleCallerService.getAsianetSalesFollowUpById(this.id).subscribe(res=>{
           console.log(res)
@@ -98,11 +106,6 @@ export class OpenFollowupComponent {
     })
   }
 
-  backStat: boolean = false
-  callBack(){
-    this.backStat = !this.backStat
-  }
-
   nextStatus: boolean = false
   remarks!: any
   onSubmit(){
@@ -125,29 +128,17 @@ export class OpenFollowupComponent {
 
     this.adminService.getStatusById(this.statusForm.getRawValue().statusId).subscribe(res =>{
       if(this.backStat){
-        console.log(this.projectName)
-        if(this.projectName === 'bsnl'){
-          this.teleCallerService.updateBsnlFollowupCallBack(this.id,statData).subscribe(data =>{
-
-            this.teleCallerService.getFollowUpById(this.id).subscribe(data =>{
-              console.log(data)
-
-              this.teleCallerService.addFollowUp(data).subscribe(res=>{
-                console.log(res)
-              })
-            })
-          })
-        }
-
         if(this.projectName === 'asianetcollections'){
           console.log(statData)
           this.teleCallerService.updateAsianetFollowupCallBack(this.id,statData).subscribe(data =>{
 
             this.teleCallerService.getAsianetFollowUpById(this.id).subscribe(data =>{
-              console.log(data)
 
               this.teleCallerService.addAsianetFollowUp(data).subscribe(res=>{
-                console.log(res)
+                this.router.navigateByUrl('/telecaller/customers').then(()=>{
+                  window.location.reload();
+                })
+                this._snackBar.open("Response Updated successfully...","" ,{duration:3000})
               })
             })
           })
@@ -157,10 +148,12 @@ export class OpenFollowupComponent {
           this.teleCallerService.updateAsianetSalesCallBack(this.id,statData).subscribe(data =>{
 
             this.teleCallerService.getAsianetSalesFollowUpById(this.id).subscribe(data =>{
-              console.log(data)
 
               this.teleCallerService.addAsianetSalesFollowUp(data).subscribe(res=>{
-                console.log(res)
+                this.router.navigateByUrl('/telecaller/customers').then(()=>{
+                  window.location.reload();
+                })
+                this._snackBar.open("Response Updated successfully...","" ,{duration:3000})
               })
             })
           })
@@ -170,10 +163,12 @@ export class OpenFollowupComponent {
           this.teleCallerService.updateBajajFollowupCallBack(this.id,statData).subscribe(data =>{
 
             this.teleCallerService.getBajajFollowUpById(this.id).subscribe(data =>{
-              console.log(data)
 
               this.teleCallerService.addBajajFollowUp(data).subscribe(res=>{
-                console.log(res)
+                this.router.navigateByUrl('/telecaller/customers').then(()=>{
+                  window.location.reload();
+                })
+                this._snackBar.open("Response Updated successfully...","" ,{duration:3000})
               })
             })
           })
@@ -183,10 +178,12 @@ export class OpenFollowupComponent {
           this.teleCallerService.updateViFollowupCallBack(this.id,statData).subscribe(data =>{
 
             this.teleCallerService.getViFollowUpById(this.id).subscribe(data =>{
-              console.log(data)
 
               this.teleCallerService.addViFollowUp(data).subscribe(res=>{
-                console.log(res)
+                this.router.navigateByUrl('/telecaller/customers').then(()=>{
+                  window.location.reload();
+                })
+                this._snackBar.open("Response Updated successfully...","" ,{duration:3000})
               })
             })
           })
@@ -196,10 +193,12 @@ export class OpenFollowupComponent {
           this.teleCallerService.updateViFollowupCallBack(this.id,statData).subscribe(data =>{
 
             this.teleCallerService.getViCollectionFollowUpById(this.id).subscribe(data =>{
-              console.log(data)
 
               this.teleCallerService.addViCollectionFollowUp(data).subscribe(res=>{
-                console.log(res)
+                this.router.navigateByUrl('/telecaller/customers').then(()=>{
+                  window.location.reload();
+                })
+                this._snackBar.open("Response Updated successfully...","" ,{duration:3000})
               })
             })
           })
@@ -207,17 +206,12 @@ export class OpenFollowupComponent {
 
       }
       else{
-        if(this.projectName == 'bsnl'){
-          this.teleCallerService.updateBsnlFollowupResponse(this.id, data).subscribe(res=>{
-            console.log(res)
-            this._snackBar.open("Response Updated successfully...","" ,{duration:3000})
-          })
-        }
-
         if(this.projectName == 'asianetcollections'){
           console.log(data)
           this.teleCallerService.updateAsianetFollowupResponse(this.id, data).subscribe(res=>{
-            console.log(res)
+            this.router.navigateByUrl('/telecaller/customers').then(()=>{
+              window.location.reload();
+            })
             this._snackBar.open("Response Updated successfully...","" ,{duration:3000})
           })
         }
@@ -225,14 +219,18 @@ export class OpenFollowupComponent {
         if(this.projectName == 'asianetsales'){
           console.log(data)
           this.teleCallerService.updateAsianetSalesFollowupResponse(this.id, data).subscribe(res=>{
-            console.log(res)
+            this.router.navigateByUrl('/telecaller/customers').then(()=>{
+              window.location.reload();
+            })
             this._snackBar.open("Response Updated successfully...","" ,{duration:3000})
           })
         }
 
         if(this.projectName == 'bajaj'){
           this.teleCallerService.updateBajajFollowupResponse(this.id, data).subscribe(res=>{
-            console.log(res)
+            this.router.navigateByUrl('/telecaller/customers').then(()=>{
+              window.location.reload();
+            })
             this._snackBar.open("Response Updated successfully...","" ,{duration:3000})
           })
         }
@@ -240,14 +238,18 @@ export class OpenFollowupComponent {
         if(this.projectName == 'visales'){
           console.log(data)
           this.teleCallerService.updateViFollowupResponse(this.id, data).subscribe(res=>{
-            console.log(res)
+            this.router.navigateByUrl('/telecaller/customers').then(()=>{
+              window.location.reload();
+            })
             this._snackBar.open("Response Updated successfully...","" ,{duration:3000})
           })
         }
 
         if(this.projectName == 'vicollections'){
           this.teleCallerService.updateViCollectionFollowupResponse(this.id, data).subscribe(res=>{
-            console.log(res)
+            this.router.navigateByUrl('/telecaller/customers').then(()=>{
+              window.location.reload();
+            })
             this._snackBar.open("Response Updated successfully...","" ,{duration:3000})
           })
         }
@@ -255,8 +257,6 @@ export class OpenFollowupComponent {
 
     })
     this.clearControls();
-    this.router.navigateByUrl('/telecaller/customers')
-
   }
 
   clearControls(){

@@ -4,6 +4,7 @@ import { Project } from '../../models/project';
 import { AdminService } from '../../admin.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { TelecallerService } from 'src/app/Modules/telecaller/telecaller.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-export-base',
@@ -12,7 +13,8 @@ import { TelecallerService } from 'src/app/Modules/telecaller/telecaller.service
 })
 export class ExportBaseComponent {
 
-  constructor(private adminService: AdminService, private fb: FormBuilder, private tealeCallerService: TelecallerService){}
+  constructor(private adminService: AdminService, private fb: FormBuilder, private tealeCallerService: TelecallerService,
+    private _snackBar: MatSnackBar){}
 
   exportForm = this.fb.group({
     type: ['', Validators.required],
@@ -39,22 +41,17 @@ export class ExportBaseComponent {
     const currentDate = new Date();
     const formattedDate = currentDate.toISOString().split('T')[0];
 
-
     if(this.exportForm.getRawValue().type === 'Base'){
       const excludedFields = ['teleCallerId', 'projectId', 'teleCaller', 'project'];
 
         this.adminService.getProjectById(this.exportForm.getRawValue().projectId).subscribe((res)=>{
+          if(res.projectName.toLowerCase() === 'asianetcollections'){
+            // Specify the file name with the current date
+            this.fileName = `asianet_collections_base${formattedDate}.csv`;
 
-          if(res.projectName.toLowerCase() === 'bsnl'){
-                   // Specify the file name with the current date
-            this.fileName = `bsnl_base${formattedDate}.csv`;
-
-            this.tealeCallerService.getBsnlCaller().subscribe(res=>{
-              console.log(res)
+            this.adminService.getAllAsianetCollections().subscribe(res=>{
               this.data = res
 
-
-              // EXCEL
               // Get the headings based on the first client object
               const firstClient = this.data[0];
               const headings = Object.keys(firstClient).filter(key => !excludedFields.includes(key));
@@ -77,8 +74,6 @@ export class ExportBaseComponent {
 
                 this.bsnl.push(newRow);
               }
-              console.log(this.bsnl)
-
               // Generate CSV string
               let csvString = '';
               this.bsnl.forEach((rowItem: any) => {
@@ -95,17 +90,17 @@ export class ExportBaseComponent {
               link.setAttribute('download', this.fileName);
               document.body.appendChild(link);
               link.click();
-
+              this._snackBar.open("Exported successfully...","" ,{duration:3000})
               this.bsnl = [];
 
             })
           }
 
-          else if(res.projectName.toLowerCase() === 'asianet'){
+          else if(res.projectName.toLowerCase() === 'asianetsales'){
             // Specify the file name with the current date
-            this.fileName = `asianet_base${formattedDate}.csv`;
+            this.fileName = `asianet_sales_base${formattedDate}.csv`;
 
-            this.tealeCallerService.getAsianetCaller().subscribe(res=>{
+            this.adminService.getAllAsianetSales().subscribe(res=>{
               console.log(res)
               this.data = res
 
@@ -150,7 +145,7 @@ export class ExportBaseComponent {
               link.setAttribute('download', this.fileName);
               document.body.appendChild(link);
               link.click();
-
+              this._snackBar.open("Exported successfully...","" ,{duration:3000})
               this.bsnl = [];
 
             })
@@ -160,7 +155,7 @@ export class ExportBaseComponent {
             // Specify the file name with the current date
             this.fileName = `bajaj_base${formattedDate}.csv`;
 
-            this.tealeCallerService.getBajajCaller().subscribe(res=>{
+            this.adminService.getAllBajaj().subscribe(res=>{
               console.log(res)
               this.data = res
 
@@ -205,17 +200,17 @@ export class ExportBaseComponent {
               link.setAttribute('download', this.fileName);
               document.body.appendChild(link);
               link.click();
-
+              this._snackBar.open("Exported successfully...","" ,{duration:3000})
               this.bsnl = [];
 
             })
           }
 
-          else if(res.projectName.toLowerCase() === 'vi'){
+          else if(res.projectName.toLowerCase() === 'visales'){
             // Specify the file name with the current date
-            this.fileName = `vi_base${formattedDate}.csv`;
+            this.fileName = `vi_sales_base${formattedDate}.csv`;
 
-            this.tealeCallerService.getViCaller().subscribe(res=>{
+            this.adminService.getAllViSales().subscribe(res=>{
               console.log(res)
               this.data = res
 
@@ -260,26 +255,78 @@ export class ExportBaseComponent {
               link.setAttribute('download', this.fileName);
               document.body.appendChild(link);
               link.click();
+              this._snackBar.open("Exported successfully...","" ,{duration:3000})
+              this.bsnl = [];
 
+            })
+          }
+
+          else if(res.projectName.toLowerCase() === 'vicollections'){
+            // Specify the file name with the current date
+            this.fileName = `vi_collections_base${formattedDate}.csv`;
+
+            this.adminService.getAllAsianetCollections().subscribe(res=>{
+              console.log(res)
+              this.data = res
+
+
+              // Get the headings based on the first client object
+              const firstClient = this.data[0];
+              const headings = Object.keys(firstClient).filter(key => !excludedFields.includes(key));
+
+              const formattedHeadings = headings.map(heading => `-- ${heading.toUpperCase()} --`);
+
+              // Push the headings to the clientArray
+              this.bsnl.push(formattedHeadings);
+
+              // Iterate over each client in the array
+              for (let i = 0; i < this.data.length; i++) {
+                const client: any = this.data[i];
+                const newRow: any = [];
+
+                // Iterate over each property of the client object
+                for (let key of headings) {
+                  const value = client[key];
+                  newRow.push(value);
+                }
+
+                this.bsnl.push(newRow);
+              }
+              console.log(this.bsnl)
+
+              // Generate CSV string
+              let csvString = '';
+              this.bsnl.forEach((rowItem: any) => {
+                rowItem.forEach((colItem: any) => {
+                  csvString += colItem + ',';
+                });
+                csvString += '\r\n';
+              });
+
+              // Create a download link for the CSV file
+              csvString = 'data:application/csv,' + encodeURIComponent(csvString);
+              const link = document.createElement('a');
+              link.setAttribute('href', csvString);
+              link.setAttribute('download', this.fileName);
+              document.body.appendChild(link);
+              link.click();
+              this._snackBar.open("Exported successfully...","" ,{duration:3000})
               this.bsnl = [];
 
             })
           }
         })
     }else{
-
-      const excludedFields = ['teleCallerId', 'projectId', 'caller', 'project'];
+      const excludedFields = ['teleCallerId', 'projectId', 'teleCaller', 'project'];
 
       this.adminService.getProjectById(this.exportForm.getRawValue().projectId).subscribe((res)=>{
+        if(res.projectName.toLowerCase() === 'asianetcollections'){
+          // Specify the file name with the current date
+          this.fileName = `asianet_collections_base${formattedDate}.csv`;
 
-        if(res.projectName.toLowerCase() === 'bsnl'){
-                 // Specify the file name with the current date
-          this.fileName = `bsnl_followup${formattedDate}.csv`;
-
-          this.tealeCallerService.getFollowUpCaller().subscribe(res=>{
+          this.adminService.getAllAsianetCollectionsFollowup().subscribe(res=>{
             console.log(res)
             this.data = res
-
 
 
             // Get the headings based on the first client object
@@ -322,17 +369,17 @@ export class ExportBaseComponent {
             link.setAttribute('download', this.fileName);
             document.body.appendChild(link);
             link.click();
-
+            this._snackBar.open("Exported successfully...","" ,{duration:3000})
             this.bsnl = [];
 
           })
         }
 
-        else if(res.projectName.toLowerCase() === 'asianet'){
+        else if(res.projectName.toLowerCase() === 'asianetsales'){
           // Specify the file name with the current date
-          this.fileName = `asianet_followup${formattedDate}.csv`;
+          this.fileName = `asianet_sales_base${formattedDate}.csv`;
 
-          this.tealeCallerService.getAsianetSalesFollowUpCaller().subscribe(res=>{
+          this.adminService.getAllAsianetSalesFollowup().subscribe(res=>{
             console.log(res)
             this.data = res
 
@@ -377,7 +424,7 @@ export class ExportBaseComponent {
             link.setAttribute('download', this.fileName);
             document.body.appendChild(link);
             link.click();
-
+            this._snackBar.open("Exported successfully...","" ,{duration:3000})
             this.bsnl = [];
 
           })
@@ -385,9 +432,9 @@ export class ExportBaseComponent {
 
         else if(res.projectName.toLowerCase() === 'bajaj'){
           // Specify the file name with the current date
-          this.fileName = `bajaj_followup${formattedDate}.csv`;
+          this.fileName = `bajaj_base${formattedDate}.csv`;
 
-          this.tealeCallerService.getBajajFollowUpCaller().subscribe(res=>{
+          this.adminService.getAllBajajFollowup().subscribe(res=>{
             console.log(res)
             this.data = res
 
@@ -432,24 +479,24 @@ export class ExportBaseComponent {
             link.setAttribute('download', this.fileName);
             document.body.appendChild(link);
             link.click();
-
+            this._snackBar.open("Exported successfully...","" ,{duration:3000})
             this.bsnl = [];
 
           })
         }
 
-        else if(res.projectName.toLowerCase() === 'vi'){
+        else if(res.projectName.toLowerCase() === 'visales'){
           // Specify the file name with the current date
-          this.fileName = `vi_followup${formattedDate}.csv`;
+          this.fileName = `vi_sales_base${formattedDate}.csv`;
 
-          this.tealeCallerService.getViFollowUpCaller().subscribe(res=>{
+          this.adminService.getAllViSalesFollowup().subscribe(res=>{
             console.log(res)
             this.data = res
 
 
             // Get the headings based on the first client object
             const firstClient = this.data[0];
-            const headings = Object.keys(firstClient);
+            const headings = Object.keys(firstClient).filter(key => !excludedFields.includes(key));
 
             const formattedHeadings = headings.map(heading => `-- ${heading.toUpperCase()} --`);
 
@@ -487,7 +534,62 @@ export class ExportBaseComponent {
             link.setAttribute('download', this.fileName);
             document.body.appendChild(link);
             link.click();
+            this._snackBar.open("Exported successfully...","" ,{duration:3000})
+            this.bsnl = [];
 
+          })
+        }
+
+        else if(res.projectName.toLowerCase() === 'vicollections'){
+          // Specify the file name with the current date
+          this.fileName = `vi_collections_base${formattedDate}.csv`;
+
+          this.adminService.getAllAsianetCollectionsFollowup().subscribe(res=>{
+            console.log(res)
+            this.data = res
+
+
+            // Get the headings based on the first client object
+            const firstClient = this.data[0];
+            const headings = Object.keys(firstClient).filter(key => !excludedFields.includes(key));
+
+            const formattedHeadings = headings.map(heading => `-- ${heading.toUpperCase()} --`);
+
+            // Push the headings to the clientArray
+            this.bsnl.push(formattedHeadings);
+
+            // Iterate over each client in the array
+            for (let i = 0; i < this.data.length; i++) {
+              const client: any = this.data[i];
+              const newRow: any = [];
+
+              // Iterate over each property of the client object
+              for (let key of headings) {
+                const value = client[key];
+                newRow.push(value);
+              }
+
+              this.bsnl.push(newRow);
+            }
+            console.log(this.bsnl)
+
+            // Generate CSV string
+            let csvString = '';
+            this.bsnl.forEach((rowItem: any) => {
+              rowItem.forEach((colItem: any) => {
+                csvString += colItem + ',';
+              });
+              csvString += '\r\n';
+            });
+
+            // Create a download link for the CSV file
+            csvString = 'data:application/csv,' + encodeURIComponent(csvString);
+            const link = document.createElement('a');
+            link.setAttribute('href', csvString);
+            link.setAttribute('download', this.fileName);
+            document.body.appendChild(link);
+            link.click();
+            this._snackBar.open("Exported successfully...","" ,{duration:3000})
             this.bsnl = [];
 
           })

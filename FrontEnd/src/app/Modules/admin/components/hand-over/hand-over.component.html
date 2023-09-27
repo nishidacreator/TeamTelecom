@@ -1,4 +1,4 @@
-<form [formGroup]="viewForm">
+<form [formGroup]="handoverForm">
   <mat-card class="background">
     <div class="row">
       <div class="col">
@@ -50,14 +50,41 @@
     </div>
 
     <mat-card-actions>
-      <button  mat-raised-button  type="button" (click)="getProjectBase()" [disabled]="!viewForm.valid">
-        VIEW
+      <button  mat-raised-button  type="button" (click)="getProjectBase()" [disabled]="!handoverForm.valid">
+        FIND
       </button>&nbsp;&nbsp;
     </mat-card-actions>
+    <br><div class="row" *ngIf="count>0">
+      <div class="col">
+        <a style="color: #ee3d97;">Number of datas : {{count}}</a>
+      </div>
+
+      <div class="col">
+        <mat-form-field class="full-width">
+          <mat-select placeholder="Assigned To" formControlName="assignedToId">
+            <mat-option *ngFor="let item of users" [value]="item.id">
+              {{item.employeeNo}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="col">
+        <span class="material-icons" style="color: #ee3d97; font-size: 50px;" (click)="handoverData()">swap_horizontal_circle</span>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="count == 0">
+      <div class="col">
+        <a style="color: #ee3d97;">There is no data</a>
+      </div>
+    </div>
+
   </mat-card>
 </form><br>
 
-<mat-card *ngIf="data">
+
+<mat-card *ngIf="base.length != 0">
   <mat-card-content>
     <div class="container">
       <div class="table" *ngIf="projectName === 'asianetcollections'">
@@ -66,20 +93,16 @@
           <div class="header__item"><a id="wins" class="filter__link filter__link--number" href="#">Subcode</a></div>
           <div class="header__item"><a id="draws" class="filter__link filter__link--number" href="#">MobileNumber</a></div>
           <div class="header__item"><a id="losses" class="filter__link filter__link--number" href="#">Telecaller</a></div>
-          <div class="header__item"><a id="total" class="filter__link filter__link--number" href="#">Calltime</a></div>
         </div>
         <div class="table-content">
-          <div class="table-row" *ngFor="let i of data">
+          <div class="table-row" *ngFor="let i of base">
             <div class="table-data">{{i.Name}}</div>
             <div class="table-data">{{i.Subcode}}</div>
             <div class="table-data">{{i.Mobile}}</div>
             <div class="table-data">
               <a *ngIf="i.teleCaller">{{i.teleCaller.name}}</a>
               <a *ngIf="i.caller">{{i.caller.name}}</a>
-              <!-- <a *ngIf="i.teleCaller">halloooooooo</a>
-              <a *ngIf="i.caller">hiiiiii</a> -->
             </div>
-            <div class="table-data">{{i.callTime | date: 'dd/MM :: hh:mm'}}</div>
           </div>
         </div>
       </div>
@@ -90,15 +113,13 @@
           <div class="header__item"><a id="wins" class="filter__link filter__link--number" href="#">Subcode</a></div>
           <div class="header__item"><a id="draws" class="filter__link filter__link--number" href="#">MobileNumber</a></div>
           <div class="header__item"><a id="losses" class="filter__link filter__link--number" href="#">Telecaller</a></div>
-          <div class="header__item"><a id="total" class="filter__link filter__link--number" href="#">Calltime</a></div>
         </div>
         <div class="table-content">
-          <div class="table-row" *ngFor="let i of data">
+          <div class="table-row" *ngFor="let i of base">
             <div class="table-data">{{i.Name}}</div>
             <div class="table-data">{{i.Subcode}}</div>
             <div class="table-data">{{i.Mobile}}</div>
             <div class="table-data">{{i.teleCaller.name}}</div>
-            <div class="table-data">{{i.callTime | date: 'dd/MM :: hh:mm'}}</div>
           </div>
         </div>
       </div>
@@ -109,15 +130,13 @@
           <div class="header__item"><a id="wins" class="filter__link filter__link--number" href="#">Subcode</a></div>
           <div class="header__item"><a id="draws" class="filter__link filter__link--number" href="#">MobileNumber</a></div>
           <div class="header__item"><a id="losses" class="filter__link filter__link--number" href="#">Telecaller</a></div>
-          <div class="header__item"><a id="total" class="filter__link filter__link--number" href="#">Calltime</a></div>
         </div>
         <div class="table-content">
-          <div class="table-row" *ngFor="let i of data">
+          <div class="table-row" *ngFor="let i of base">
             <div class="table-data">{{i.Name}}</div>
             <div class="table-data">{{i.Subcode}}</div>
             <div class="table-data">{{i.Mobile}}</div>
             <div class="table-data">{{i.teleCaller.name}}</div>
-            <div class="table-data">{{i.callTime | date: 'dd/MM :: hh:mm'}}</div>
           </div>
         </div>
       </div>
@@ -128,15 +147,13 @@
           <div class="header__item"><a id="wins" class="filter__link filter__link--number" href="#">Subcode</a></div>
           <div class="header__item"><a id="draws" class="filter__link filter__link--number" href="#">MobileNumber</a></div>
           <div class="header__item"><a id="losses" class="filter__link filter__link--number" href="#">Telecaller</a></div>
-          <div class="header__item"><a id="total" class="filter__link filter__link--number" href="#">Calltime</a></div>
         </div>
         <div class="table-content">
-          <div class="table-row" *ngFor="let i of data">
+          <div class="table-row" *ngFor="let i of base">
             <div class="table-data">{{i.custName}}</div>
             <div class="table-data">{{i.campionName}}</div>
             <div class="table-data">{{i.currentPlan}}</div>
             <div class="table-data">{{i.teleCaller.name}}</div>
-            <div class="table-data">{{i.callTime | date: 'dd/MM :: hh:mm'}}</div>
           </div>
         </div>
       </div>

@@ -31,6 +31,7 @@ router.post('/', multer.single('imageUrl'), async (req, res) => {
           const projectId = req.body.projectId;
           for(let i = 0; i < jsonWithoutSheetName.length; i++){
             jsonWithoutSheetName[i].projectId = projectId;
+            jsonWithoutSheetName[i].status = 1
           }
 
 
@@ -50,7 +51,7 @@ router.get('/', async (req, res) => {
 
     const vi = await Vi.findAll({ 
       where: { status },
-      include: [Project, 'teleCaller'],
+      include: [Project, 'teleCaller', 'callStatus'],
       order:['id']
     })
 
@@ -59,7 +60,7 @@ router.get('/', async (req, res) => {
 
 router.get('/all', async (req, res) => {
     const vi = await Vi.findAll({ 
-      include: [Project, 'teleCaller'],
+      include: [Project, 'teleCaller', 'callStatus'],
       order:['id']
     })
 
@@ -69,7 +70,7 @@ router.get('/all', async (req, res) => {
 router.get('/:id', async (req, res) => {
 
   const vi = await Vi.findOne({
-    include: [Project, 'teleCaller'],
+    include: [Project, 'teleCaller',  'callStatus'],
     where: {id: req.params.id}
   })
 
@@ -187,12 +188,82 @@ router.patch('/callback/:id', async(req,res)=>{
 router.get('/caller', async (req, res) => {
 
   const asianet = await Vi.findAll({ 
-    include: [Project, 'teleCaller'],
+    include: [Project, 'teleCaller', 'callStatus'],
     order:['id']
   })
 
   res.send(asianet);
 })
 
+router.patch('/bulkupdate/:id', async (req, res) => {
+  try {
+    const asianet = {
+      Teleby: req.body.Teleby,
+    }
+      Vi.update(asianet, {
+          where: { id: req.params.id }
+        })
+          .then(num => {
+            if (num == 1) {
+              res.send({
+                message: "Vi was updated successfully."
+              });
+            } else {
+              res.send({
+                message: `Cannot update Vi with id=${id}. Maybe Vi was not found or req.body is empty!`
+              });
+            }
+          })
+    } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+router.patch('/update/:id', async(req,res)=>{
+  try {
+      Vi.update(req.body, {
+          where: { id: req.params.id }
+        })
+          .then(num => {
+            if (num == 1) {
+              res.send({
+                message: "Vi was updated successfully."
+              });
+            } else {
+              res.send({
+                message: `Cannot update Vi with id=${id}. Maybe Vi was not found or req.body is empty!`
+              });
+            }
+          })
+    } catch (error) {
+      res.status(500).json({
+        status: "error",
+        message: error.message,
+      });
+    }
+})
+
+router.delete('/:id', async(req,res)=>{
+  try {
+
+      const result = await Vi.destroy({
+          where: { id: req.params.id },
+          force: true,
+      });
+
+      if (result === 0) {
+          return res.status(404).json({
+            status: "fail",
+            message: "Vi with that ID not found",
+          });
+        }
+    
+        res.status(204).json();
+      }  catch (error) {
+      res.send({error: error.message})
+  }
+  
+})
 
 module.exports = router;

@@ -122,6 +122,8 @@ export class AdminService {
     return this._http.get(this.url + '/bsnl');
   }
 
+
+  //ASIANET
   addAsianet(data: any){
     return this._http.post(this.url + '/asianet', data, {reportProgress: true, observe: 'events'});
   }
@@ -135,6 +137,23 @@ export class AdminService {
     return this._http.get<Asianet[]>(this.url + '/asianet/all');
   }
 
+  handoverAsianetCollections(id: number, data: any):Observable<Asianet[]>{
+    return this._http.patch<Asianet[]>(this.url + '/asianet/bulkupdate/'+id, data);
+  }
+
+  getAsianetCollById(id: number):Observable<Asianet>{
+    return this._http.get<Asianet>(this.url + '/asianet/' + id);
+  }
+
+  updateAsianetCollById(id: number, data: any):Observable<Asianet>{
+    return this._http.patch<Asianet>(this.url + '/asianet/update/' + id, data);
+  }
+
+  deleteAsianetCollById(id: number){
+    return this._http.delete(this.url + '/asianet/'+ id)
+  }
+
+  //AC FOLLOWUP
   getAsianetCollectionsFollowup(data: any):Observable<AsianetFollowup[]>{
     const queryParams = new HttpParams().set('status', data.status);
     return this._http.get<AsianetFollowup[]>(this.url + '/asianetfollowUp', { params: queryParams });
@@ -144,6 +163,23 @@ export class AdminService {
     return this._http.get<AsianetFollowup[]>(this.url + '/asianetfollowUp/all');
   }
 
+  handoverAsianetCollectionsFollowup(id: number, data: any):Observable<AsianetFollowup[]>{
+    return this._http.patch<AsianetFollowup[]>(this.url + '/asianetfollowUp/bulkupdate/'+id, data);
+  }
+
+  getAsianetCollFollowById(id: number):Observable<AsianetFollowup>{
+    return this._http.get<AsianetFollowup>(this.url + '/asianetfollowUp/' + id);
+  }
+
+  updateAsianetCollFolowById(id: number, data: any):Observable<AsianetFollowup>{
+    return this._http.patch<AsianetFollowup>(this.url + '/asianetfollowUp/update/' + id, data);
+  }
+
+  deleteAsianetCollFollowById(id: number){
+    return this._http.delete(this.url + '/asianetfollowUp/'+ id)
+  }
+
+  //ASIANET SALES
   addAsianetSales(data: any){
     return this._http.post(this.url + '/asianetsales', data, {reportProgress: true, observe: 'events'});
   }
@@ -157,6 +193,23 @@ export class AdminService {
     return this._http.get<AsianetSalesBase[]>(this.url + '/asianetsales/all');
   }
 
+  handoverAsianetSales(id: number, data: any):Observable<AsianetSalesBase[]>{
+    return this._http.patch<AsianetSalesBase[]>(this.url + '/asianetsales/bulkupdate/'+id, data);
+  }
+
+  getAsianetSaleById(id: number):Observable<AsianetSalesBase>{
+    return this._http.get<AsianetSalesBase>(this.url + '/asianetsales/' + id);
+  }
+
+  updateAsianetSaleById(id: number, data: any):Observable<AsianetSalesBase>{
+    return this._http.patch<AsianetSalesBase>(this.url + '/asianetsales/update/' + id, data);
+  }
+
+  deleteAsianetSalesById(id: number){
+    return this._http.delete(this.url + '/asianetsales/'+ id)
+  }
+
+  //AS FOLLOWUP
   getAsianetSalesFollowup(data: any):Observable<AsianetSaleFollowup[]>{
     const queryParams = new HttpParams().set('status', data.status);
     return this._http.get<AsianetSaleFollowup[]>(this.url + '/asianetsalesfollow', { params: queryParams });
@@ -165,6 +218,23 @@ export class AdminService {
   getAllAsianetSalesFollowup():Observable<AsianetSaleFollowup[]>{
     return this._http.get<AsianetSaleFollowup[]>(this.url + '/asianetsalesfollow/all');
   }
+
+  handoverAsianetSalesFollowup(id: number, data: any):Observable<AsianetSaleFollowup[]>{
+    return this._http.patch<AsianetSaleFollowup[]>(this.url + '/asianetsalesfollow/bulkupdate/'+id, data);
+  }
+
+  getAsianetSaleFollowById(id: number):Observable<AsianetSaleFollowup>{
+    return this._http.get<AsianetSaleFollowup>(this.url + '/asianetsalesfollow/' + id);
+  }
+
+  updateAsianetSaleFolowById(id: number, data: any):Observable<AsianetSaleFollowup>{
+    return this._http.patch<AsianetSaleFollowup>(this.url + '/asianetsalesfollow/update/' + id, data);
+  }
+
+  deleteAsianetSalesFollowById(id: number){
+    return this._http.delete(this.url + '/asianetsalesfollow/'+ id)
+  }
+  //bajaj
 
   addBajaj(data: any){
     return this._http.post(this.url + '/bajaj', data, {reportProgress: true, observe: 'events'});
@@ -179,6 +249,25 @@ export class AdminService {
     return this._http.get<Bajaj[]>(this.url + '/bajaj/all');
   }
 
+  handoverBajaj(id: number, data: any):Observable<Bajaj[]>{
+    return this._http.patch<Bajaj[]>(this.url + '/bajaj/bulkupdate/'+id, data);
+  }
+
+  getBajajById(id: number):Observable<Bajaj>{
+    return this._http.get<Bajaj>(this.url + '/bajaj/' + id);
+  }
+
+  updateBajajById(id: number, data: any):Observable<Bajaj>{
+    return this._http.patch<Bajaj>(this.url + '/bajaj/update/' + id, data);
+  }
+
+  deleteBajajById(id: number){
+    return this._http.delete(this.url + '/bajaj/'+ id)
+  }
+
+  //BAJAJ FOLLOWUP
+
+
   getBajajFollowup(data: any):Observable<BajajFollowup[]>{
     const queryParams = new HttpParams().set('status', data.status);
     return this._http.get<BajajFollowup[]>(this.url + '/bajajfollowUp', { params: queryParams });
@@ -188,6 +277,23 @@ export class AdminService {
     return this._http.get<BajajFollowup[]>(this.url + '/bajajfollowUp/all');
   }
 
+  handoverBajajFollowup(id: number, data: any):Observable<BajajFollowup[]>{
+    return this._http.patch<BajajFollowup[]>(this.url + '/bajajfollowUp/bulkupdate/'+id, data);
+  }
+
+  getBajajFollowById(id: number):Observable<BajajFollowup>{
+    return this._http.get<BajajFollowup>(this.url + '/bajajfollowUp/' + id);
+  }
+
+  updateBajajFolowById(id: number, data: any):Observable<BajajFollowup>{
+    return this._http.patch<BajajFollowup>(this.url + '/bajajfollowUp/update/' + id, data);
+  }
+
+  deleteBajajFollowById(id: number){
+    return this._http.delete(this.url + '/bajajfollowUp/'+ id)
+  }
+
+  //VI SALES
   addVi(data: any){
     return this._http.post(this.url + '/vi', data, {reportProgress: true, observe: 'events'});
   }
@@ -201,6 +307,23 @@ export class AdminService {
     return this._http.get<Vi[]>(this.url + '/vi/all');
   }
 
+  handoverVi(id: number, data: any):Observable<Vi[]>{
+    return this._http.patch<Vi[]>(this.url + '/vi/bulkupdate/'+id, data);
+  }
+
+  getViById(id: number):Observable<Vi>{
+    return this._http.get<Vi>(this.url + '/vi/' + id);
+  }
+
+  updateViById(id: number, data: any):Observable<Vi>{
+    return this._http.patch<Vi>(this.url + '/vi/update/' + id, data);
+  }
+
+  deleteViById(id: number){
+    return this._http.delete(this.url + '/vi/'+ id)
+  }
+
+  //VI SALES FOLLOWUP
   getViSalesFollowup(data: any):Observable<ViFollowup[]>{
     const queryParams = new HttpParams().set('status', data.status);
     return this._http.get<ViFollowup[]>(this.url + '/vifollowUp', { params: queryParams });
@@ -210,6 +333,23 @@ export class AdminService {
     return this._http.get<ViFollowup[]>(this.url + '/vifollowUp/all');
   }
 
+  handoverViFollowup(id: number, data: any):Observable<ViFollowup[]>{
+    return this._http.patch<ViFollowup[]>(this.url + '/vifollowUp/bulkupdate/'+id, data);
+  }
+
+  getViFollowById(id: number):Observable<ViFollowup>{
+    return this._http.get<ViFollowup>(this.url + '/vifollowUp/' + id);
+  }
+
+  updateViFollowById(id: number, data: any):Observable<ViFollowup>{
+    return this._http.patch<ViFollowup>(this.url + '/vifollowUp/update/' + id, data);
+  }
+
+  deleteViFollowById(id: number){
+    return this._http.delete(this.url + '/vifollowUp/'+ id)
+  }
+
+  //vi collections
   addViCollections(data: any){
     return this._http.post(this.url + '/vicollections', data, {reportProgress: true, observe: 'events'});
   }
@@ -223,6 +363,23 @@ export class AdminService {
     return this._http.get<ViCollection[]>(this.url + '/vicollections/all');
   }
 
+  handoverViCollections(id: number, data: any):Observable<ViCollection[]>{
+    return this._http.patch<ViCollection[]>(this.url + '/vicollections/bulkupdate/'+id, data);
+  }
+
+  getViCollById(id: number):Observable<ViCollection>{
+    return this._http.get<ViCollection>(this.url + '/vicollections/' + id);
+  }
+
+  updateViCollById(id: number, data: any):Observable<ViCollection>{
+    return this._http.patch<ViCollection>(this.url + '/vicollections/update/' + id, data);
+  }
+
+  deleteViCollById(id: number){
+    return this._http.delete(this.url + '/vicollections/'+ id)
+  }
+
+  //VC FOLLOW
   getViCollectionsFollowup(data: any):Observable<ViCollectionFollowup[]>{
     const queryParams = new HttpParams().set('status', data.status);
     return this._http.get<ViCollectionFollowup[]>(this.url + '/vicollectionsfollow', { params: queryParams });
@@ -231,6 +388,23 @@ export class AdminService {
   getAllViCollectionsFollowup():Observable<ViFollowup[]>{
     return this._http.get<ViFollowup[]>(this.url + '/vicollectionsfollow/all');
   }
+
+  handoverViCollectionsFollow(id: number, data: any):Observable<ViFollowup[]>{
+    return this._http.patch<ViFollowup[]>(this.url + '/vicollectionsfollow/bulkupdate/'+id, data);
+  }
+
+  getViCollFollowById(id: number):Observable<ViFollowup>{
+    return this._http.get<ViFollowup>(this.url + '/vicollectionsfollow/' + id);
+  }
+
+  updateViCollFollowById(id: number, data: any):Observable<ViFollowup>{
+    return this._http.patch<ViFollowup>(this.url + '/vicollectionsfollow/update/' + id, data);
+  }
+
+  deleteViCollFollowById(id: number){
+    return this._http.delete(this.url + '/vicollectionsfollow/'+ id)
+  }
+
   deleteBsnl(data: any){
     const queryParams = new HttpParams().set('status', data.status);
 

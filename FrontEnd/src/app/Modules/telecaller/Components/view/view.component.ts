@@ -1,7 +1,13 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { AdminService } from 'src/app/Modules/admin/admin.service';
+import { BajajComponent } from 'src/app/Modules/admin/components/Edit/bajaj/bajaj.component';
+import { ViewAcComponent } from 'src/app/Modules/admin/components/View/view-ac/view-ac.component';
+import { ViewAsComponent } from 'src/app/Modules/admin/components/View/view-as/view-as.component';
+import { ViewVicComponent } from 'src/app/Modules/admin/components/View/view-vic/view-vic.component';
+import { ViewVisComponent } from 'src/app/Modules/admin/components/View/view-vis/view-vis.component';
 import { Project } from 'src/app/Modules/admin/models/project';
 import { Status } from 'src/app/Modules/admin/models/status';
 
@@ -13,7 +19,7 @@ import { Status } from 'src/app/Modules/admin/models/status';
 export class ViewComponent {
 
   userId!: number
-  constructor(private adminService: AdminService, private fb: FormBuilder){
+  constructor(private adminService: AdminService, private fb: FormBuilder, private dialog: MatDialog){
     const token: any = localStorage.getItem('token')
     let user = JSON.parse(token)
     console.log(user)
@@ -235,6 +241,74 @@ export class ViewComponent {
         }
       })
     }
+  }
+
+  asianetColl(id: number){
+    const dialogRef = this.dialog.open(ViewAcComponent, {
+      data: {
+        id: id,
+        type: 'base'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.getProjectBase()
+    })
+  }
+
+  asianetSale(id: number){
+    const dialogRef = this.dialog.open(ViewAsComponent, {
+      data: {
+        id: id,
+        type: this.viewForm.getRawValue().type
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.getProjectBase()
+    })
+  }
+
+  viColl(id: number){
+    const dialogRef = this.dialog.open(ViewVicComponent, {
+      data: {
+        id: id,
+        type: 'base'
+      },
+      width: '80%',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.getProjectBase()
+    })
+  }
+
+  viSales(id: number){
+    const dialogRef = this.dialog.open(ViewVisComponent, {
+      data: {
+        id: id,
+        type: 'base'
+      },
+      width: '80%',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.getProjectBase()
+    })
+  }
+
+  bajajFun(id: number){
+    const dialogRef = this.dialog.open(BajajComponent, {
+      data: {
+        id: id,
+        type: 'base'
+      },
+      width: '80%',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.getProjectBase()
+    })
   }
 
   clearControls(){

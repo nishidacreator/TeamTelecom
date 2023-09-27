@@ -1,3 +1,4 @@
+import { Status } from "../../admin/models/status";
 import { User } from "../../auth/models/user"
 
 export interface Bajaj{
@@ -8,7 +9,9 @@ export interface Bajaj{
   mobile : string
   emi : string
   product : string
-  status : string
+
+  callStatus : Status
+  status : number
   remarks : string
   freeText : string
   action : string

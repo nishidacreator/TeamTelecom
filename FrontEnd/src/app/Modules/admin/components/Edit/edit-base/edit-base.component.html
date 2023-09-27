@@ -1,9 +1,9 @@
-<form [formGroup]="viewForm">
+<form [formGroup]="editForm">
   <mat-card class="background">
     <div class="row">
       <div class="col">
         <mat-card-header>
-          <mat-card-title style="font-size:larger; font-weight: bold; color: rgb(28, 104, 151);"> VIEW BASE </mat-card-title>
+          <mat-card-title style="font-size:larger; font-weight: bold; color: rgb(28, 104, 151);"> EDIT BASE </mat-card-title>
         </mat-card-header>
       </div>
       <div class="col">
@@ -36,28 +36,18 @@
           </mat-select>
         </mat-form-field>
       </div>
-
-      <div class="col">
-        <mat-form-field class="full-width">
-          <mat-select placeholder="Status" formControlName="status">
-            <mat-option *ngFor="let item of status" [value]="item.id">
-              {{item.status}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-
     </div>
 
     <mat-card-actions>
-      <button  mat-raised-button  type="button" (click)="getProjectBase()" [disabled]="!viewForm.valid">
-        VIEW
+      <button  mat-raised-button  type="button" (click)="getProjectBase()" [disabled]="!editForm.valid">
+        GET
       </button>&nbsp;&nbsp;
     </mat-card-actions>
   </mat-card>
 </form><br>
 
-<mat-card *ngIf="data">
+
+<mat-card *ngIf="base.length != 0">
   <mat-card-content>
     <div class="container">
       <div class="table" *ngIf="projectName === 'asianetcollections'">
@@ -66,20 +56,23 @@
           <div class="header__item"><a id="wins" class="filter__link filter__link--number" href="#">Subcode</a></div>
           <div class="header__item"><a id="draws" class="filter__link filter__link--number" href="#">MobileNumber</a></div>
           <div class="header__item"><a id="losses" class="filter__link filter__link--number" href="#">Telecaller</a></div>
-          <div class="header__item"><a id="total" class="filter__link filter__link--number" href="#">Calltime</a></div>
+          <div class="header__item"><a id="losses" class="filter__link filter__link--number" href="#">Manage</a></div>
         </div>
         <div class="table-content">
-          <div class="table-row" *ngFor="let i of data">
+          <div class="table-row" *ngFor="let i of base">
             <div class="table-data">{{i.Name}}</div>
             <div class="table-data">{{i.Subcode}}</div>
             <div class="table-data">{{i.Mobile}}</div>
             <div class="table-data">
               <a *ngIf="i.teleCaller">{{i.teleCaller.name}}</a>
               <a *ngIf="i.caller">{{i.caller.name}}</a>
-              <!-- <a *ngIf="i.teleCaller">halloooooooo</a>
-              <a *ngIf="i.caller">hiiiiii</a> -->
             </div>
-            <div class="table-data">{{i.callTime | date: 'dd/MM :: hh:mm'}}</div>
+            <div class="table-data">
+              <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+                <i  (click)="editBase(i.id)"  class="fa fa-edit" style="font-size: 20px; color:green"></i>
+                &nbsp;&nbsp;
+                <i  (click)="deleteBase(i.id)" class="fa fa-trash" style="font-size: 20px; color:red"></i>
+            </div>
           </div>
         </div>
       </div>
@@ -90,15 +83,23 @@
           <div class="header__item"><a id="wins" class="filter__link filter__link--number" href="#">Subcode</a></div>
           <div class="header__item"><a id="draws" class="filter__link filter__link--number" href="#">MobileNumber</a></div>
           <div class="header__item"><a id="losses" class="filter__link filter__link--number" href="#">Telecaller</a></div>
-          <div class="header__item"><a id="total" class="filter__link filter__link--number" href="#">Calltime</a></div>
+          <div class="header__item"><a id="losses" class="filter__link filter__link--number" href="#">Manage</a></div>
         </div>
         <div class="table-content">
-          <div class="table-row" *ngFor="let i of data">
+          <div class="table-row" *ngFor="let i of base">
             <div class="table-data">{{i.Name}}</div>
             <div class="table-data">{{i.Subcode}}</div>
             <div class="table-data">{{i.Mobile}}</div>
-            <div class="table-data">{{i.teleCaller.name}}</div>
-            <div class="table-data">{{i.callTime | date: 'dd/MM :: hh:mm'}}</div>
+            <div class="table-data">
+              <a *ngIf="i.teleCaller">{{i.teleCaller.name}}</a>
+              <a *ngIf="i.caller">{{i.caller.name}}</a>
+            </div>
+            <div class="table-data">
+              <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+                <i  (click)="editBase(i.id)"  class="fa fa-edit" style="font-size: 20px; color:green"></i>
+                &nbsp;&nbsp;
+                <i  (click)="deleteBase(i.id)" class="fa fa-trash" style="font-size: 20px; color:red"></i>
+            </div>
           </div>
         </div>
       </div>
@@ -109,15 +110,23 @@
           <div class="header__item"><a id="wins" class="filter__link filter__link--number" href="#">Subcode</a></div>
           <div class="header__item"><a id="draws" class="filter__link filter__link--number" href="#">MobileNumber</a></div>
           <div class="header__item"><a id="losses" class="filter__link filter__link--number" href="#">Telecaller</a></div>
-          <div class="header__item"><a id="total" class="filter__link filter__link--number" href="#">Calltime</a></div>
+          <div class="header__item"><a id="losses" class="filter__link filter__link--number" href="#">Manage</a></div>
         </div>
         <div class="table-content">
-          <div class="table-row" *ngFor="let i of data">
+          <div class="table-row" *ngFor="let i of base">
             <div class="table-data">{{i.Name}}</div>
             <div class="table-data">{{i.Subcode}}</div>
             <div class="table-data">{{i.Mobile}}</div>
-            <div class="table-data">{{i.teleCaller.name}}</div>
-            <div class="table-data">{{i.callTime | date: 'dd/MM :: hh:mm'}}</div>
+            <div class="table-data">
+              <a *ngIf="i.teleCaller">{{i.teleCaller.name}}</a>
+              <a *ngIf="i.caller">{{i.caller.name}}</a>
+            </div>
+            <div class="table-data">
+              <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+                <i  (click)="editBase(i.id)"  class="fa fa-edit" style="font-size: 20px; color:green"></i>
+                &nbsp;&nbsp;
+                <i  (click)="deleteBase(i.id)" class="fa fa-trash" style="font-size: 20px; color:red"></i>
+            </div>
           </div>
         </div>
       </div>
@@ -128,15 +137,23 @@
           <div class="header__item"><a id="wins" class="filter__link filter__link--number" href="#">Subcode</a></div>
           <div class="header__item"><a id="draws" class="filter__link filter__link--number" href="#">MobileNumber</a></div>
           <div class="header__item"><a id="losses" class="filter__link filter__link--number" href="#">Telecaller</a></div>
-          <div class="header__item"><a id="total" class="filter__link filter__link--number" href="#">Calltime</a></div>
+          <div class="header__item"><a id="losses" class="filter__link filter__link--number" href="#">Manage</a></div>
         </div>
         <div class="table-content">
-          <div class="table-row" *ngFor="let i of data">
+          <div class="table-row" *ngFor="let i of base">
             <div class="table-data">{{i.custName}}</div>
             <div class="table-data">{{i.campionName}}</div>
             <div class="table-data">{{i.currentPlan}}</div>
-            <div class="table-data">{{i.teleCaller.name}}</div>
-            <div class="table-data">{{i.callTime | date: 'dd/MM :: hh:mm'}}</div>
+            <div class="table-data">
+              <a *ngIf="i.teleCaller">{{i.teleCaller.name}}</a>
+              <a *ngIf="i.caller">{{i.caller.name}}</a>
+            </div>
+            <div class="table-data">
+              <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+                <i  (click)="editBase(i.id)"  class="fa fa-edit" style="font-size: 20px; color:green"></i>
+                &nbsp;&nbsp;
+                <i  (click)="deleteBase(i.id)" class="fa fa-trash" style="font-size: 20px; color:red"></i>
+            </div>
           </div>
         </div>
       </div>
