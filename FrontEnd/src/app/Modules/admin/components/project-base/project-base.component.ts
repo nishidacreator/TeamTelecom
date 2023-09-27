@@ -61,38 +61,6 @@ export class ProjectBaseComponent {
       this.adminService.getProjectById(this.baseForm.get('projectId')?.value).subscribe((res)=>{
         console.log(res);
 
-        if(res.projectName.toLowerCase() === 'bsnl'){
-          this.isUploading = true;
-          // Simulate an upload with a timeout
-          setTimeout(() => {
-            this.adminService.addBsnl(formData).subscribe(event => {
-              if (event.type === HttpEventType.UploadProgress) {
-                if (event.total) {
-                  this.uploadProgress = Math.round((100 * event.loaded) / event.total);
-                } else {
-                  this.uploadProgress = 0; // Unable to calculate progress without total
-                }
-              }else if (event.type === HttpEventType.Response) {
-                this.isUploading = false;
-                console.log('File uploaded successfully:', event.body);
-                this._snackBar.open("Projects added successfully...","" ,{duration:3000})
-                this.clearControls()
-              }
-            })
-          }, 3000);
-
-          // Simulate upload progress update
-          const interval = setInterval(() => {
-            if (this.uploadProgress < 100) {
-              this.uploadProgress += 10;
-            } else {
-              clearInterval(interval);
-            }
-          }, 300);
-
-
-        }
-
         if(res.projectName.toLowerCase() === 'asianetsales'){
           this.isUploading = true;
           // Simulate an upload with a timeout
@@ -107,7 +75,6 @@ export class ProjectBaseComponent {
                 }
               }else if (event.type === HttpEventType.Response) {
                 this.isUploading = false;
-                console.log('File uploaded successfully:', event.body);
                 this._snackBar.open("File uploaded successfully...","" ,{duration:3000})
                 this.clearControls()
               }
@@ -122,7 +89,6 @@ export class ProjectBaseComponent {
               clearInterval(interval);
             }
           }, 300);
-
 
         }
 

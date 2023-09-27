@@ -1,3 +1,4 @@
+import { Status } from "../../admin/models/status";
 import { User } from "../../auth/models/user"
 
 export interface AsianetSaleFollowup{
@@ -14,7 +15,8 @@ export interface AsianetSaleFollowup{
   Balance : number
   Mobile : string
 
-  status : string
+  callStatus : Status
+  status : number
   remarks : string
   freeText : string
   action : string

@@ -3,7 +3,6 @@ import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/Modules/auth/auth.service';
 import { TelecallerService } from '../../telecaller.service';
-import { FolloeUp } from '../../Models/followUp';
 import { AsianetFollowup } from '../../Models/asianet_followup';
 import { BajajFollowup } from '../../Models/bajaj_followup';
 import { ViFollowup } from '../../Models/vi_followup';
@@ -42,8 +41,6 @@ export class CustomerComponent {
       this.date = this.datePipe.transform(new Date(), 'dd/MM/yyyy');
   }
 
-
-
   ngOnInit() {
     this.getFollowUp()
     this.getData();
@@ -57,21 +54,20 @@ export class CustomerComponent {
   pendCall!: number;
   data: any[] = [];
   getData(){
-    console.log(this.userId)
     this.asianetSub = this.adminService.getAllAsianetSales().subscribe(data =>{
-      let asianet = data.filter(x=>x.teleCaller.id === this.userId && x.status === null)
+      let asianet = data.filter(x=>x.teleCaller.id === this.userId && x.callStatus.id === 1)
 
       this.bajajSub = this.adminService.getAllBajaj().subscribe(data =>{
-        let bajaj = data.filter(x=>x.teleCaller.id === this.userId && x.status === null)
+        let bajaj = data.filter(x=>x.teleCaller.id === this.userId && x.callStatus.id === 1)
 
         this.viSub = this.adminService.getAllViCollections().subscribe(data =>{
-          let vi = data.filter(x=>x.teleCaller.id === this.userId && x.status === null)
+          let vi = data.filter(x=>x.teleCaller.id === this.userId && x.callStatus.id === 1)
 
           this.asianetSub = this.adminService.getAllAsianetCollections().subscribe(data =>{
-            let asianetColl = data.filter(x=>x.teleCaller.id === this.userId && x.status === null)
+            let asianetColl = data.filter(x=>x.teleCaller.id === this.userId && x.callStatus.id === 1)
 
             this.asianetSub = this.adminService.getAllViSales().subscribe(data =>{
-              let viSale = data.filter(x=>x.teleCaller.id === this.userId && x.status === null)
+              let viSale = data.filter(x=>x.teleCaller.id === this.userId && x.callStatus.id === 1)
 
               this.data = [...asianet, ...bajaj, ...vi, ...asianetColl, ...viSale];
                 console.log(this.data);
@@ -86,7 +82,6 @@ export class CustomerComponent {
   }
 
   followSub!: Subscription
-  bsnlFollow: FolloeUp[] = [];
   asianetFollow: AsianetFollowup[] = [];
   bajajFollow: BajajFollowup[] = [];
   viFollow: ViFollowup[] = [];
@@ -99,19 +94,19 @@ export class CustomerComponent {
     //   console.log(this.bsnlFollow);
 
           this.adminService.getAllAsianetSalesFollowup().subscribe(data =>{
-            let asianetFollow = data.filter(x=> this.datePipe.transform(x.date, 'dd/MM/yyyy') === this.date && x.status === null  && x.caller.id === this.userId);
+            let asianetFollow = data.filter(x=> this.datePipe.transform(x.date, 'dd/MM/yyyy') === this.date && x.callStatus.id === 1  && x.caller.id === this.userId);
 
             this.adminService.getAllBajajFollowup().subscribe(data =>{
-              let bajajFollow = data.filter(x=> this.datePipe.transform(x.date, 'dd/MM/yyyy') === this.date && x.status === null  && x.caller.id === this.userId);
+              let bajajFollow = data.filter(x=> this.datePipe.transform(x.date, 'dd/MM/yyyy') === this.date && x.callStatus.id === 1  && x.caller.id === this.userId);
 
               this.adminService.getAllViCollectionsFollowup().subscribe(data =>{
-                let viFollow = data.filter(x=> this.datePipe.transform(x.date, 'dd/MM/yyyy') === this.date && x.status === null  && x.caller.id === this.userId);
+                let viFollow = data.filter(x=> this.datePipe.transform(x.date, 'dd/MM/yyyy') === this.date && x.callStatus.id === 1  && x.caller.id === this.userId);
 
                 this.adminService.getAllAsianetCollectionsFollowup().subscribe(data =>{
-                  let asianetColl = data.filter(x=> this.datePipe.transform(x.date, 'dd/MM/yyyy') === this.date && x.status === null  && x.caller.id === this.userId);
+                  let asianetColl = data.filter(x=> this.datePipe.transform(x.date, 'dd/MM/yyyy') === this.date && x.callStatus.id === 1  && x.caller.id === this.userId);
 
                   this.adminService.getAllViSalesFollowup().subscribe(data =>{
-                    let viSale = data.filter(x=> this.datePipe.transform(x.date, 'dd/MM/yyyy') === this.date && x.status === null  && x.caller.id === this.userId);
+                    let viSale = data.filter(x=> this.datePipe.transform(x.date, 'dd/MM/yyyy') === this.date && x.callStatus.id === 1  && x.caller.id === this.userId);
 
                     this.follow = [ ...asianetFollow, ...viFollow, ...bajajFollow, ...asianetColl, ...viSale]
                   console.log(this.follow)

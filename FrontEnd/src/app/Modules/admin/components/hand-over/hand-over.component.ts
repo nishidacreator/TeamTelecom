@@ -6,6 +6,7 @@ import { Project } from '../../models/project';
 import { Status } from '../../models/status';
 import { AuthService } from 'src/app/Modules/auth/auth.service';
 import { User } from 'src/app/Modules/auth/models/user';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-hand-over',
@@ -13,15 +14,17 @@ import { User } from 'src/app/Modules/auth/models/user';
   styleUrls: ['./hand-over.component.scss']
 })
 export class HandOverComponent {
-  constructor(private adminService: AdminService, private fb: FormBuilder, private authService: AuthService){}
+  constructor(private adminService: AdminService, private fb: FormBuilder, private authService: AuthService,
+    private _snackBar: MatSnackBar){}
 
   ngOnDestroy() {
     this.userSub.unsubscribe();
   }
-  viewForm = this.fb.group({
+  handoverForm = this.fb.group({
     type: ['', Validators.required],
     projectId: ['', Validators.required],
-    userId: [Validators.required]
+    userId: [Validators.required],
+    assignedToId: ['']
   })
 
   ngOnInit(){
@@ -48,39 +51,191 @@ export class HandOverComponent {
 
   data: any;
   projectName!: string
+  base: any[] = [];
+  userId!: any
+  count!: number
   getProjectBase(){
-    if(this.viewForm.getRawValue().type === 'Base'){
-      this.adminService.getProjectById(this.viewForm.getRawValue().projectId).subscribe((res)=>{
+    this.userId = this.handoverForm.getRawValue().userId
+    if(this.handoverForm.getRawValue().type === 'Base'){
+      this.adminService.getProjectById(this.handoverForm.getRawValue().projectId).subscribe((res)=>{
         this.projectName = res.projectName.toLowerCase()
-        console.log(this.projectName+"base")
         let data: any;
-        if(this.projectName === "asianetsales"){}
-        if(this.projectName === "asianetcollections"){}
-        if(this.projectName === "visales"){}
-        if(this.projectName === "vicollections"){}
-        if(this.projectName === "bajaj"){}
+        if(this.projectName === "asianetsales"){
+          this.adminService.getAllAsianetSales().subscribe(data =>{
+            this.base = data.filter(item => item.teleCaller.id == this.userId && item.status === null)
+            this.count = this.base.length;
+          })
+        }
+        if(this.projectName === "asianetcollections"){
+          this.adminService.getAllAsianetCollections().subscribe(data =>{
+            this.base = data.filter(item => item.teleCaller.id == this.userId && item.status === null)
+            this.count = this.base.length;
+          })
+        }
+        if(this.projectName === "visales"){
+          this.adminService.getAllViSales().subscribe(data =>{
+            this.base = data.filter(item => item.teleCaller.id == this.userId && item.status === null)
+            this.count = this.base.length;
+          })
+        }
+        if(this.projectName === "vicollections"){
+          this.adminService.getAllViCollections().subscribe(data =>{
+            this.base = data.filter(item => item.teleCaller.id == this.userId && item.status === null)
+            this.count = this.base.length;
+          })
+        }
+        if(this.projectName === "bajaj"){
+          this.adminService.getAllBajaj().subscribe(data =>{
+            this.base = data.filter(item => item.teleCaller.id == this.userId && item.status === null)
+            this.count = this.base.length;
+          })
+        }
       })
     }
     else{
-      this.adminService.getProjectById(this.viewForm.getRawValue().projectId).subscribe((res)=>{
+      this.adminService.getProjectById(this.handoverForm.getRawValue().projectId).subscribe((res)=>{
         this.projectName = res.projectName.toLowerCase()
-        console.log(this.projectName+"followup")
         let data: any;
-        if(this.projectName === "asianetsales"){}
-        if(this.projectName === "asianetcollections"){}
-        if(this.projectName === "visales"){}
-        if(this.projectName === "vicollections"){}
-        if(this.projectName === "bajaj"){}
+
+        if(this.projectName === "asianetsales"){
+          this.adminService.getAllAsianetSalesFollowup().subscribe(data =>{
+            this.base = data.filter(item => item.caller.id == this.userId && item.status === null)
+            this.count = this.base.length;
+          })
+        }
+        if(this.projectName === "asianetcollections"){
+          this.adminService.getAllAsianetCollectionsFollowup().subscribe(data =>{
+            this.base = data.filter(item => item.caller.id == this.userId && item.status === null)
+            this.count = this.base.length;
+            this.getProjectBase()
+          })
+        }
+        if(this.projectName === "visales"){
+          this.adminService.getAllViSalesFollowup().subscribe(data =>{
+            this.base = data.filter(item => item.caller.id == this.userId && item.status === null)
+            this.count = this.base.length;
+          })
+        }
+        if(this.projectName === "vicollections"){
+          this.adminService.getAllViCollectionsFollowup().subscribe(data =>{
+            this.base = data.filter(item => item.caller.id == this.userId && item.status === null)
+            this.count = this.base.length;
+          })
+        }
+        if(this.projectName === "bajaj"){
+          this.adminService.getAllBajajFollowup().subscribe(data =>{
+            this.base = data.filter(item => item.caller.id == this.userId && item.status === null)
+            this.count = this.base.length;
+          })
+        }
+      })
+    }
+  }
+
+  handoverData(){
+    console.log(this.handoverForm.getRawValue());
+    if(this.handoverForm.getRawValue().type === 'Base'){
+      this.adminService.getProjectById(this.handoverForm.getRawValue().projectId).subscribe((res)=>{
+        this.projectName = res.projectName.toLowerCase()
+        let user = {
+          Teleby: this.handoverForm.getRawValue().assignedToId
+        }
+
+        if(this.projectName === "asianetsales"){
+          for(let i = 0; i <this.base.length; i++){
+            this.adminService.handoverAsianetSales(this.base[i].id, user).subscribe(res=>{})
+            this._snackBar.open("Handover successfully...","" ,{duration:3000})
+            this.clearControls()
+          }
+        }
+        if(this.projectName === "asianetcollections"){
+          for(let i = 0; i <this.base.length; i++){
+            this.adminService.handoverAsianetCollections(this.base[i].id, user).subscribe(res=>{})
+            this._snackBar.open("Handover successfully...","" ,{duration:3000})
+              this.clearControls()
+          }
+        }
+        if(this.projectName === "visales"){
+          for(let i = 0; i <this.base.length; i++){
+            this.adminService.handoverVi(this.base[i].id, user).subscribe(res=>{
+              this._snackBar.open("Handover successfully...","" ,{duration:3000})
+              this.clearControls()
+            })
+          }
+        }
+        if(this.projectName === "vicollections"){
+          for(let i = 0; i <this.base.length; i++){
+            this.adminService.handoverViCollections(this.base[i].id, user).subscribe(res=>{
+              this._snackBar.open("Handover successfully...","" ,{duration:3000})
+              this.clearControls()
+            })
+          }
+        }
+        if(this.projectName === "bajaj"){
+          for(let i = 0; i <this.base.length; i++){
+            this.adminService.handoverBajaj(this.base[i].id, user).subscribe(res=>{
+              this._snackBar.open("Handover successfully...","" ,{duration:3000})
+              this.clearControls()
+            })
+          }
+        }
+      })
+    }
+    else{
+      this.adminService.getProjectById(this.handoverForm.getRawValue().projectId).subscribe((res)=>{
+        this.projectName = res.projectName.toLowerCase()
+        let user = {
+          Teleby: this.handoverForm.getRawValue().assignedToId
+        }
+
+        if(this.projectName === "asianetsales"){
+          for(let i = 0; i <this.base.length; i++){
+            this.adminService.handoverAsianetSalesFollowup(this.base[i].id, user).subscribe(res=>{
+              this._snackBar.open("Handover successfully...","" ,{duration:3000})
+              this.clearControls()
+            })
+          }
+        }
+        if(this.projectName === "asianetcollections"){
+          for(let i = 0; i <this.base.length; i++){
+            this.adminService.handoverAsianetCollectionsFollowup(this.base[i].id, user).subscribe(res=>{
+              this._snackBar.open("Handover successfully...","" ,{duration:3000})
+              this.clearControls()
+            })
+          }
+        }
+        if(this.projectName === "visales"){
+          for(let i = 0; i <this.base.length; i++){
+            this.adminService.handoverViFollowup(this.base[i].id, user).subscribe(res=>{
+              this._snackBar.open("Handover successfully...","" ,{duration:3000})
+              this.clearControls()
+            })
+          }
+        }
+        if(this.projectName === "vicollections"){
+          for(let i = 0; i <this.base.length; i++){
+            this.adminService.handoverViCollectionsFollow(this.base[i].id, user).subscribe(res=>{
+              this._snackBar.open("Handover successfully...","" ,{duration:3000})
+              this.clearControls()
+            })
+          }
+        }
+        if(this.projectName === "bajaj"){
+          for(let i = 0; i <this.base.length; i++){
+            this.adminService.handoverBajajFollowup(this.base[i].id, user).subscribe(res=>{
+              this._snackBar.open("Handover successfully...","" ,{duration:3000})
+              this.clearControls()
+            })
+          }
+        }
       })
     }
   }
 
   clearControls(){
-    // this.getProjects()
-    // this.viewForm.reset()
-    // this.viewForm.setErrors(null)
-    // Object.keys(this.viewForm.controls).forEach(key=>{this.viewForm.get(key)?.setErrors(null)})
+    this.handoverForm.reset()
+    this.handoverForm.setErrors(null)
+    Object.keys(this.handoverForm.controls).forEach(key=>{this.handoverForm.get(key)?.setErrors(null)})
   }
-
 }
 

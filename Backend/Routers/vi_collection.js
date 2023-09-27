@@ -30,6 +30,7 @@ router.post('/', multer.single('imageUrl'), async (req, res) => {
           const projectId = req.body.projectId;
           for(let i = 0; i < jsonWithoutSheetName.length; i++){
             jsonWithoutSheetName[i].projectId = projectId;
+            jsonWithoutSheetName[i].status = 1
           }
 
           const vicollection = await ViCollection.bulkCreate(jsonWithoutSheetName)
@@ -48,7 +49,7 @@ router.get('/', async (req, res) => {
 
     const vicollection = await ViCollection.findAll({ 
       where: {status},
-      include: [Project, 'teleCaller'],
+      include: [Project, 'teleCaller', 'callStatus'],
       order:['id']
     })
 
@@ -57,7 +58,7 @@ router.get('/', async (req, res) => {
 
 router.get('/all', async (req, res) => {
     const vicollection = await ViCollection.findAll({ 
-      include: [Project, 'teleCaller'],
+      include: [Project, 'teleCaller', 'callStatus'],
       order:['id']
     })
 
@@ -68,7 +69,7 @@ router.get('/:id', async (req, res) => {
 
   const vicollection = await ViCollection.findOne({
     where: {id: req.params.id},
-    include: [Project, 'teleCaller']
+    include: [Project, 'teleCaller', 'callStatus']
   })
 
   res.send(vicollection);
@@ -185,10 +186,81 @@ router.patch('/callback/:id', async(req,res)=>{
 router.get('/caller', async (req, res) => {
 
   const asianet = await ViCollection.findAll({ 
-    include: [Project, 'teleCaller'],
+    include: [Project, 'teleCaller', 'callStatus'],
     order:['id']
   })
 
   res.send(asianet);
+})
+
+router.patch('/bulkupdate/:id', async (req, res) => {
+  try {
+    const asianet = {
+      Teleby: req.body.Teleby,
+    }
+      ViCollection.update(asianet, {
+          where: { id: req.params.id }
+        })
+          .then(num => {
+            if (num == 1) {
+              res.send({
+                message: "ViCollection was updated successfully."
+              });
+            } else {
+              res.send({
+                message: `Cannot update ViCollection with id=${id}. Maybe ViCollection was not found or req.body is empty!`
+              });
+            }
+          })
+    } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+router.patch('/update/:id', async(req,res)=>{
+  try {
+      ViCollection.update(req.body, {
+          where: { id: req.params.id }
+        })
+          .then(num => {
+            if (num == 1) {
+              res.send({
+                message: "ViCollection was updated successfully."
+              });
+            } else {
+              res.send({
+                message: `Cannot update ViCollection with id=${id}. Maybe ViCollection was not found or req.body is empty!`
+              });
+            }
+          })
+    } catch (error) {
+      res.status(500).json({
+        status: "error",
+        message: error.message,
+      });
+    }
+})
+
+router.delete('/:id', async(req,res)=>{
+  try {
+
+      const result = await ViCollection.destroy({
+          where: { id: req.params.id },
+          force: true,
+      });
+
+      if (result === 0) {
+          return res.status(404).json({
+            status: "fail",
+            message: "ViCollection with that ID not found",
+          });
+        }
+    
+        res.status(204).json();
+      }  catch (error) {
+      res.send({error: error.message})
+  }
+  
 })
 module.exports = router;

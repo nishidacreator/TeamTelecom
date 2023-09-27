@@ -14,7 +14,7 @@ const AsianetSales = sequelize.define('asianetSales',{
     Balance : {type : DataTypes.FLOAT, allowNullValues : false},
     Mobile : {type : DataTypes.FLOAT, allowNullValues : false},
     
-    status : {type : DataTypes.STRING},
+    status : {type : DataTypes.INTEGER},
     remarks : {type : DataTypes.STRING},
     freeText : {type : DataTypes.STRING},
     action : {type : DataTypes.STRING},

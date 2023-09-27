@@ -19,12 +19,4 @@ export class UploadExcelComponent {
     this.dialogRef.close(this.selectedFile);
   }
 
-  // onUpload() {
-  //   if (this.selectedFile) {
-  //     const formData = new FormData();
-  //     formData.append('excelFile', this.selectedFile, this.selectedFile.name);
-
-
-  //   }
-  // }
 }

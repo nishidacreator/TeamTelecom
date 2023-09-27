@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AdminService } from '../admin.service';
 import { TelecallerService } from '../../telecaller/telecaller.service';
 import { Subscription } from 'rxjs';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-dashboard',
@@ -26,7 +27,11 @@ export class DashboardComponent {
     this.viSubF.unsubscribe();
   }
 
-  constructor(private telecallerService: TelecallerService, private adminService: AdminService){}
+  date: any;
+  constructor(private telecallerService: TelecallerService, private datePipe: DatePipe, private adminService: AdminService){
+    this.date = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
+      console.log(this.date)
+  }
 
   ngOnInit() {
     this.getCompletedCalls();
@@ -62,8 +67,8 @@ export class DashboardComponent {
 
                 this.data = [ ...asianet, ...bajaj, ...vi, ...asianetColl, ...viSale];
 
-                this.comCall = this.data.filter(x => x.status != null).length
-                this.pendCall = this.data.filter(x => x.status === null).length
+                this.comCall = this.data.filter(x => x.status != 1).length
+                this.pendCall = this.data.filter(x => x.status === 1).length
               // })
             })
           })
@@ -81,6 +86,7 @@ export class DashboardComponent {
   pendCallF!: number;
   follow: any[] = [];
   followCount!: number
+  todayCount!: number
   getFollowupCalls(){
     // this.telecallerService.getFollowUpCaller().subscribe(data =>{
     //   let bsnlFollow = data
@@ -101,7 +107,8 @@ export class DashboardComponent {
                 let viSale = data;
 
                 this.follow = [ ...asianetFollow, ...viFollow, ...bajajFollow, ...asianetColl, ...viSale]
-                this.followCount = this.follow.filter(x => x.status != null).length
+                this.followCount = this.follow.filter(x => x.status != 1).length
+                this.todayCount = this.follow.filter(x => x.status === 1 && x.date === this.date).length
 
               // })
             })

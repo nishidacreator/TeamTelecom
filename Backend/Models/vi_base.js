@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../Utils/db');
-
+const Status = require('./status');
 const Vi = sequelize.define('vi',{
     region : {type: DataTypes.STRING},
     mobileNumber : {type : DataTypes.STRING, allowNull : false},
@@ -12,7 +12,7 @@ const Vi = sequelize.define('vi',{
     suggestedPlan : {type : DataTypes.STRING, allowNull : false},
     contactNo: {type : DataTypes.STRING},
     
-    status : {type : DataTypes.STRING},
+    status : {type : DataTypes.INTEGER},
     remarks : {type : DataTypes.STRING},
     freeText : {type : DataTypes.STRING},
     action : {type : DataTypes.STRING},

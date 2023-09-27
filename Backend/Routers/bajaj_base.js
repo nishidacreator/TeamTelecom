@@ -28,6 +28,7 @@ router.post('/', async (req, res) => {
           const projectId = req.body.projectId;
           for(let i = 0; i < jsonWithoutSheetName.length; i++){
             jsonWithoutSheetName[i].projectId = projectId;
+            jsonWithoutSheetName[i].status = 1
           }
 
 
@@ -187,5 +188,76 @@ router.get('/caller', async (req, res) => {
   })
 
   res.send(asianet);
+})
+
+router.patch('/bulkupdate/:id', async (req, res) => {
+  try {
+    const asianet = {
+      teleCallerId: req.body.Teleby,
+    }
+      Bajaj.update(asianet, {
+          where: { id: req.params.id }
+        })
+          .then(num => {
+            if (num == 1) {
+              res.send({
+                message: "Bajaj was updated successfully."
+              });
+            } else {
+              res.send({
+                message: `Cannot update Bajaj with id=${id}. Maybe Bajaj was not found or req.body is empty!`
+              });
+            }
+          })
+    } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+router.patch('/update/:id', async(req,res)=>{
+  try {
+      Bajaj.update(req.body, {
+          where: { id: req.params.id }
+        })
+          .then(num => {
+            if (num == 1) {
+              res.send({
+                message: "Bajaj was updated successfully."
+              });
+            } else {
+              res.send({
+                message: `Cannot update Bajaj with id=${id}. Maybe Bajaj was not found or req.body is empty!`
+              });
+            }
+          })
+    } catch (error) {
+      res.status(500).json({
+        status: "error",
+        message: error.message,
+      });
+    }
+})
+
+router.delete('/:id', async(req,res)=>{
+  try {
+
+      const result = await Bajaj.destroy({
+          where: { id: req.params.id },
+          force: true,
+      });
+
+      if (result === 0) {
+          return res.status(404).json({
+            status: "fail",
+            message: "Bajaj with that ID not found",
+          });
+        }
+    
+        res.status(204).json();
+      }  catch (error) {
+      res.send({error: error.message})
+  }
+  
 })
 module.exports = router;

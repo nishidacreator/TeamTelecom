@@ -39,7 +39,7 @@ export class DeleteBaseComponent {
   getStatus() {
     this.adminService.getStatus().subscribe(res=>{
       this.status = res
-      this.status.push(this.allStatus, this.cbStatus)
+      // this.status.push(this.allStatus, this.cbStatus)
       console.log(this.status)
     })
   }
@@ -54,22 +54,9 @@ export class DeleteBaseComponent {
         let data: any;
 
         if(this.deleteForm.getRawValue().status != 200){
-          if(this.deleteForm.getRawValue().status != 100){
-            data = {
-              status: this.deleteForm.getRawValue().status
-            }
-          }else if(this.deleteForm.getRawValue().status === 100){
-            data = {
-              status: 'CallBack'
-            }
+          data = {
+            status: this.deleteForm.getRawValue().status
           }
-          if(res.projectName.toLowerCase() === 'bsnl'){
-              this.adminService.deleteBsnl(data).subscribe((res)=>{
-                this._snackBar.open("Deleted successfully...","" ,{duration:3000})
-                this.clearControls()
-            })
-          }
-
           if(res.projectName.toLowerCase() === 'asianetsales'){
             console.log(data)
               this.adminService.deleteAsianetSales(data).subscribe((res)=>{

@@ -17,6 +17,9 @@ export class OpenCustomerComponent {
 
   ngOnDestroy() {
     this.projetSub.unsubscribe();
+    if(this.statSub){
+      this.statSub.unsubscribe();
+    }
   }
 
   id!: number
@@ -47,6 +50,20 @@ export class OpenCustomerComponent {
     this.status$ = this.adminService.getStatus()
   }
 
+
+  backStat: boolean = false
+  statSub!: Subscription;
+  status(id: number){
+    this.statSub = this.adminService.getStatusById(id).subscribe(s=>{
+      if(s.status === 'Call Back'){
+        this.backStat = true;
+      }
+      else{
+        this.backStat = false;
+      }
+    })
+  }
+
   projectName!: string;
   projetSub!: Subscription;
   customer!: any | undefined
@@ -55,13 +72,6 @@ export class OpenCustomerComponent {
     this.projetSub = this.adminService.getProjectById(this.projectId).subscribe(data => {
       this.projectName = data.projectName.toLowerCase();
       console.log(this.projectName)
-
-      if(this.projectName == 'bsnl'){
-        this.dataSub = this.teleCallerService.getBsnlById(this.id).subscribe(res=>{
-          console.log(res)
-          this.customer = res
-        })
-      }
 
       if(this.projectName == 'asianetsales'){
         this.dataSub = this.teleCallerService.getAsianetSalesById(this.id).subscribe(res=>{
@@ -100,12 +110,6 @@ export class OpenCustomerComponent {
     })
   }
 
-  backStat: boolean = false
-  callBack(){
-    this.backStat = !this.backStat
-  }
-
-
   nextStatus: boolean = false
   remarks!: any
   onSubmit(){
@@ -118,7 +122,7 @@ export class OpenCustomerComponent {
     }
 
     let statData = {
-      status : 'CallBack',
+      status : this.statusForm.get('statusId')?.value,
       date: this.statusForm.get('date')?.value,
       time: this.statusForm.get('time')?.value,
       callTime: Date.now()
@@ -127,19 +131,6 @@ export class OpenCustomerComponent {
 
     this.adminService.getStatusById(this.statusForm.getRawValue().statusId).subscribe(res =>{
       if(this.backStat){
-        console.log(this.projectName)
-        if(this.projectName === 'bsnl'){
-          this.teleCallerService.updateBsnlCallBack(this.id,statData).subscribe(data =>{
-
-            this.teleCallerService.getBsnlById(this.id).subscribe(data =>{
-              console.log(data)
-
-              this.teleCallerService.addFollowUp(data).subscribe(res=>{
-                console.log(res)
-              })
-            })
-          })
-        }
 
         if(this.projectName === 'asianetcollections'){
           this.teleCallerService.updateAsianetCallBack(this.id,statData).subscribe(data =>{
@@ -147,7 +138,10 @@ export class OpenCustomerComponent {
             this.teleCallerService.getAsianetById(this.id).subscribe(data =>{
 
               this.teleCallerService.addAsianetFollowUp(data).subscribe(res=>{
-                console.log(res)
+                this.router.navigateByUrl('/telecaller/customers').then(()=>{
+                  window.location.reload();
+                })
+                this._snackBar.open("Response Updated successfully...","" ,{duration:3000})
               })
             })
           })
@@ -157,10 +151,12 @@ export class OpenCustomerComponent {
           this.teleCallerService.updateAsianetSalesCallBack(this.id,statData).subscribe(data =>{
 
             this.teleCallerService.getAsianetSalesById(this.id).subscribe(data =>{
-              console.log(data)
 
               this.teleCallerService.addAsianetSalesFollowUp(data).subscribe(res=>{
-                console.log(res)
+                this.router.navigateByUrl('/telecaller/customers').then(()=>{
+                  window.location.reload();
+                })
+                this._snackBar.open("Response Updated successfully...","" ,{duration:3000})
               })
             })
           })
@@ -170,10 +166,12 @@ export class OpenCustomerComponent {
           this.teleCallerService.updateBajajCallBack(this.id,statData).subscribe(data =>{
 
             this.teleCallerService.getBajajById(this.id).subscribe(data =>{
-              console.log(data)
 
               this.teleCallerService.addBajajFollowUp(data).subscribe(res=>{
-                console.log(res)
+                this.router.navigateByUrl('/telecaller/customers').then(()=>{
+                  window.location.reload();
+                })
+                this._snackBar.open("Response Updated successfully...","" ,{duration:3000})
               })
             })
           })
@@ -183,10 +181,12 @@ export class OpenCustomerComponent {
           this.teleCallerService.updateViCallBack(this.id,statData).subscribe(data =>{
 
             this.teleCallerService.getViById(this.id).subscribe(data =>{
-              console.log(data)
 
               this.teleCallerService.addViFollowUp(data).subscribe(res=>{
-                console.log(res)
+                this.router.navigateByUrl('/telecaller/customers').then(()=>{
+                  window.location.reload();
+                })
+                this._snackBar.open("Response Updated successfully...","" ,{duration:3000})
               })
             })
           })
@@ -200,7 +200,10 @@ export class OpenCustomerComponent {
               console.log(data)
 
               this.teleCallerService.addViCollectionFollowUp(data).subscribe(res=>{
-                console.log(res)
+                this.router.navigateByUrl('/telecaller/customers').then(()=>{
+                  window.location.reload();
+                })
+                this._snackBar.open("Response Updated successfully...","" ,{duration:3000})
               })
             })
           })
@@ -208,17 +211,11 @@ export class OpenCustomerComponent {
 
       }
       else{
-        if(this.projectName == 'bsnl'){
-          this.teleCallerService.updateBsnlResponse(this.id, data).subscribe(res=>{
-            console.log(res)
-            this._snackBar.open("Response Updated successfully...","" ,{duration:3000})
-          })
-        }
-
         if(this.projectName == 'asianetcollections'){
-          console.log(data)
           this.teleCallerService.updateAsianetResponse(this.id, data).subscribe(res=>{
-            console.log(res)
+            this.router.navigateByUrl('/telecaller/customers').then(()=>{
+              window.location.reload();
+            })
             this._snackBar.open("Response Updated successfully...","" ,{duration:3000})
           })
         }
@@ -226,14 +223,18 @@ export class OpenCustomerComponent {
         if(this.projectName == 'asianetsales'){
           console.log(data)
           this.teleCallerService.updateAsianetSalesResponse(this.id, data).subscribe(res=>{
-            console.log(res)
+            this.router.navigateByUrl('/telecaller/customers').then(()=>{
+              window.location.reload();
+            })
             this._snackBar.open("Response Updated successfully...","" ,{duration:3000})
           })
         }
 
         if(this.projectName == 'bajaj'){
           this.teleCallerService.updateBajajResponse(this.id, data).subscribe(res=>{
-            console.log(res)
+            this.router.navigateByUrl('/telecaller/customers').then(()=>{
+              window.location.reload();
+            })
             this._snackBar.open("Response Updated successfully...","" ,{duration:3000})
           })
         }
@@ -241,14 +242,18 @@ export class OpenCustomerComponent {
         if(this.projectName == 'visales'){
           console.log(data)
           this.teleCallerService.updateViResponse(this.id, data).subscribe(res=>{
-            console.log(res)
+            this.router.navigateByUrl('/telecaller/customers').then(()=>{
+              window.location.reload();
+            })
             this._snackBar.open("Response Updated successfully...","" ,{duration:3000})
           })
         }
 
         if(this.projectName == 'vicollections'){
           this.teleCallerService.updateViCollectionsResponse(this.id, data).subscribe(res=>{
-            console.log(res)
+            this.router.navigateByUrl('/telecaller/customers').then(()=>{
+              window.location.reload();
+            })
             this._snackBar.open("Response Updated successfully...","" ,{duration:3000})
           })
         }
@@ -256,7 +261,8 @@ export class OpenCustomerComponent {
 
     })
     this.clearControls();
-    this.router.navigateByUrl('/telecaller/customers')
+
+
   }
 
 

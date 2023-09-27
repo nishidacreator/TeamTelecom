@@ -271,76 +271,74 @@
           </div><br>
 
           <mat-card-content >
-
-            <div class="row">
-              <div class="col">
-                <button  mat-raised-button type="button" (click)="callBack()">CALL BACK</button>&nbsp;&nbsp;
-              </div>
-            </div><br>
-
-            <div *ngIf="backStat">
+            <div>
               <div class="row">
                 <div class="col">
                   <mat-form-field class="full-width">
-                    <mat-label>Date</mat-label>
-                    <input matInput [matDatepicker]="picker1" formControlName="date">
-                    <mat-hint>MM/DD/YYYY</mat-hint>
-                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-                    <mat-datepicker #picker1></mat-datepicker>
-                  </mat-form-field>
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="col">
-                  <mat-form-field class="full-width">
-                    <input matInput placeholder="Time" formControlName="time" type="time">
-                  </mat-form-field>
-                </div>
-              </div>
-            </div>
-
-
-            <div *ngIf="!backStat">
-              <div class="row">
-                <div class="col">
-                  <mat-form-field class="full-width">
-                    <mat-select placeholder="Status" formControlName="statusId">
-                      <mat-option *ngFor="let item of  status$ | async" [value]="item.id">
-                        {{item.status | titlecase}}
+                    <mat-select placeholder="Status" formControlName="statusId" #statusId (selectionChange)="status(statusId.value)">
+                      <mat-option *ngFor="let item of status$ | async" [value]="item.id">
+                        {{item.status| titlecase}}
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
                 </div>
               </div>
 
-              <div class="row">
-                <div class="col">
-                  <mat-form-field class="full-width">
-                    <input matInput placeholder="Remarks" formControlName="remarks">
-                  </mat-form-field>
+              <div *ngIf="backStat">
+                <div class="row">
+                  <div class="col">
+                    <mat-form-field class="full-width">
+                      <mat-label>Date</mat-label>
+                      <input matInput [matDatepicker]="picker1" formControlName="date">
+                      <mat-hint>MM/DD/YYYY</mat-hint>
+                      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                      <mat-datepicker #picker1></mat-datepicker>
+                    </mat-form-field>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col">
+                    <mat-form-field class="full-width">
+                      <input matInput placeholder="Time" formControlName="time" type="time">
+                    </mat-form-field>
+                  </div>
                 </div>
               </div>
 
-              <div class="row">
-                <div class="col">
-                  <mat-form-field class="full-width">
-                    <input matInput placeholder="Free Text" formControlName="freeText">
-                  </mat-form-field>
+              <div *ngIf="!backStat">
+                <div class="row">
+                  <div class="col">
+                    <mat-form-field class="full-width">
+                      <input matInput placeholder="Remarks" formControlName="remarks">
+                    </mat-form-field>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col">
+                    <mat-form-field class="full-width">
+                      <input matInput placeholder="Free Text" formControlName="freeText">
+                    </mat-form-field>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col">
+                    <mat-form-field class="full-width">
+                      <input matInput placeholder="Action" formControlName="action">
+                    </mat-form-field>
+                  </div>
                 </div>
               </div>
 
-              <div class="row">
-                <div class="col">
-                  <mat-form-field class="full-width">
-                    <input matInput placeholder="Action" formControlName="action">
-                  </mat-form-field>
-                </div>
-              </div>
             </div>
+
+
           </mat-card-content>
           <mat-card-actions>
-          <button  mat-raised-button type="button" [disabled]="!statusForm.valid" (click)="onSubmit()">ADD</button>&nbsp;&nbsp;
+            <button *ngIf="backStat"  mat-raised-button type="button" [disabled]="!statusForm.valid" (click)="onSubmit()">ADD</button>&nbsp;&nbsp;
+            <button *ngIf="!backStat"  mat-raised-button type="button" (click)="onSubmit()">ADD</button>&nbsp;&nbsp;
           </mat-card-actions>
         </mat-card>
       </form>

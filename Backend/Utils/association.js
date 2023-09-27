@@ -7,12 +7,9 @@ const User = require('../Models/user');
 const ProjectType = require('../Models/projectType');
 const Project = require('../Models/project');
 const Client = require('../Models/client');
-const Bsnl = require('../Models/bsnl_base');
 const Asianet = require('../Models/asianet_base');
 const Bajaj = require('../Models/bajaj_base');
 const Vi = require('../Models/vi_base');
-const FollowUp = require('../Models/followUp');
-const BsnlFollowup = require('../Models/followUp');
 const AsianetFollowup = require('../Models/asianet_followup');
 const BajajFollowup = require('../Models/bajaj_followup');
 const ViFollowup = require('../Models/vi_followup');
@@ -20,7 +17,7 @@ const AsianetSalesFollowup = require('../Models/asianet_sales_followup');
 const ViCollectionFollowup = require('../Models/vi_collection_followup');
 const ViCollection = require('../Models/vi_collection');
 const AsianetSales = require('../Models/asianet_sales_base');
-
+const Status = require('../Models/status');
 async function syncModel(){
     
     // await sequelize.sync({alter : true})
@@ -37,9 +34,6 @@ async function syncModel(){
     // Client.hasMany(Project, {foreignKey: 'clientId'})
     // Project.belongsTo(Client)
 
-    Project.hasMany(Bsnl, {foreignKey: 'projectId'})
-    Bsnl.belongsTo(Project)
-
     Project.hasMany(Asianet, {foreignKey: 'projectId'})
     Asianet.belongsTo(Project)
 
@@ -54,9 +48,6 @@ async function syncModel(){
 
     Project.hasMany(ViCollection, {foreignKey: 'projectId'})
     ViCollection.belongsTo(Project)
-
-    User.hasMany(Bsnl, {foreignKey: 'Teleby'})
-    Bsnl.belongsTo(User, {as: 'teleCaller', foreignKey : 'Teleby'})
 
     User.hasMany(Asianet, {foreignKey: 'Teleby'})
     Asianet.belongsTo(User, {as: 'teleCaller', foreignKey : 'Teleby'})
@@ -73,8 +64,35 @@ async function syncModel(){
     User.hasMany(ViCollection, {foreignKey: 'Teleby'})
     ViCollection.belongsTo(User, {as: 'teleCaller', foreignKey : 'Teleby'})
 
-    Project.hasMany(FollowUp, {foreignKey: 'projectId'})
-    FollowUp.belongsTo(Project)
+    Status.hasMany(Asianet, {foreignKey: 'status'})
+    Asianet.belongsTo(Status, {as: 'callStatus', foreignKey : 'status'})
+
+    Status.hasMany(AsianetSales, {foreignKey: 'status'})
+    AsianetSales.belongsTo(Status, {as: 'callStatus', foreignKey : 'status'})
+
+    Status.hasMany(Bajaj, {foreignKey: 'status'})
+    Bajaj.belongsTo(Status, {as: 'callStatus', foreignKey : 'status'})
+
+    Status.hasMany(Vi, {foreignKey: 'status'})
+    Vi.belongsTo(Status, {as: 'callStatus', foreignKey : 'status'})
+
+    Status.hasMany(ViCollection, {foreignKey: 'status'})
+    ViCollection.belongsTo(Status, {as: 'callStatus', foreignKey : 'status'})
+
+    Status.hasMany(AsianetFollowup, {foreignKey: 'status'})
+    AsianetFollowup.belongsTo(Status, {as: 'callStatus', foreignKey : 'status'})
+
+    Status.hasMany(AsianetSalesFollowup, {foreignKey: 'status'})
+    AsianetSalesFollowup.belongsTo(Status, {as: 'callStatus', foreignKey : 'status'})
+
+    Status.hasMany(BajajFollowup, {foreignKey: 'status'})
+    BajajFollowup.belongsTo(Status, {as: 'callStatus', foreignKey : 'status'})
+
+    Status.hasMany(ViFollowup, {foreignKey: 'status'})
+    ViFollowup.belongsTo(Status, {as: 'callStatus', foreignKey : 'status'})
+
+    Status.hasMany(ViCollectionFollowup, {foreignKey: 'status'})
+    ViCollectionFollowup.belongsTo(Status, {as: 'callStatus', foreignKey : 'status'})
 
     Project.hasMany(AsianetFollowup, {foreignKey: 'projectId'})
     AsianetFollowup.belongsTo(Project)
@@ -90,9 +108,6 @@ async function syncModel(){
 
     Project.hasMany(ViCollectionFollowup, {foreignKey: 'projectId'})
     ViCollectionFollowup.belongsTo(Project)
-
-    User.hasMany(BsnlFollowup, {foreignKey: 'Teleby'})
-    BsnlFollowup.belongsTo(User, {as: 'caller', foreignKey : 'Teleby'})
 
     User.hasMany(AsianetFollowup, {foreignKey: 'Teleby'})
     AsianetFollowup.belongsTo(User, {as: 'caller', foreignKey : 'Teleby'})
@@ -147,7 +162,14 @@ async function syncModel(){
             {projectName: 'AsianetCollections', projectTypeId: 3, clientId:null},
             {projectName: 'ViCollections', projectTypeId: 3, clientId:null},
             {projectName: 'Bajaj', projectTypeId: 2, clientId:null},
-            {projectName: 'Bsnl', projectTypeId: 2, clientId:null}
+        ])
+    }
+
+    const status = await Status.findAll({})
+    if(status.length === 0){
+        Status.bulkCreate([
+            {status: 'Not Called'},
+            {status: 'Call Back'}
         ])
     }
 }
