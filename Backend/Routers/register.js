@@ -30,13 +30,11 @@ router.post('/', async (req, res) => {
 
         const userId = newUser.id;
         let empNo = newUser.name + newUser.id
-        console.log(empNo)
 
         let data  = {
           employeeNo : empNo
         }
 
-        console.log(userId)
         User.update(data, {
           where: { id: userId },
         })

@@ -34,7 +34,6 @@ export class StatusComponent {
 
   onSubmit(){
     this.adminService.addStatus(this.statusForm.getRawValue()).subscribe((res)=>{
-      console.log(res);
       this._snackBar.open("Status added successfully...","" ,{duration:3000})
       this.clearControls()
     },(error=>{

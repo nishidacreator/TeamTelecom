@@ -39,7 +39,6 @@ export class AuthService {
       tap((tokens) => this.doLoginUser(data.email, tokens)),
       mapTo(true),
       catchError((error: any) => {
-        console.log(error)
         return of(false)
       })
     )
@@ -47,7 +46,6 @@ export class AuthService {
 
   private doLoginUser(userName: String, tokens: any){
     // this.loggedUser = userName
-    // console.log(this.loggedUser)
     this.storeTokens(tokens)
   }
 

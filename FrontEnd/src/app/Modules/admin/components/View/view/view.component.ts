@@ -44,7 +44,6 @@ export class ViewComponent {
     this.adminService.getStatus().subscribe(res=>{
       this.status = res
       this.status.push(this.allStatus)
-      console.log(this.status)
     })
   }
 
@@ -56,7 +55,6 @@ export class ViewComponent {
     if(this.viewForm.getRawValue().type === 'Base'){
       this.adminService.getProjectById(this.viewForm.getRawValue().projectId).subscribe((res)=>{
         this.projectName = res.projectName.toLowerCase()
-        console.log(this.projectName)
         let data: any;
 
         if(this.viewForm.getRawValue().status != 200){
@@ -64,10 +62,8 @@ export class ViewComponent {
             status: this.viewForm.getRawValue().status
           }
           if(res.projectName.toLowerCase() === 'asianetsales'){
-            console.log(data)
             this.adminService.getAsianetSales(data).subscribe((res)=>{
               this.data = res
-              console.log(res)
               this.clearControls()
             })
           }
@@ -111,7 +107,6 @@ export class ViewComponent {
           if(res.projectName.toLowerCase() === 'asianetcollections'){
             this.adminService.getAllAsianetCollections().subscribe((res)=>{
               this.data = res
-              console.log(this.data)
               this.clearControls()
             })
           }
@@ -158,7 +153,6 @@ export class ViewComponent {
           if(res.projectName.toLowerCase() === 'asianetsales'){
             this.adminService.getAsianetSalesFollowup(data).subscribe((res)=>{
               this.data = res
-              console.log(res)
               this.clearControls()
             })
           }
@@ -195,7 +189,6 @@ export class ViewComponent {
           if(res.projectName.toLowerCase() === 'asianetsales'){
             this.adminService.getAllAsianetSalesFollowup().subscribe((res)=>{
               this.data = res
-              console.log(this.data)
               this.clearControls()
             })
           }
@@ -203,7 +196,6 @@ export class ViewComponent {
           if(res.projectName.toLowerCase() === 'asianetcollections'){
             this.adminService.getAllAsianetCollectionsFollowup().subscribe((res)=>{
               this.data = res
-              console.log(this.data)
               this.clearControls()
             })
           }

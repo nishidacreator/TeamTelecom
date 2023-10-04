@@ -22,7 +22,6 @@ export class ViSalesComponent {
     public dialogRef: MatDialogRef<DeleteComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,) {
       this.id = data.id;
-      console.log(this.id);
     }
 
   ngOnDestroy() {
@@ -55,7 +54,6 @@ export class ViSalesComponent {
     if(this.data.type === 'base'){
       this.baseSub = this.adminService.getViById(this.id).subscribe(data => {
         this.base = data
-        console.log(this.base)
 
         //Populate the object by the ID
         let mobileNumber = this.base.mobileNumber?.toString();
@@ -86,8 +84,6 @@ export class ViSalesComponent {
     }else if(this.data.type === 'follow'){
       this.baseSub = this.adminService.getViFollowById(this.id).subscribe(data => {
         this.base = data
-        console.log(this.base)
-
         //Populate the object by the ID
         let mobileNumber = this.base.mobileNumber?.toString();
         let custName = this.base.custName?.toString();

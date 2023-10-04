@@ -20,7 +20,6 @@ export class ViewAsComponent {
     public dialogRef: MatDialogRef<DeleteComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,) {
       this.id = data.id;
-      console.log(this.id);
     }
 
   ngOnDestroy() {
@@ -31,8 +30,6 @@ export class ViewAsComponent {
 
   ngOnInit(): void {
     this.editBase()
-
-    console.log(this.data);
   }
 
   baseSub!: Subscription;
@@ -46,7 +43,6 @@ export class ViewAsComponent {
     }else if(this.data.type.toLowerCase() === 'followup'){
       this.baseSub = this.adminService.getAsianetSaleFollowById(this.id).subscribe(data => {
         this.base = data
-        console.log(this.base)
       })
     }
   }

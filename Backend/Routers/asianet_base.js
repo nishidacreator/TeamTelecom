@@ -9,7 +9,6 @@ const fs = require('fs-extra');
 router.post('/', multer.single('imageUrl'), async (req, res) => {
     try {
       const imageUrl = req.file ? req.file.path : null;
-      console.log(imageUrl);
       if(imageUrl != null){
           const filePath = 'uploads/' + req.file.filename;
 

@@ -30,7 +30,6 @@ export class LoginComponent implements OnInit {
 
   token : any;
   onSubmit(){
-    console.log(this.loginForm.getRawValue())
     this.authService.login(this.loginForm.getRawValue()).subscribe((res)=>{
       this.token = res
       // localStorage.setItem('token', this.token.token)
@@ -38,7 +37,6 @@ export class LoginComponent implements OnInit {
         this.setCurrentUser()
       }
     },(error=>{
-      console.log(error)
       alert(error.error.message)
     }))
   }

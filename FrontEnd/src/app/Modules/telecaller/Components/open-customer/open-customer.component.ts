@@ -71,39 +71,33 @@ export class OpenCustomerComponent {
   getProjectId(){
     this.projetSub = this.adminService.getProjectById(this.projectId).subscribe(data => {
       this.projectName = data.projectName.toLowerCase();
-      console.log(this.projectName)
 
       if(this.projectName == 'asianetsales'){
         this.dataSub = this.teleCallerService.getAsianetSalesById(this.id).subscribe(res=>{
-          console.log(res)
           this.customer = res
         })
       }
 
       if(this.projectName == 'asianetcollections'){
         this.dataSub = this.teleCallerService.getAsianetById(this.id).subscribe(res=>{
-          console.log(res)
           this.customer = res
         })
       }
 
       if(this.projectName == 'bajaj'){
         this.dataSub = this.teleCallerService.getBajajById(this.id).subscribe(res=>{
-          console.log(res)
           this.customer = res
         })
       }
 
       if(this.projectName == 'visales'){
         this.dataSub = this.teleCallerService.getViById(this.id).subscribe(res=>{
-          console.log(res)
           this.customer = res
         })
       }
 
       if(this.projectName == 'vicollections'){
         this.dataSub = this.teleCallerService.getViCollectionsById(this.id).subscribe(res=>{
-          console.log(res)
           this.customer = res
         })
       }
@@ -193,11 +187,9 @@ export class OpenCustomerComponent {
         }
 
         if(this.projectName === 'vicollections'){
-          console.log(this.id, statData)
           this.teleCallerService.updateViCollectionsCallBack(this.id,statData).subscribe(data =>{
 
             this.teleCallerService.getViCollectionsById(this.id).subscribe(data =>{
-              console.log(data)
 
               this.teleCallerService.addViCollectionFollowUp(data).subscribe(res=>{
                 this.router.navigateByUrl('/telecaller/customers').then(()=>{
@@ -221,7 +213,6 @@ export class OpenCustomerComponent {
         }
 
         if(this.projectName == 'asianetsales'){
-          console.log(data)
           this.teleCallerService.updateAsianetSalesResponse(this.id, data).subscribe(res=>{
             this.router.navigateByUrl('/telecaller/customers').then(()=>{
               window.location.reload();
@@ -240,7 +231,6 @@ export class OpenCustomerComponent {
         }
 
         if(this.projectName == 'visales'){
-          console.log(data)
           this.teleCallerService.updateViResponse(this.id, data).subscribe(res=>{
             this.router.navigateByUrl('/telecaller/customers').then(()=>{
               window.location.reload();

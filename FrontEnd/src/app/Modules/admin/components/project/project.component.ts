@@ -77,7 +77,6 @@ export class ProjectComponent {
 
     dialogRef.afterClosed().subscribe(result => {
       this.imageUrl = result
-      console.log(result)
     })
     // this.router.navigateByUrl('admin/upload')
   }
@@ -125,7 +124,6 @@ export class ProjectComponent {
 
 
     this.adminService.addProject(data).subscribe((res)=>{
-      console.log(res);
       this._snackBar.open("Projects added successfully...","" ,{duration:3000})
       this.clearControls()
     },(error=>{
@@ -145,7 +143,6 @@ export class ProjectComponent {
   getProjects(){
     this.projectsubscription = this.adminService.getProject().subscribe((res)=>{
       this.projects = res
-      console.log(this.projects)
     })
   }
 
@@ -206,8 +203,6 @@ export class ProjectComponent {
       teamLeadId : this.projectForm.get('teamLeadId')?.value,
       projectTypeId : this.projectForm.get('projectTypeId')?.value
     }
-    console.log(data);
-
     this.adminService.updateProject(this.projectId, data).subscribe((res)=>{
       this._snackBar.open("Projects updated successfully...","" ,{duration:3000})
       this.getProjects();

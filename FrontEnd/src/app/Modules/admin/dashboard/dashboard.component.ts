@@ -30,7 +30,6 @@ export class DashboardComponent {
   date: any;
   constructor(private telecallerService: TelecallerService, private datePipe: DatePipe, private adminService: AdminService){
     this.date = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
-      console.log(this.date)
   }
 
   ngOnInit() {

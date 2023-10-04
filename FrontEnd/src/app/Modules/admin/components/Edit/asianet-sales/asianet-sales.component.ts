@@ -22,7 +22,6 @@ export class AsianetSalesComponent {
     public dialogRef: MatDialogRef<DeleteComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,) {
       this.id = data.id;
-      console.log(this.id);
     }
 
   ngOnDestroy() {
@@ -61,8 +60,6 @@ export class AsianetSalesComponent {
     if(this.data.type === 'base'){
       this.baseSub = this.adminService.getAsianetSaleById(this.id).subscribe(data => {
         this.base = data
-        console.log(this.base)
-
         //Populate the object by the ID
         let Region = this.base.Region?.toString();
         let Subcode = this.base.Subcode?.toString();
@@ -101,7 +98,6 @@ export class AsianetSalesComponent {
     else if(this.data.type === 'follow'){
       this.baseSub = this.adminService.getAsianetSaleFollowById(this.id).subscribe(data => {
         this.base = data
-        console.log(this.base)
 
         //Populate the object by the ID
         let Region = this.base.Region?.toString();

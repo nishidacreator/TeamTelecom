@@ -10,11 +10,8 @@ const multer = require('../Utils/multer')
 router.post('/', multer.single('imageUrl'), async (req, res) => {
     try {
         const { startDate, projectName, teamLeadId, description, clientId, projectTypeId, endDate} = req.body;
-        console.log(req.file)
         const imageUrl = req.file ? req.file.path : null;
-        console.log(`Image URL: ${imageUrl}`)
-        console.log(req.body)
-
+        
         const result = new Project({startDate, projectName, imageUrl, teamLeadId, description, clientId, projectTypeId, endDate});
 
         // const result = Project.create(req.body)
@@ -22,7 +19,6 @@ router.post('/', multer.single('imageUrl'), async (req, res) => {
 
         if(imageUrl != null){
             const filePath = 'uploads/' + req.file.filename;
-            console.log(filePath)
 
             const excelData = excelToJson({
                 sourceFile: filePath,

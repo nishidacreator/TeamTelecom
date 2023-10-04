@@ -46,9 +46,7 @@ export class UserComponent {
   }
 
   onSubmit(){
-    console.log(this.userForm.getRawValue())
     this.authService.addUser(this.userForm.getRawValue()).subscribe((res)=>{
-      console.log(res)
       this._snackBar.open("User added successfully...","" ,{duration:3000})
       this.clearControls()
     },(error=>{

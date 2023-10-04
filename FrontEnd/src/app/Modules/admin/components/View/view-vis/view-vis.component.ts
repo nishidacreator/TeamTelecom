@@ -20,7 +20,6 @@ export class ViewVisComponent {
     public dialogRef: MatDialogRef<DeleteComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,) {
       this.id = data.id;
-      console.log(this.id);
     }
 
   ngOnDestroy() {
@@ -38,7 +37,6 @@ export class ViewVisComponent {
     if(this.data.type === 'base'){
       this.baseSub = this.adminService.getViById(this.id).subscribe(data => {
         this.base = data
-        console.log(this.base)
       })
     }else if(this.data.type === 'follow'){
       this.baseSub = this.adminService.getViFollowById(this.id).subscribe(data => {
