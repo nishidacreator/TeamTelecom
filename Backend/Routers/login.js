@@ -8,7 +8,6 @@ const jwtTokens = require('../Utils/jsonWebTokens');
 router.post('/', async(req, res)=> {
     try {
         const { employeeNo, password } = req.body;
-        console.log('Login attempted')
         const user = await User.findOne({where: { employeeNo: employeeNo }});
 
         if(!user){
@@ -22,10 +21,10 @@ router.post('/', async(req, res)=> {
         }
 
         let userToken = {id:user.id, name:user.name, employeeNo: user.employeeNo, role: user.roleId};
-        console.log(userToken);
+
 
         let token = jwtTokens(userToken);
-        // console.log(token);
+
 
         res.cookie('refreshtoken', token.refreshToken, {httpOnly : true})
 

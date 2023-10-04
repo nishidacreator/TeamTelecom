@@ -20,7 +20,6 @@ export class ViewVicComponent {
     public dialogRef: MatDialogRef<DeleteComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,) {
       this.id = data.id;
-      console.log(this.id);
     }
 
   ngOnDestroy() {
@@ -38,7 +37,6 @@ export class ViewVicComponent {
     if(this.data.type === 'base'){
       this.baseSub = this.adminService.getAsianetCollById(this.id).subscribe(data => {
         this.base = data
-        console.log(this.base)
       })
     }else if(this.data.type === 'follow'){
       this.baseSub = this.adminService.getAsianetCollFollowById(this.id).subscribe(data => {

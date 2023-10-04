@@ -20,7 +20,6 @@ export class NavbarComponent {
 
     const token: any = localStorage.getItem('token')
     let user = JSON.parse(token)
-    console.log(user)
     // this.userName = user.employeeNo.toUpperCase()
     this.userId = user.id
   }

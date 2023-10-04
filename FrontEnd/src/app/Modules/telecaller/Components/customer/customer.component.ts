@@ -70,7 +70,6 @@ export class CustomerComponent {
               let viSale = data.filter(x=>x.teleCaller.id === this.userId && x.callStatus.id === 1)
 
               this.data = [...asianet, ...bajaj, ...vi, ...asianetColl, ...viSale];
-                console.log(this.data);
 
                 this.paginatedData = this.data.slice(0, this.pageSize);
               // })
@@ -91,7 +90,7 @@ export class CustomerComponent {
   getFollowUp(){
     // this.teleCallerService.getFollowUpCaller().subscribe(data =>{
     //   this.bsnlFollow = data.filter(x=> this.datePipe.transform(x.date, 'dd/MM/yyyy') === this.date && x.status === null && x.caller.id === this.userId);
-    //   console.log(this.bsnlFollow);
+    //   (this.bsnlFollow);
 
           this.adminService.getAllAsianetSalesFollowup().subscribe(data =>{
             let asianetFollow = data.filter(x=> this.datePipe.transform(x.date, 'dd/MM/yyyy') === this.date && x.callStatus.id === 1  && x.caller.id === this.userId);
@@ -109,8 +108,6 @@ export class CustomerComponent {
                     let viSale = data.filter(x=> this.datePipe.transform(x.date, 'dd/MM/yyyy') === this.date && x.callStatus.id === 1  && x.caller.id === this.userId);
 
                     this.follow = [ ...asianetFollow, ...viFollow, ...bajajFollow, ...asianetColl, ...viSale]
-                  console.log(this.follow)
-              // })
             })
           })
         })

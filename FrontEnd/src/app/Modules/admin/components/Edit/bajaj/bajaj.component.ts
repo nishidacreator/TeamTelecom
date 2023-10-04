@@ -22,7 +22,6 @@ export class BajajComponent {
     public dialogRef: MatDialogRef<DeleteComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,) {
       this.id = data.id;
-      console.log(this.id);
     }
 
   ngOnDestroy() {
@@ -54,7 +53,6 @@ export class BajajComponent {
     if(this.data.type === 'base'){
       this.baseSub = this.adminService.getBajajById(this.id).subscribe(data => {
         this.base = data
-        console.log(this.base)
 
         //Populate the object by the ID
         let subCode = this.base.subCode?.toString();
@@ -83,7 +81,6 @@ export class BajajComponent {
     }else if(this.data.type === 'follow'){
       this.baseSub = this.adminService.getBajajFollowById(this.id).subscribe(data => {
         this.base = data
-        console.log(this.base)
 
         //Populate the object by the ID
         let subCode = this.base.subCode?.toString();

@@ -40,7 +40,6 @@ export class DeleteBaseComponent {
     this.adminService.getStatus().subscribe(res=>{
       this.status = res
       // this.status.push(this.allStatus, this.cbStatus)
-      console.log(this.status)
     })
   }
 
@@ -58,7 +57,6 @@ export class DeleteBaseComponent {
             status: this.deleteForm.getRawValue().status
           }
           if(res.projectName.toLowerCase() === 'asianetsales'){
-            console.log(data)
               this.adminService.deleteAsianetSales(data).subscribe((res)=>{
                 this._snackBar.open("Deleted successfully...","" ,{duration:3000})
                 this.clearControls()
@@ -201,7 +199,6 @@ export class DeleteBaseComponent {
         }
 
         if(res.projectName.toLowerCase() === 'asianetsales'){
-          console.log(data)
             this.adminService.deleteAllAsianetFollow().subscribe((res)=>{
               this._snackBar.open("Deleted successfully...","" ,{duration:3000})
               this.clearControls()
@@ -209,7 +206,6 @@ export class DeleteBaseComponent {
         }
 
       if(res.projectName.toLowerCase() === 'asianetcollections'){
-        console.log(data)
         this.adminService.deleteAllAsianetSalesFollow().subscribe((res)=>{
           this._snackBar.open("Deleted successfully...","" ,{duration:3000})
           this.clearControls()

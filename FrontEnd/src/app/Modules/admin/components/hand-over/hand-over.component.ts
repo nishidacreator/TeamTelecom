@@ -133,7 +133,6 @@ export class HandOverComponent {
   }
 
   handoverData(){
-    console.log(this.handoverForm.getRawValue());
     if(this.handoverForm.getRawValue().type === 'Base'){
       this.adminService.getProjectById(this.handoverForm.getRawValue().projectId).subscribe((res)=>{
         this.projectName = res.projectName.toLowerCase()

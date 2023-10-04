@@ -132,7 +132,6 @@ router.patch('/:id', async(req,res)=>{
         action: req.body.action,
         callTime: req.body.callTime
       }
-      console.log(vi)
 
       const result =  Vi.update(vi, {
             where: { id: req.params.id }

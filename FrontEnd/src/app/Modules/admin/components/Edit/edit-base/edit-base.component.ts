@@ -51,7 +51,7 @@ export class EditBaseComponent {
     if(this.editForm.getRawValue().type === 'Base'){
       this.adminService.getProjectById(this.editForm.getRawValue().projectId).subscribe((res)=>{
         this.projectName = res.projectName.toLowerCase()
-        console.log(this.projectName)
+
         let data: any;
         if(this.projectName === "asianetsales"){
           this.adminService.getAllAsianetSales().subscribe(data =>{
@@ -91,7 +91,6 @@ export class EditBaseComponent {
         if(this.projectName === "asianetsales"){
           this.adminService.getAllAsianetSalesFollowup().subscribe(data =>{
             this.base = data
-            console.log(this.base)
           })
         }
         if(this.projectName === "asianetcollections"){

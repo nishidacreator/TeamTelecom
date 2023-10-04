@@ -71,35 +71,30 @@ export class OpenFollowupComponent {
       this.projectName = data.projectName.toLowerCase();
       if(this.projectName == 'asianetsales'){
         this.dataSub = this.teleCallerService.getAsianetSalesFollowUpById(this.id).subscribe(res=>{
-          console.log(res)
           this.customer = res
         })
       }
 
       if(this.projectName == 'asianetcollections'){
         this.dataSub = this.teleCallerService.getAsianetFollowUpById(this.id).subscribe(res=>{
-          console.log(res)
           this.customer = res
         })
       }
 
       if(this.projectName == 'bajaj'){
         this.dataSub = this.teleCallerService.getBajajFollowUpById(this.id).subscribe(res=>{
-          console.log(res)
           this.customer = res
         })
       }
 
       if(this.projectName == 'visales'){
         this.dataSub = this.teleCallerService.getViFollowUpById(this.id).subscribe(res=>{
-          console.log(res)
           this.customer = res
         })
       }
 
       if(this.projectName == 'vicollections'){
         this.dataSub = this.teleCallerService.getViCollectionFollowUpById(this.id).subscribe(res=>{
-          console.log(res)
           this.customer = res
         })
       }
@@ -116,7 +111,6 @@ export class OpenFollowupComponent {
       action : this.statusForm.get('action')?.value,
       callTime: Date.now()
     }
-    console.log(data)
 
     let statData = {
       status : 'CallBack',
@@ -129,7 +123,6 @@ export class OpenFollowupComponent {
     this.adminService.getStatusById(this.statusForm.getRawValue().statusId).subscribe(res =>{
       if(this.backStat){
         if(this.projectName === 'asianetcollections'){
-          console.log(statData)
           this.teleCallerService.updateAsianetFollowupCallBack(this.id,statData).subscribe(data =>{
 
             this.teleCallerService.getAsianetFollowUpById(this.id).subscribe(data =>{
@@ -207,7 +200,6 @@ export class OpenFollowupComponent {
       }
       else{
         if(this.projectName == 'asianetcollections'){
-          console.log(data)
           this.teleCallerService.updateAsianetFollowupResponse(this.id, data).subscribe(res=>{
             this.router.navigateByUrl('/telecaller/customers').then(()=>{
               window.location.reload();
@@ -217,7 +209,6 @@ export class OpenFollowupComponent {
         }
 
         if(this.projectName == 'asianetsales'){
-          console.log(data)
           this.teleCallerService.updateAsianetSalesFollowupResponse(this.id, data).subscribe(res=>{
             this.router.navigateByUrl('/telecaller/customers').then(()=>{
               window.location.reload();
@@ -236,7 +227,6 @@ export class OpenFollowupComponent {
         }
 
         if(this.projectName == 'visales'){
-          console.log(data)
           this.teleCallerService.updateViFollowupResponse(this.id, data).subscribe(res=>{
             this.router.navigateByUrl('/telecaller/customers').then(()=>{
               window.location.reload();

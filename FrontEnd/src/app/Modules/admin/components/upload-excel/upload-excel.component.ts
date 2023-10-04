@@ -15,7 +15,6 @@ export class UploadExcelComponent {
   selectedFile!: File
   fileUpload(event: any) {
     this.selectedFile = event.target.files[0];
-    console.log(this.selectedFile)
     this.dialogRef.close(this.selectedFile);
   }
 

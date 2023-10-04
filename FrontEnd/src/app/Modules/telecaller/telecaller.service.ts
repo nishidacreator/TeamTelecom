@@ -189,7 +189,6 @@ export class TelecallerService {
   }
 
   updateViCollectionsCallBack(id: number, data: any): Observable<ViCollection>{
-    console.log(id)
     return this._http.patch<ViCollection>(this.url + '/vicollections/callback/' + id, data)
   }
 

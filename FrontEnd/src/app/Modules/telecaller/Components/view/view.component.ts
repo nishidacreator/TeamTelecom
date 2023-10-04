@@ -22,7 +22,6 @@ export class ViewComponent {
   constructor(private adminService: AdminService, private fb: FormBuilder, private dialog: MatDialog){
     const token: any = localStorage.getItem('token')
     let user = JSON.parse(token)
-    console.log(user)
     this.userId = user.id
 
   }
@@ -50,7 +49,6 @@ export class ViewComponent {
     this.adminService.getStatus().subscribe(res=>{
       this.status = res
       this.status.push(this.allStatus, this.cbStatus)
-      console.log(this.status)
     })
   }
 
@@ -76,7 +74,6 @@ export class ViewComponent {
           }
 
           if(res.projectName.toLowerCase() === 'asianetsales'){
-            console.log(data)
             this.adminService.getAsianetSales(data).subscribe((res)=>{
               this.data = res.filter(data => data.teleCaller.id === this.userId)
               this.clearControls()
@@ -122,7 +119,6 @@ export class ViewComponent {
           if(res.projectName.toLowerCase() === 'asianetcollections'){
             this.adminService.getAllAsianetCollections().subscribe((res)=>{
               this.data = res.filter(data => data.teleCaller.id === this.userId)
-              console.log(this.data)
               this.clearControls()
             })
           }
@@ -205,7 +201,6 @@ export class ViewComponent {
           if(res.projectName.toLowerCase() === 'asianetsales'){
             this.adminService.getAllAsianetSalesFollowup().subscribe((res)=>{
               this.data = res.filter(data => data.caller.id === this.userId)
-              console.log(this.data)
               this.clearControls()
             })
           }
@@ -213,7 +208,6 @@ export class ViewComponent {
           if(res.projectName.toLowerCase() === 'asianetcollections'){
             this.adminService.getAllAsianetCollectionsFollowup().subscribe((res)=>{
               this.data = res.filter(data => data.caller.id === this.userId)
-              console.log(this.data)
               this.clearControls()
             })
           }

@@ -47,7 +47,6 @@ export class ProjectBaseComponent {
   isUploading = false;
   uploadProgress = 0;
   onSubmit(){
-    console.log(this.baseForm.get('projectId')?.value)
     if (this.selectedFile) {
       const formData = new FormData();
       formData.append('imageUrl', this.selectedFile, this.selectedFile.name);
@@ -59,13 +58,11 @@ export class ProjectBaseComponent {
       }
 
       this.adminService.getProjectById(this.baseForm.get('projectId')?.value).subscribe((res)=>{
-        console.log(res);
 
         if(res.projectName.toLowerCase() === 'asianetsales'){
           this.isUploading = true;
           // Simulate an upload with a timeout
           setTimeout(() => {
-            console.log(formData)
             this.adminService.addAsianetSales(formData).subscribe(event => {
               if (event.type === HttpEventType.UploadProgress) {
                 if (event.total) {
@@ -105,7 +102,6 @@ export class ProjectBaseComponent {
                 }
               }else if (event.type === HttpEventType.Response) {
                 this.isUploading = false;
-                console.log('File uploaded successfully:', event.body);
                 this._snackBar.open("File uploaded successfully...","" ,{duration:3000})
                 this.clearControls()
               }
@@ -137,7 +133,7 @@ export class ProjectBaseComponent {
                 }
               }else if (event.type === HttpEventType.Response) {
                 this.isUploading = false;
-                console.log('File uploaded successfully:', event.body);
+
                 this._snackBar.open("Projects added successfully...","" ,{duration:3000})
                 this.clearControls()
               }
@@ -169,7 +165,6 @@ export class ProjectBaseComponent {
                 }
               }else if (event.type === HttpEventType.Response) {
                 this.isUploading = false;
-                console.log('File uploaded successfully:', event.body);
                 this._snackBar.open("Projects added successfully...","" ,{duration:3000})
                 this.clearControls()
               }
@@ -201,7 +196,6 @@ export class ProjectBaseComponent {
                 }
               }else if (event.type === HttpEventType.Response) {
                 this.isUploading = false;
-                console.log('File uploaded successfully:', event.body);
                 this._snackBar.open("Projects added successfully...","" ,{duration:3000})
                 this.clearControls()
               }

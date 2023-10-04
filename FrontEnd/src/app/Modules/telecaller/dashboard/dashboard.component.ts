@@ -25,7 +25,6 @@ export class DashboardComponent {
       this.userId = user.id
 
       this.date = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
-      console.log(this.date)
   }
 
   ngOnInit() {
