@@ -18,6 +18,22 @@ export class OpenFollowupComponent {
     if(this.statSub){
       this.statSub.unsubscribe();
     }
+    this.dataSub?.unsubscribe();
+    if(this.updateSub){
+      this.updateSub.unsubscribe();
+    }
+    if(this.addSub){
+      this.addSub.unsubscribe();
+    }
+    if(this.updateSub){
+      this.updateSub.unsubscribe();
+    }
+    if(this.getStatSub){
+      this.getStatSub.unsubscribe();
+    }
+    if(this.getSub){
+      this.getSub.unsubscribe();
+    }
   }
 
   id!: number
@@ -103,6 +119,10 @@ export class OpenFollowupComponent {
 
   nextStatus: boolean = false
   remarks!: any
+  getStatSub!: Subscription;
+  updateSub!: Subscription;
+  addSub!: Subscription;
+  getSub!: Subscription;
   onSubmit(){
     let data = {
       status : this.statusForm.get('statusId')?.value,
@@ -120,14 +140,14 @@ export class OpenFollowupComponent {
     }
 
 
-    this.adminService.getStatusById(this.statusForm.getRawValue().statusId).subscribe(res =>{
+    this.getStatSub = this.adminService.getStatusById(this.statusForm.getRawValue().statusId).subscribe(res =>{
       if(this.backStat){
         if(this.projectName === 'asianetcollections'){
-          this.teleCallerService.updateAsianetFollowupCallBack(this.id,statData).subscribe(data =>{
+          this.updateSub = this.teleCallerService.updateAsianetFollowupCallBack(this.id,statData).subscribe(data =>{
 
-            this.teleCallerService.getAsianetFollowUpById(this.id).subscribe(data =>{
+            this.getSub = this.teleCallerService.getAsianetFollowUpById(this.id).subscribe(data =>{
 
-              this.teleCallerService.addAsianetFollowUp(data).subscribe(res=>{
+              this.addSub = this.teleCallerService.addAsianetFollowUp(data).subscribe(res=>{
                 this.router.navigateByUrl('/telecaller/customers').then(()=>{
                   window.location.reload();
                 })
@@ -138,11 +158,11 @@ export class OpenFollowupComponent {
         }
 
         if(this.projectName === 'asianetsales'){
-          this.teleCallerService.updateAsianetSalesCallBack(this.id,statData).subscribe(data =>{
+          this.updateSub = this.teleCallerService.updateAsianetSalesCallBack(this.id,statData).subscribe(data =>{
 
-            this.teleCallerService.getAsianetSalesFollowUpById(this.id).subscribe(data =>{
+            this.getSub = this.teleCallerService.getAsianetSalesFollowUpById(this.id).subscribe(data =>{
 
-              this.teleCallerService.addAsianetSalesFollowUp(data).subscribe(res=>{
+              this.addSub = this.teleCallerService.addAsianetSalesFollowUp(data).subscribe(res=>{
                 this.router.navigateByUrl('/telecaller/customers').then(()=>{
                   window.location.reload();
                 })
@@ -153,11 +173,11 @@ export class OpenFollowupComponent {
         }
 
         if(this.projectName === 'bajaj'){
-          this.teleCallerService.updateBajajFollowupCallBack(this.id,statData).subscribe(data =>{
+          this.updateSub = this.teleCallerService.updateBajajFollowupCallBack(this.id,statData).subscribe(data =>{
 
-            this.teleCallerService.getBajajFollowUpById(this.id).subscribe(data =>{
+            this.getSub = this.teleCallerService.getBajajFollowUpById(this.id).subscribe(data =>{
 
-              this.teleCallerService.addBajajFollowUp(data).subscribe(res=>{
+              this.addSub = this.teleCallerService.addBajajFollowUp(data).subscribe(res=>{
                 this.router.navigateByUrl('/telecaller/customers').then(()=>{
                   window.location.reload();
                 })
@@ -168,11 +188,11 @@ export class OpenFollowupComponent {
         }
 
         if(this.projectName === 'visales'){
-          this.teleCallerService.updateViFollowupCallBack(this.id,statData).subscribe(data =>{
+          this.updateSub = this.teleCallerService.updateViFollowupCallBack(this.id,statData).subscribe(data =>{
 
-            this.teleCallerService.getViFollowUpById(this.id).subscribe(data =>{
+            this.getSub = this.teleCallerService.getViFollowUpById(this.id).subscribe(data =>{
 
-              this.teleCallerService.addViFollowUp(data).subscribe(res=>{
+              this.addSub = this.teleCallerService.addViFollowUp(data).subscribe(res=>{
                 this.router.navigateByUrl('/telecaller/customers').then(()=>{
                   window.location.reload();
                 })
@@ -183,11 +203,11 @@ export class OpenFollowupComponent {
         }
 
         if(this.projectName === 'vicollections'){
-          this.teleCallerService.updateViFollowupCallBack(this.id,statData).subscribe(data =>{
+          this.updateSub = this.teleCallerService.updateViFollowupCallBack(this.id,statData).subscribe(data =>{
 
-            this.teleCallerService.getViCollectionFollowUpById(this.id).subscribe(data =>{
+            this.getSub = this.teleCallerService.getViCollectionFollowUpById(this.id).subscribe(data =>{
 
-              this.teleCallerService.addViCollectionFollowUp(data).subscribe(res=>{
+              this.addSub = this.teleCallerService.addViCollectionFollowUp(data).subscribe(res=>{
                 this.router.navigateByUrl('/telecaller/customers').then(()=>{
                   window.location.reload();
                 })
@@ -200,7 +220,7 @@ export class OpenFollowupComponent {
       }
       else{
         if(this.projectName == 'asianetcollections'){
-          this.teleCallerService.updateAsianetFollowupResponse(this.id, data).subscribe(res=>{
+          this.updateSub = this.teleCallerService.updateAsianetFollowupResponse(this.id, data).subscribe(res=>{
             this.router.navigateByUrl('/telecaller/customers').then(()=>{
               window.location.reload();
             })
@@ -209,7 +229,7 @@ export class OpenFollowupComponent {
         }
 
         if(this.projectName == 'asianetsales'){
-          this.teleCallerService.updateAsianetSalesFollowupResponse(this.id, data).subscribe(res=>{
+          this.updateSub = this.teleCallerService.updateAsianetSalesFollowupResponse(this.id, data).subscribe(res=>{
             this.router.navigateByUrl('/telecaller/customers').then(()=>{
               window.location.reload();
             })
@@ -218,7 +238,7 @@ export class OpenFollowupComponent {
         }
 
         if(this.projectName == 'bajaj'){
-          this.teleCallerService.updateBajajFollowupResponse(this.id, data).subscribe(res=>{
+          this.updateSub = this.teleCallerService.updateBajajFollowupResponse(this.id, data).subscribe(res=>{
             this.router.navigateByUrl('/telecaller/customers').then(()=>{
               window.location.reload();
             })
@@ -227,7 +247,7 @@ export class OpenFollowupComponent {
         }
 
         if(this.projectName == 'visales'){
-          this.teleCallerService.updateViFollowupResponse(this.id, data).subscribe(res=>{
+          this.updateSub = this.teleCallerService.updateViFollowupResponse(this.id, data).subscribe(res=>{
             this.router.navigateByUrl('/telecaller/customers').then(()=>{
               window.location.reload();
             })
@@ -236,7 +256,7 @@ export class OpenFollowupComponent {
         }
 
         if(this.projectName == 'vicollections'){
-          this.teleCallerService.updateViCollectionFollowupResponse(this.id, data).subscribe(res=>{
+          this.updateSub = this.teleCallerService.updateViCollectionFollowupResponse(this.id, data).subscribe(res=>{
             this.router.navigateByUrl('/telecaller/customers').then(()=>{
               window.location.reload();
             })

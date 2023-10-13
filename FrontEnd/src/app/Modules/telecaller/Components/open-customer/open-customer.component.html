@@ -284,12 +284,24 @@
           </div><br>
 
           <mat-card-content >
+            <div class="row">
+              <div class="col">
+                <mat-form-field class="full-width">
+                  <mat-select placeholder="Remarks" formControlName="remarks">
+                    <mat-option *ngFor="let item of remarksV" [value]="item.name">
+                      {{item.name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+
             <div>
               <div class="row">
                 <div class="col">
                   <mat-form-field class="full-width">
                     <mat-select placeholder="Status" formControlName="statusId" #statusId (selectionChange)="status(statusId.value)">
-                      <mat-option *ngFor="let item of status$ | async" [value]="item.id">
+                      <mat-option *ngFor="let item of statusV" [value]="item.id">
                         {{item.status| titlecase}}
                       </mat-option>
                     </mat-select>
@@ -320,13 +332,13 @@
               </div>
 
               <div *ngIf="!backStat">
-                <div class="row">
+                <!-- <div class="row">
                   <div class="col">
                     <mat-form-field class="full-width">
                       <input matInput placeholder="Remarks" formControlName="remarks">
                     </mat-form-field>
                   </div>
-                </div>
+                </div> -->
 
                 <div class="row">
                   <div class="col">

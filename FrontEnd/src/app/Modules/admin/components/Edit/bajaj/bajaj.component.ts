@@ -26,6 +26,9 @@ export class BajajComponent {
 
   ngOnDestroy() {
     this.baseSub.unsubscribe();
+    if(this.editSub){
+      this.editSub.unsubscribe();
+    }
   }
 
   editForm = this.fb.group({
@@ -109,6 +112,7 @@ export class BajajComponent {
     }
   }
 
+  editSub!: Subscription;
   editFunction(){
      let data: any ={
       subCode : this.editForm.get('subCode')?.value,
@@ -124,7 +128,7 @@ export class BajajComponent {
     }
 
     if(this.data.type === 'base'){
-      this.adminService.updateBajajById(this.id, data).subscribe((res)=>{
+      this.editSub = this.adminService.updateBajajById(this.id, data).subscribe((res)=>{
         this._snackBar.open("Bajaj updated successfully...","" ,{duration:3000})
         this.clearControls();
         this.dialogRef.close();
@@ -132,7 +136,7 @@ export class BajajComponent {
             alert(error.message)
           }))
     }else if(this.data.type === 'follow'){
-      this.adminService.updateBajajFolowById(this.id, data).subscribe((res)=>{
+      this.editSub = this.adminService.updateBajajFolowById(this.id, data).subscribe((res)=>{
         this._snackBar.open("Bajaj updated successfully...","" ,{duration:3000})
         this.clearControls();
         this.dialogRef.close();

@@ -20,6 +20,15 @@ export class RoleComponent {
 
   ngOnDestroy() {
     this.roleSubscription?.unsubscribe()
+    if(this.addSub){
+      this.addSub.unsubscribe()
+    }
+    if(this.deleteSub){
+      this.deleteSub.unsubscribe()
+    }
+    if(this.editSub){
+      this.editSub.unsubscribe()
+    }
   }
 
   roleForm = this.fb.group({
@@ -33,8 +42,9 @@ export class RoleComponent {
     this.getRoles()
   }
 
+  addSub!: Subscription;
   onSubmit(){
-    this.authService.addRole(this.roleForm.getRawValue()).subscribe((res)=>{
+    this.addSub = this.authService.addRole(this.roleForm.getRawValue()).subscribe((res)=>{
       this._snackBar.open("Role added successfully...","" ,{duration:3000})
       this.getRoles()
       this.clearControls()
@@ -57,6 +67,7 @@ export class RoleComponent {
     })
   }
 
+  deleteSub!: Subscription;
   deleteRole(id : any){
     const dialogRef = this.dialog.open(DeleteComponent, {
       data: {}
@@ -64,7 +75,7 @@ export class RoleComponent {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result === true) {
-        this.authService.deleteRole(id).subscribe((res)=>{
+        this.deleteSub = this.authService.deleteRole(id).subscribe((res)=>{
           this.getRoles()
           this._snackBar.open("Role deleted successfully...","" ,{duration:3000})
         },(error=>{
@@ -89,6 +100,7 @@ export class RoleComponent {
     this.roleId = id;
   }
 
+  editSub!: Subscription;
   editFunction(){
     this.isEdit = false;
 
@@ -97,7 +109,7 @@ export class RoleComponent {
       status : this.roleForm.get('status')?.value
     }
 
-    this.authService.updateRole(this.roleId, data).subscribe((res)=>{
+    this.editSub = this.authService.updateRole(this.roleId, data).subscribe((res)=>{
       this._snackBar.open("Role updated successfully...","" ,{duration:3000})
       this.getRoles();
       this.clearControls();

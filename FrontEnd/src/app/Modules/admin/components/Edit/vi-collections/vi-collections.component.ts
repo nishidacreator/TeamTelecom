@@ -26,6 +26,9 @@ export class ViCollectionsComponent {
 
   ngOnDestroy() {
     this.baseSub.unsubscribe();
+    if(this.editSub){
+      this.editSub.unsubscribe();
+    }
   }
 
   editForm = this.fb.group({
@@ -134,6 +137,7 @@ export class ViCollectionsComponent {
     }
   }
 
+  editSub!: Subscription;
   editFunction(){
      let data: any ={
       Region : this.editForm.get('Region')?.value,
@@ -154,7 +158,7 @@ export class ViCollectionsComponent {
     }
 
     if(this.data.type === 'base'){
-      this.adminService.updateViCollById(this.id, data).subscribe((res)=>{
+      this.editSub = this.adminService.updateViCollById(this.id, data).subscribe((res)=>{
         this._snackBar.open("ViCollections updated successfully...","" ,{duration:3000})
         this.clearControls();
         this.dialogRef.close();
@@ -162,7 +166,7 @@ export class ViCollectionsComponent {
             alert(error.message)
           }))
     }else if(this.data.type){
-      this.adminService.updateViCollFollowById(this.id, data).subscribe((res)=>{
+      this.editSub = this.adminService.updateViCollFollowById(this.id, data).subscribe((res)=>{
         this._snackBar.open("ViCollections updated successfully...","" ,{duration:3000})
         this.clearControls();
         this.dialogRef.close();

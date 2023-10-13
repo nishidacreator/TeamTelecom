@@ -1,7 +1,7 @@
 import { Bajaj } from './../../../telecaller/Models/bajaj_base';
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Project } from '../../models/project';
 import { AdminService } from '../../admin.service';
 import { FormBuilder, Validators } from '@angular/forms';
@@ -14,6 +14,15 @@ import { HttpEventType } from '@angular/common/http';
   styleUrls: ['./project-base.component.scss']
 })
 export class ProjectBaseComponent {
+
+  ngOnDestroy(){
+    if(this.getSub){
+      this.getSub.unsubscribe();
+    }
+    if(this.proSub){
+      this.proSub.unsubscribe();
+    }
+  }
 
   constructor(private adminService: AdminService, private fb: FormBuilder, private _snackBar: MatSnackBar){}
 
@@ -46,6 +55,8 @@ export class ProjectBaseComponent {
   percent = 50;
   isUploading = false;
   uploadProgress = 0;
+  proSub!: Subscription;
+  getSub!: Subscription;
   onSubmit(){
     if (this.selectedFile) {
       const formData = new FormData();
@@ -57,13 +68,13 @@ export class ProjectBaseComponent {
         formData.append('projectId', projectId);
       }
 
-      this.adminService.getProjectById(this.baseForm.get('projectId')?.value).subscribe((res)=>{
+      this.getSub = this.adminService.getProjectById(this.baseForm.get('projectId')?.value).subscribe((res)=>{
 
         if(res.projectName.toLowerCase() === 'asianetsales'){
           this.isUploading = true;
           // Simulate an upload with a timeout
           setTimeout(() => {
-            this.adminService.addAsianetSales(formData).subscribe(event => {
+            this.proSub = this.adminService.addAsianetSales(formData).subscribe(event => {
               if (event.type === HttpEventType.UploadProgress) {
                 if (event.total) {
                   this.uploadProgress = Math.round((100 * event.loaded) / event.total);
@@ -93,7 +104,7 @@ export class ProjectBaseComponent {
           this.isUploading = true;
           // Simulate an upload with a timeout
           setTimeout(() => {
-            this.adminService.addAsianet(formData).subscribe(event => {
+            this.proSub = this.adminService.addAsianet(formData).subscribe(event => {
               if (event.type === HttpEventType.UploadProgress) {
                 if (event.total) {
                   this.uploadProgress = Math.round((100 * event.loaded) / event.total);
@@ -124,7 +135,7 @@ export class ProjectBaseComponent {
           this.isUploading = true;
           // Simulate an upload with a timeout
           setTimeout(() => {
-            this.adminService.addBajaj(formData).subscribe(event => {
+            this.proSub = this.adminService.addBajaj(formData).subscribe(event => {
               if (event.type === HttpEventType.UploadProgress) {
                 if (event.total) {
                   this.uploadProgress = Math.round((100 * event.loaded) / event.total);
@@ -156,7 +167,7 @@ export class ProjectBaseComponent {
           this.isUploading = true;
           // Simulate an upload with a timeout
           setTimeout(() => {
-            this.adminService.addVi(formData).subscribe(event => {
+            this.proSub = this.adminService.addVi(formData).subscribe(event => {
               if (event.type === HttpEventType.UploadProgress) {
                 if (event.total) {
                   this.uploadProgress = Math.round((100 * event.loaded) / event.total);
@@ -187,7 +198,7 @@ export class ProjectBaseComponent {
           this.isUploading = true;
           // Simulate an upload with a timeout
           setTimeout(() => {
-            this.adminService.addViCollections(formData).subscribe(event => {
+            this.proSub = this.adminService.addViCollections(formData).subscribe(event => {
               if (event.type === HttpEventType.UploadProgress) {
                 if (event.total) {
                   this.uploadProgress = Math.round((100 * event.loaded) / event.total);

@@ -31,7 +31,17 @@ export class UserComponent {
 
   ngOnDestroy(): void {
     this.userSubscriptions.unsubscribe()
+    if(this.addSub){
+      this.addSub.unsubscribe()
+    }
+    if(this.deleteSub){
+      this.deleteSub.unsubscribe()
+    }
+    if(this.editSub){
+      this.editSub.unsubscribe()
+    }
   }
+
 
   ngOnInit() {
     this.getRole()
@@ -45,8 +55,9 @@ export class UserComponent {
     return this.roles$ = this.authService.getRole()
   }
 
+  addSub!: Subscription;
   onSubmit(){
-    this.authService.addUser(this.userForm.getRawValue()).subscribe((res)=>{
+    this.addSub = this.authService.addUser(this.userForm.getRawValue()).subscribe((res)=>{
       this._snackBar.open("User added successfully...","" ,{duration:3000})
       this.clearControls()
     },(error=>{
@@ -71,6 +82,7 @@ export class UserComponent {
     })
   }
 
+  deleteSub!: Subscription;
   deleteUser(id: number){
     const dialogRef = this.dialog.open(DeleteComponent, {
       data: {}
@@ -78,7 +90,7 @@ export class UserComponent {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result === true) {
-        this.authService.deleteUser(id).subscribe((res)=>{
+        this.deleteSub = this.authService.deleteUser(id).subscribe((res)=>{
           this.getUsers()
           this._snackBar.open("User deleted successfully...","" ,{duration:3000})
         },(error=>{
@@ -113,6 +125,7 @@ export class UserComponent {
     this.userId = id;
   }
 
+  editSub!: Subscription;
   editFunction(){
     this.isEdit = false;
 
@@ -126,7 +139,7 @@ export class UserComponent {
       employeeNo : this.userForm.get('employeeNo')?.value
     }
 
-    this.authService.updateUser(this.userId, data).subscribe((res)=>{
+    this.editSub = this.authService.updateUser(this.userId, data).subscribe((res)=>{
       this._snackBar.open("User updated successfully...","" ,{duration:3000})
       this.getUsers();
       this.clearControls();
