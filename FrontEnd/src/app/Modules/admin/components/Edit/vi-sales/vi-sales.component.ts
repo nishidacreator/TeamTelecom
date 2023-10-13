@@ -26,6 +26,9 @@ export class ViSalesComponent {
 
   ngOnDestroy() {
     this.baseSub.unsubscribe();
+    if(this.editSub){
+      this.editSub.unsubscribe();
+    }
   }
 
   editForm = this.fb.group({
@@ -113,6 +116,7 @@ export class ViSalesComponent {
     }
   }
 
+  editSub!: Subscription;
   editFunction(){
      let data: any ={
       mobileNumber : this.editForm.get('mobileNumber')?.value,
@@ -129,7 +133,7 @@ export class ViSalesComponent {
     }
 
     if(this.data.type === 'base'){
-      this.adminService.updateViById(this.id, data).subscribe((res)=>{
+      this.editSub = this.adminService.updateViById(this.id, data).subscribe((res)=>{
         this._snackBar.open("ViSales updated successfully...","" ,{duration:3000})
         this.clearControls();
         this.dialogRef.close();
@@ -137,7 +141,7 @@ export class ViSalesComponent {
             alert(error.message)
           }))
     }else if(this.data.type === 'follow'){
-      this.adminService.updateViFollowById(this.id, data).subscribe((res)=>{
+      this.editSub = this.adminService.updateViFollowById(this.id, data).subscribe((res)=>{
         this._snackBar.open("ViSales updated successfully...","" ,{duration:3000})
         this.clearControls();
         this.dialogRef.close();

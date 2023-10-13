@@ -17,8 +17,27 @@ export class OpenCustomerComponent {
 
   ngOnDestroy() {
     this.projetSub.unsubscribe();
+    this.statusSub.unsubscribe();
     if(this.statSub){
       this.statSub.unsubscribe();
+    }
+    if(this.projetSub){
+      this.projetSub.unsubscribe();
+    }
+    if(this.dataSub){
+      this.dataSub.unsubscribe();
+    }
+    if(this.updateSub){
+      this.updateSub.unsubscribe();
+    }
+    if(this.addSub){
+      this.addSub.unsubscribe();
+    }
+    if(this.updateSub){
+      this.updateSub.unsubscribe();
+    }
+    if(this.getStatSub){
+      this.getStatSub.unsubscribe();
     }
   }
 
@@ -45,9 +64,12 @@ export class OpenCustomerComponent {
     this.getStatus();
   }
 
-  status$!: Observable<Status[]>
+  statusV: Status[] = [];
+  statusSub!: Subscription;
   getStatus(){
-    this.status$ = this.adminService.getStatus()
+     this.statusSub = this.adminService.getStatus().subscribe(status =>{
+      this.statusV = status.filter(x=> x.status != 'Not Called')
+     })
   }
 
 
@@ -63,6 +85,16 @@ export class OpenCustomerComponent {
       }
     })
   }
+
+  remarksV = [
+    {name: 'Will not pay'},
+    {name: 'Will pay'},
+    {name: 'Paid missing'},
+    {name: 'Fully paid'},
+    {name: 'Partly paid'},
+    {name: 'Wrong Number'},
+    {name: 'Call not attending/not connecting'},
+  ]
 
   projectName!: string;
   projetSub!: Subscription;
@@ -106,6 +138,10 @@ export class OpenCustomerComponent {
 
   nextStatus: boolean = false
   remarks!: any
+  getStatSub!: Subscription;
+  updateSub!: Subscription;
+  getSub!: Subscription;
+  addSub!: Subscription;
   onSubmit(){
     let data = {
       status : this.statusForm.get('statusId')?.value,
@@ -123,15 +159,15 @@ export class OpenCustomerComponent {
     }
 
 
-    this.adminService.getStatusById(this.statusForm.getRawValue().statusId).subscribe(res =>{
+    this.getStatSub = this.adminService.getStatusById(this.statusForm.getRawValue().statusId).subscribe(res =>{
       if(this.backStat){
 
         if(this.projectName === 'asianetcollections'){
-          this.teleCallerService.updateAsianetCallBack(this.id,statData).subscribe(data =>{
+          this.updateSub = this.teleCallerService.updateAsianetCallBack(this.id,statData).subscribe(data =>{
 
-            this.teleCallerService.getAsianetById(this.id).subscribe(data =>{
+            this.getSub = this.teleCallerService.getAsianetById(this.id).subscribe(data =>{
 
-              this.teleCallerService.addAsianetFollowUp(data).subscribe(res=>{
+              this.addSub = this.teleCallerService.addAsianetFollowUp(data).subscribe(res=>{
                 this.router.navigateByUrl('/telecaller/customers').then(()=>{
                   window.location.reload();
                 })
@@ -142,11 +178,11 @@ export class OpenCustomerComponent {
         }
 
         if(this.projectName === 'asianetsales'){
-          this.teleCallerService.updateAsianetSalesCallBack(this.id,statData).subscribe(data =>{
+          this.updateSub = this.teleCallerService.updateAsianetSalesCallBack(this.id,statData).subscribe(data =>{
 
-            this.teleCallerService.getAsianetSalesById(this.id).subscribe(data =>{
+            this.getSub = this.teleCallerService.getAsianetSalesById(this.id).subscribe(data =>{
 
-              this.teleCallerService.addAsianetSalesFollowUp(data).subscribe(res=>{
+              this.addSub = this.teleCallerService.addAsianetSalesFollowUp(data).subscribe(res=>{
                 this.router.navigateByUrl('/telecaller/customers').then(()=>{
                   window.location.reload();
                 })
@@ -157,11 +193,11 @@ export class OpenCustomerComponent {
         }
 
         if(this.projectName === 'bajaj'){
-          this.teleCallerService.updateBajajCallBack(this.id,statData).subscribe(data =>{
+          this.updateSub = this.teleCallerService.updateBajajCallBack(this.id,statData).subscribe(data =>{
 
-            this.teleCallerService.getBajajById(this.id).subscribe(data =>{
+            this.getSub = this.teleCallerService.getBajajById(this.id).subscribe(data =>{
 
-              this.teleCallerService.addBajajFollowUp(data).subscribe(res=>{
+              this.addSub = this.teleCallerService.addBajajFollowUp(data).subscribe(res=>{
                 this.router.navigateByUrl('/telecaller/customers').then(()=>{
                   window.location.reload();
                 })
@@ -172,11 +208,11 @@ export class OpenCustomerComponent {
         }
 
         if(this.projectName === 'visales'){
-          this.teleCallerService.updateViCallBack(this.id,statData).subscribe(data =>{
+          this.updateSub = this.teleCallerService.updateViCallBack(this.id,statData).subscribe(data =>{
 
-            this.teleCallerService.getViById(this.id).subscribe(data =>{
+            this.getSub = this.teleCallerService.getViById(this.id).subscribe(data =>{
 
-              this.teleCallerService.addViFollowUp(data).subscribe(res=>{
+              this.addSub = this.teleCallerService.addViFollowUp(data).subscribe(res=>{
                 this.router.navigateByUrl('/telecaller/customers').then(()=>{
                   window.location.reload();
                 })
@@ -187,11 +223,11 @@ export class OpenCustomerComponent {
         }
 
         if(this.projectName === 'vicollections'){
-          this.teleCallerService.updateViCollectionsCallBack(this.id,statData).subscribe(data =>{
+          this.updateSub = this.teleCallerService.updateViCollectionsCallBack(this.id,statData).subscribe(data =>{
 
-            this.teleCallerService.getViCollectionsById(this.id).subscribe(data =>{
+            this.getSub = this.teleCallerService.getViCollectionsById(this.id).subscribe(data =>{
 
-              this.teleCallerService.addViCollectionFollowUp(data).subscribe(res=>{
+              this.addSub = this.teleCallerService.addViCollectionFollowUp(data).subscribe(res=>{
                 this.router.navigateByUrl('/telecaller/customers').then(()=>{
                   window.location.reload();
                 })
@@ -204,7 +240,7 @@ export class OpenCustomerComponent {
       }
       else{
         if(this.projectName == 'asianetcollections'){
-          this.teleCallerService.updateAsianetResponse(this.id, data).subscribe(res=>{
+          this.updateSub = this.teleCallerService.updateAsianetResponse(this.id, data).subscribe(res=>{
             this.router.navigateByUrl('/telecaller/customers').then(()=>{
               window.location.reload();
             })
@@ -213,7 +249,7 @@ export class OpenCustomerComponent {
         }
 
         if(this.projectName == 'asianetsales'){
-          this.teleCallerService.updateAsianetSalesResponse(this.id, data).subscribe(res=>{
+          this.updateSub = this.teleCallerService.updateAsianetSalesResponse(this.id, data).subscribe(res=>{
             this.router.navigateByUrl('/telecaller/customers').then(()=>{
               window.location.reload();
             })
@@ -222,7 +258,7 @@ export class OpenCustomerComponent {
         }
 
         if(this.projectName == 'bajaj'){
-          this.teleCallerService.updateBajajResponse(this.id, data).subscribe(res=>{
+          this.updateSub = this.teleCallerService.updateBajajResponse(this.id, data).subscribe(res=>{
             this.router.navigateByUrl('/telecaller/customers').then(()=>{
               window.location.reload();
             })
@@ -231,7 +267,7 @@ export class OpenCustomerComponent {
         }
 
         if(this.projectName == 'visales'){
-          this.teleCallerService.updateViResponse(this.id, data).subscribe(res=>{
+          this.updateSub = this.teleCallerService.updateViResponse(this.id, data).subscribe(res=>{
             this.router.navigateByUrl('/telecaller/customers').then(()=>{
               window.location.reload();
             })
@@ -240,7 +276,7 @@ export class OpenCustomerComponent {
         }
 
         if(this.projectName == 'vicollections'){
-          this.teleCallerService.updateViCollectionsResponse(this.id, data).subscribe(res=>{
+          this.updateSub = this.teleCallerService.updateViCollectionsResponse(this.id, data).subscribe(res=>{
             this.router.navigateByUrl('/telecaller/customers').then(()=>{
               window.location.reload();
             })

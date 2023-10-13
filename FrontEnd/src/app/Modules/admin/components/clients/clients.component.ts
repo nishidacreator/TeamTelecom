@@ -21,6 +21,15 @@ export class ClientsComponent {
 
   ngOnDestroy() {
     this.getSubscription?.unsubscribe()
+    if(this.clientS){
+      this.clientS.unsubscribe()
+    }
+    if(this.deleteSub){
+      this.deleteSub.unsubscribe()
+    }
+    if(this.editSub){
+      this.editSub.unsubscribe()
+    }
   }
 
   clientForm = this.fb.group({
@@ -34,8 +43,9 @@ export class ClientsComponent {
     this.getClients()
   }
 
+  clientS!: Subscription;
   onSubmit(){
-    this.adminService.addClient(this.clientForm.getRawValue()).subscribe((res)=>{
+    this.clientS = this.adminService.addClient(this.clientForm.getRawValue()).subscribe((res)=>{
       this._snackBar.open("Client added successfully...","" ,{duration:3000})
       this.clearControls()
     },(error=>{
@@ -58,6 +68,7 @@ export class ClientsComponent {
     })
   }
 
+  deleteSub!: Subscription;
   deleteRole(id : any){
     const dialogRef = this.dialog.open(DeleteComponent, {
       data: {}
@@ -65,7 +76,7 @@ export class ClientsComponent {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result === true) {
-        this.adminService.deleteClient(id).subscribe((res)=>{
+        this.deleteSub = this.adminService.deleteClient(id).subscribe((res)=>{
           this.getClients()
           this._snackBar.open("Client deleted successfully...","" ,{duration:3000})
         },(error=>{
@@ -90,6 +101,7 @@ export class ClientsComponent {
     this.roleId = id;
   }
 
+  editSub!: Subscription;
   editFunction(){
     this.isEdit = false;
 
@@ -98,7 +110,7 @@ export class ClientsComponent {
       phoneNumber : this.clientForm.get('phoneNumber')?.value
     }
 
-    this.adminService.updateClient(this.roleId, data).subscribe((res)=>{
+    this.editSub = this.adminService.updateClient(this.roleId, data).subscribe((res)=>{
       this._snackBar.open("Client updated successfully...","" ,{duration:3000})
       this.clearControls();
     },(error=>{

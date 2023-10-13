@@ -19,7 +19,20 @@ export class HandOverComponent {
 
   ngOnDestroy() {
     this.userSub.unsubscribe();
+    if(this.proSub){
+      this.proSub.unsubscribe();
+    }
+    if(this.getSub){
+      this.getSub.unsubscribe();
+    }
+    if(this.getProSub){
+      this.getProSub.unsubscribe();
+    }
+    if(this.handOverSub){
+      this.handOverSub.unsubscribe();
+    }
   }
+
   handoverForm = this.fb.group({
     type: ['', Validators.required],
     projectId: ['', Validators.required],
@@ -54,38 +67,40 @@ export class HandOverComponent {
   base: any[] = [];
   userId!: any
   count!: number
+  proSub!: Subscription;
+  getSub!: Subscription;
   getProjectBase(){
     this.userId = this.handoverForm.getRawValue().userId
     if(this.handoverForm.getRawValue().type === 'Base'){
-      this.adminService.getProjectById(this.handoverForm.getRawValue().projectId).subscribe((res)=>{
+      this.proSub = this.adminService.getProjectById(this.handoverForm.getRawValue().projectId).subscribe((res)=>{
         this.projectName = res.projectName.toLowerCase()
         let data: any;
         if(this.projectName === "asianetsales"){
-          this.adminService.getAllAsianetSales().subscribe(data =>{
+          this.getSub = this.adminService.getAllAsianetSales().subscribe(data =>{
             this.base = data.filter(item => item.teleCaller.id == this.userId && item.status === null)
             this.count = this.base.length;
           })
         }
         if(this.projectName === "asianetcollections"){
-          this.adminService.getAllAsianetCollections().subscribe(data =>{
+          this.getSub = this.adminService.getAllAsianetCollections().subscribe(data =>{
             this.base = data.filter(item => item.teleCaller.id == this.userId && item.status === null)
             this.count = this.base.length;
           })
         }
         if(this.projectName === "visales"){
-          this.adminService.getAllViSales().subscribe(data =>{
+          this.getSub = this.adminService.getAllViSales().subscribe(data =>{
             this.base = data.filter(item => item.teleCaller.id == this.userId && item.status === null)
             this.count = this.base.length;
           })
         }
         if(this.projectName === "vicollections"){
-          this.adminService.getAllViCollections().subscribe(data =>{
+          this.getSub = this.adminService.getAllViCollections().subscribe(data =>{
             this.base = data.filter(item => item.teleCaller.id == this.userId && item.status === null)
             this.count = this.base.length;
           })
         }
         if(this.projectName === "bajaj"){
-          this.adminService.getAllBajaj().subscribe(data =>{
+          this.getSub = this.adminService.getAllBajaj().subscribe(data =>{
             this.base = data.filter(item => item.teleCaller.id == this.userId && item.status === null)
             this.count = this.base.length;
           })
@@ -93,37 +108,37 @@ export class HandOverComponent {
       })
     }
     else{
-      this.adminService.getProjectById(this.handoverForm.getRawValue().projectId).subscribe((res)=>{
+      this.proSub = this.adminService.getProjectById(this.handoverForm.getRawValue().projectId).subscribe((res)=>{
         this.projectName = res.projectName.toLowerCase()
         let data: any;
 
         if(this.projectName === "asianetsales"){
-          this.adminService.getAllAsianetSalesFollowup().subscribe(data =>{
+          this.getSub = this.adminService.getAllAsianetSalesFollowup().subscribe(data =>{
             this.base = data.filter(item => item.caller.id == this.userId && item.status === null)
             this.count = this.base.length;
           })
         }
         if(this.projectName === "asianetcollections"){
-          this.adminService.getAllAsianetCollectionsFollowup().subscribe(data =>{
+          this.getSub = this.adminService.getAllAsianetCollectionsFollowup().subscribe(data =>{
             this.base = data.filter(item => item.caller.id == this.userId && item.status === null)
             this.count = this.base.length;
             this.getProjectBase()
           })
         }
         if(this.projectName === "visales"){
-          this.adminService.getAllViSalesFollowup().subscribe(data =>{
+          this.getSub = this.adminService.getAllViSalesFollowup().subscribe(data =>{
             this.base = data.filter(item => item.caller.id == this.userId && item.status === null)
             this.count = this.base.length;
           })
         }
         if(this.projectName === "vicollections"){
-          this.adminService.getAllViCollectionsFollowup().subscribe(data =>{
+          this.getSub = this.adminService.getAllViCollectionsFollowup().subscribe(data =>{
             this.base = data.filter(item => item.caller.id == this.userId && item.status === null)
             this.count = this.base.length;
           })
         }
         if(this.projectName === "bajaj"){
-          this.adminService.getAllBajajFollowup().subscribe(data =>{
+          this.getSub = this.adminService.getAllBajajFollowup().subscribe(data =>{
             this.base = data.filter(item => item.caller.id == this.userId && item.status === null)
             this.count = this.base.length;
           })
@@ -132,9 +147,11 @@ export class HandOverComponent {
     }
   }
 
+  handOverSub!: Subscription;
+  getProSub!: Subscription;
   handoverData(){
     if(this.handoverForm.getRawValue().type === 'Base'){
-      this.adminService.getProjectById(this.handoverForm.getRawValue().projectId).subscribe((res)=>{
+      this.getProSub = this.adminService.getProjectById(this.handoverForm.getRawValue().projectId).subscribe((res)=>{
         this.projectName = res.projectName.toLowerCase()
         let user = {
           Teleby: this.handoverForm.getRawValue().assignedToId
@@ -142,21 +159,21 @@ export class HandOverComponent {
 
         if(this.projectName === "asianetsales"){
           for(let i = 0; i <this.base.length; i++){
-            this.adminService.handoverAsianetSales(this.base[i].id, user).subscribe(res=>{})
+            this.handOverSub = this.adminService.handoverAsianetSales(this.base[i].id, user).subscribe(res=>{})
             this._snackBar.open("Handover successfully...","" ,{duration:3000})
             this.clearControls()
           }
         }
         if(this.projectName === "asianetcollections"){
           for(let i = 0; i <this.base.length; i++){
-            this.adminService.handoverAsianetCollections(this.base[i].id, user).subscribe(res=>{})
+            this.handOverSub = this.adminService.handoverAsianetCollections(this.base[i].id, user).subscribe(res=>{})
             this._snackBar.open("Handover successfully...","" ,{duration:3000})
               this.clearControls()
           }
         }
         if(this.projectName === "visales"){
           for(let i = 0; i <this.base.length; i++){
-            this.adminService.handoverVi(this.base[i].id, user).subscribe(res=>{
+            this.handOverSub = this.adminService.handoverVi(this.base[i].id, user).subscribe(res=>{
               this._snackBar.open("Handover successfully...","" ,{duration:3000})
               this.clearControls()
             })
@@ -164,7 +181,7 @@ export class HandOverComponent {
         }
         if(this.projectName === "vicollections"){
           for(let i = 0; i <this.base.length; i++){
-            this.adminService.handoverViCollections(this.base[i].id, user).subscribe(res=>{
+            this.handOverSub = this.adminService.handoverViCollections(this.base[i].id, user).subscribe(res=>{
               this._snackBar.open("Handover successfully...","" ,{duration:3000})
               this.clearControls()
             })
@@ -172,7 +189,7 @@ export class HandOverComponent {
         }
         if(this.projectName === "bajaj"){
           for(let i = 0; i <this.base.length; i++){
-            this.adminService.handoverBajaj(this.base[i].id, user).subscribe(res=>{
+            this.handOverSub = this.adminService.handoverBajaj(this.base[i].id, user).subscribe(res=>{
               this._snackBar.open("Handover successfully...","" ,{duration:3000})
               this.clearControls()
             })
@@ -181,7 +198,7 @@ export class HandOverComponent {
       })
     }
     else{
-      this.adminService.getProjectById(this.handoverForm.getRawValue().projectId).subscribe((res)=>{
+      this.getProSub = this.adminService.getProjectById(this.handoverForm.getRawValue().projectId).subscribe((res)=>{
         this.projectName = res.projectName.toLowerCase()
         let user = {
           Teleby: this.handoverForm.getRawValue().assignedToId
@@ -189,7 +206,7 @@ export class HandOverComponent {
 
         if(this.projectName === "asianetsales"){
           for(let i = 0; i <this.base.length; i++){
-            this.adminService.handoverAsianetSalesFollowup(this.base[i].id, user).subscribe(res=>{
+            this.handOverSub = this.adminService.handoverAsianetSalesFollowup(this.base[i].id, user).subscribe(res=>{
               this._snackBar.open("Handover successfully...","" ,{duration:3000})
               this.clearControls()
             })
@@ -197,7 +214,7 @@ export class HandOverComponent {
         }
         if(this.projectName === "asianetcollections"){
           for(let i = 0; i <this.base.length; i++){
-            this.adminService.handoverAsianetCollectionsFollowup(this.base[i].id, user).subscribe(res=>{
+            this.handOverSub = this.adminService.handoverAsianetCollectionsFollowup(this.base[i].id, user).subscribe(res=>{
               this._snackBar.open("Handover successfully...","" ,{duration:3000})
               this.clearControls()
             })
@@ -205,7 +222,7 @@ export class HandOverComponent {
         }
         if(this.projectName === "visales"){
           for(let i = 0; i <this.base.length; i++){
-            this.adminService.handoverViFollowup(this.base[i].id, user).subscribe(res=>{
+            this.handOverSub = this.adminService.handoverViFollowup(this.base[i].id, user).subscribe(res=>{
               this._snackBar.open("Handover successfully...","" ,{duration:3000})
               this.clearControls()
             })
@@ -213,7 +230,7 @@ export class HandOverComponent {
         }
         if(this.projectName === "vicollections"){
           for(let i = 0; i <this.base.length; i++){
-            this.adminService.handoverViCollectionsFollow(this.base[i].id, user).subscribe(res=>{
+            this.handOverSub = this.adminService.handoverViCollectionsFollow(this.base[i].id, user).subscribe(res=>{
               this._snackBar.open("Handover successfully...","" ,{duration:3000})
               this.clearControls()
             })
@@ -221,7 +238,7 @@ export class HandOverComponent {
         }
         if(this.projectName === "bajaj"){
           for(let i = 0; i <this.base.length; i++){
-            this.adminService.handoverBajajFollowup(this.base[i].id, user).subscribe(res=>{
+            this.handOverSub = this.adminService.handoverBajajFollowup(this.base[i].id, user).subscribe(res=>{
               this._snackBar.open("Handover successfully...","" ,{duration:3000})
               this.clearControls()
             })

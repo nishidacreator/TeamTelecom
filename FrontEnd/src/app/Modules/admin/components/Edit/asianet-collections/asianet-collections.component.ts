@@ -26,6 +26,9 @@ export class AsianetCollectionsComponent {
 
   ngOnDestroy() {
     this.baseSub.unsubscribe();
+    if(this.editSub){
+      this.editSub.unsubscribe();
+    }
   }
 
   editForm = this.fb.group({
@@ -134,6 +137,7 @@ export class AsianetCollectionsComponent {
     }
   }
 
+  editSub!: Subscription;
   editFunction(){
      let data: any ={
       Region : this.editForm.get('Region')?.value,
@@ -154,7 +158,7 @@ export class AsianetCollectionsComponent {
     }
 
     if(this.data.type === 'base'){
-      this.adminService.updateAsianetCollById(this.id, data).subscribe((res)=>{
+      this.editSub = this.adminService.updateAsianetCollById(this.id, data).subscribe((res)=>{
         this._snackBar.open("AsianetCollections updated successfully...","" ,{duration:3000})
         this.clearControls();
         this.dialogRef.close();
@@ -162,7 +166,7 @@ export class AsianetCollectionsComponent {
             alert(error.message)
           }))
     }else if(this.data.type === 'follow'){
-      this.adminService.updateAsianetCollFolowById(this.id, data).subscribe((res)=>{
+      this.editSub = this.adminService.updateAsianetCollFolowById(this.id, data).subscribe((res)=>{
         this._snackBar.open("AsianetCollections updated successfully...","" ,{duration:3000})
         this.clearControls();
         this.dialogRef.close();

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Project } from '../../models/project';
 import { AdminService } from '../../admin.service';
 import { FormBuilder, Validators } from '@angular/forms';
@@ -12,6 +12,16 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./delete-base.component.scss']
 })
 export class DeleteBaseComponent {
+
+  ngOnDestroy() {
+    this.statSub.unsubscribe();
+    if(this.proSub){
+      this.proSub.unsubscribe();
+    }
+    if(this.deleteSub){
+      this.deleteSub.unsubscribe();
+    }
+  }
 
   constructor(private adminService: AdminService, private fb: FormBuilder, private _snackBar: MatSnackBar){}
 
@@ -36,18 +46,20 @@ export class DeleteBaseComponent {
   cbStatus = {id: 100, status: 'CallBack'}
   allStatus = {id: 200, status: 'All'}
   status: Status[] = [];
+  statSub!: Subscription;
   getStatus() {
-    this.adminService.getStatus().subscribe(res=>{
+    this.statSub = this.adminService.getStatus().subscribe(res=>{
       this.status = res
-      // this.status.push(this.allStatus, this.cbStatus)
     })
   }
 
 
   projectName!: string
+  proSub!: Subscription;
+  deleteSub!: Subscription;
   onDeleteFun(){
     if(this.deleteForm.getRawValue().type === 'Base'){
-      this.adminService.getProjectById(this.deleteForm.getRawValue().projectId).subscribe((res)=>{
+      this.proSub = this.adminService.getProjectById(this.deleteForm.getRawValue().projectId).subscribe((res)=>{
         this.projectName = res.projectName.toLowerCase()
 
         let data: any;
@@ -57,35 +69,35 @@ export class DeleteBaseComponent {
             status: this.deleteForm.getRawValue().status
           }
           if(res.projectName.toLowerCase() === 'asianetsales'){
-              this.adminService.deleteAsianetSales(data).subscribe((res)=>{
+              this.deleteSub = this.adminService.deleteAsianetSales(data).subscribe((res)=>{
                 this._snackBar.open("Deleted successfully...","" ,{duration:3000})
                 this.clearControls()
             })
           }
 
           if(res.projectName.toLowerCase() === 'asianetcollections'){
-            this.adminService.deleteAsianet(data).subscribe((res)=>{
+            this.deleteSub =this.adminService.deleteAsianet(data).subscribe((res)=>{
               this._snackBar.open("Deleted successfully...","" ,{duration:3000})
               this.clearControls()
           })
           }
 
           if(res.projectName.toLowerCase() === 'bajaj'){
-              this.adminService.deleteBajaj(data).subscribe((res)=>{
+            this.deleteSub =this.adminService.deleteBajaj(data).subscribe((res)=>{
                 this._snackBar.open("Deleted successfully...","" ,{duration:3000})
                 this.clearControls()
             })
           }
 
           if(res.projectName.toLowerCase() === 'visales'){
-              this.adminService.deleteVi(data).subscribe((res)=>{
+            this.deleteSub =this.adminService.deleteVi(data).subscribe((res)=>{
                 this._snackBar.open("Deleted successfully...","" ,{duration:3000})
                 this.clearControls()
             })
           }
 
           if(res.projectName.toLowerCase() === 'vicollections'){
-            this.adminService.deleteViCollections(data).subscribe((res)=>{
+            this.deleteSub = this.adminService.deleteViCollections(data).subscribe((res)=>{
               this._snackBar.open("Deleted successfully...","" ,{duration:3000})
               this.clearControls()
           })
@@ -93,42 +105,42 @@ export class DeleteBaseComponent {
         }
         else{
             if(res.projectName.toLowerCase() === 'bsnl'){
-              this.adminService.deleteAllBsnl().subscribe((res)=>{
+              this.deleteSub = this.adminService.deleteAllBsnl().subscribe((res)=>{
                 this._snackBar.open("Deleted successfully...","" ,{duration:3000})
                 this.clearControls()
               })
             }
 
             if(res.projectName.toLowerCase() === 'asianetsales'){
-                this.adminService.deleteAllAsianetSales().subscribe((res)=>{
+              this.deleteSub = this.adminService.deleteAllAsianetSales().subscribe((res)=>{
                   this._snackBar.open("Deleted successfully...","" ,{duration:3000})
                   this.clearControls()
               })
             }
 
           if(res.projectName.toLowerCase() === 'asianetcollections'){
-            this.adminService.deleteAllAsianet().subscribe((res)=>{
+            this.deleteSub = this.adminService.deleteAllAsianet().subscribe((res)=>{
               this._snackBar.open("Deleted successfully...","" ,{duration:3000})
               this.clearControls()
           })
           }
 
           if(res.projectName.toLowerCase() === 'bajaj'){
-              this.adminService.deleteAllBajaj().subscribe((res)=>{
+            this.deleteSub = this.adminService.deleteAllBajaj().subscribe((res)=>{
                 this._snackBar.open("Deleted successfully...","" ,{duration:3000})
                 this.clearControls()
             })
           }
 
           if(res.projectName.toLowerCase() === 'visales'){
-              this.adminService.deleteAllVi().subscribe((res)=>{
+            this.deleteSub = this.adminService.deleteAllVi().subscribe((res)=>{
                 this._snackBar.open("Deleted successfully...","" ,{duration:3000})
                 this.clearControls()
             })
           }
 
           if(res.projectName.toLowerCase() === 'vicollections'){
-            this.adminService.deleteAllViCollections().subscribe((res)=>{
+            this.deleteSub = this.adminService.deleteAllViCollections().subscribe((res)=>{
               this._snackBar.open("Deleted successfully...","" ,{duration:3000})
               this.clearControls()
             })
@@ -137,7 +149,7 @@ export class DeleteBaseComponent {
       })
     }
     else{
-      this.adminService.getProjectById(this.deleteForm.getRawValue().projectId).subscribe((res)=>{
+      this.proSub = this.adminService.getProjectById(this.deleteForm.getRawValue().projectId).subscribe((res)=>{
         let data: any;
         if(this.deleteForm.getRawValue().status != 200){
           if(this.deleteForm.getRawValue().status != 100){
@@ -150,84 +162,84 @@ export class DeleteBaseComponent {
             }
           }
         if(res.projectName.toLowerCase() === 'bsnl'){
-          this.adminService.deleteBsnlFollow(data).subscribe((res)=>{
+          this.deleteSub = this.adminService.deleteBsnlFollow(data).subscribe((res)=>{
             this._snackBar.open("Deleted successfully...","" ,{duration:3000})
             this.clearControls()
         })
       }
 
       if(res.projectName.toLowerCase() === 'asianetsales'){
-          this.adminService.deleteAsianetSalesFollow(data).subscribe((res)=>{
+        this.deleteSub = this.adminService.deleteAsianetSalesFollow(data).subscribe((res)=>{
             this._snackBar.open("Deleted successfully...","" ,{duration:3000})
             this.clearControls()
         })
       }
 
       if(res.projectName.toLowerCase() === 'asianetcollections'){
-        this.adminService.deleteAsianetFollow(data).subscribe((res)=>{
+        this.deleteSub = this.adminService.deleteAsianetFollow(data).subscribe((res)=>{
           this._snackBar.open("Deleted successfully...","" ,{duration:3000})
           this.clearControls()
       })
       }
 
       if(res.projectName.toLowerCase() === 'bajaj'){
-          this.adminService.deleteBajajFollow(data).subscribe((res)=>{
+        this.deleteSub = this.adminService.deleteBajajFollow(data).subscribe((res)=>{
             this._snackBar.open("Deleted successfully...","" ,{duration:3000})
             this.clearControls()
         })
       }
 
       if(res.projectName.toLowerCase() === 'visales'){
-          this.adminService.deleteViFollow(data).subscribe((res)=>{
+        this.deleteSub = this.adminService.deleteViFollow(data).subscribe((res)=>{
             this._snackBar.open("Deleted successfully...","" ,{duration:3000})
             this.clearControls()
         })
       }
 
       if(res.projectName.toLowerCase() === 'vicollections'){
-        this.adminService.deleteViCollectionsFollow(data).subscribe((res)=>{
+        this.deleteSub = this.adminService.deleteViCollectionsFollow(data).subscribe((res)=>{
           this._snackBar.open("Deleted successfully...","" ,{duration:3000})
           this.clearControls()
       })
       }
       }else{
         if(res.projectName.toLowerCase() === 'bsnl'){
-          this.adminService.deleteAllBsnlFollow().subscribe((res)=>{
+          this.deleteSub = this.adminService.deleteAllBsnlFollow().subscribe((res)=>{
             this._snackBar.open("Deleted successfully...","" ,{duration:3000})
             this.clearControls()
           })
         }
 
         if(res.projectName.toLowerCase() === 'asianetsales'){
-            this.adminService.deleteAllAsianetFollow().subscribe((res)=>{
+          this.deleteSub = this.adminService.deleteAllAsianetFollow().subscribe((res)=>{
               this._snackBar.open("Deleted successfully...","" ,{duration:3000})
               this.clearControls()
           })
         }
 
       if(res.projectName.toLowerCase() === 'asianetcollections'){
-        this.adminService.deleteAllAsianetSalesFollow().subscribe((res)=>{
+        this.deleteSub = this.adminService.deleteAllAsianetSalesFollow().subscribe((res)=>{
           this._snackBar.open("Deleted successfully...","" ,{duration:3000})
           this.clearControls()
       })
       }
 
       if(res.projectName.toLowerCase() === 'bajaj'){
-          this.adminService.deleteAllBajajFollow().subscribe((res)=>{
+        this.deleteSub = this.adminService.deleteAllBajajFollow().subscribe((res)=>{
             this._snackBar.open("Deleted successfully...","" ,{duration:3000})
             this.clearControls()
         })
       }
 
       if(res.projectName.toLowerCase() === 'visales'){
-          this.adminService.deleteAllViFollow().subscribe((res)=>{
+        this.deleteSub = this.adminService.deleteAllViFollow().subscribe((res)=>{
             this._snackBar.open("Deleted successfully...","" ,{duration:3000})
             this.clearControls()
         })
       }
 
       if(res.projectName.toLowerCase() === 'vicollections'){
-        this.adminService.deleteAllViCollectionsFollow().subscribe((res)=>{
+        this.deleteSub = this.adminService.deleteAllViCollectionsFollow().subscribe((res)=>{
           this._snackBar.open("Deleted successfully...","" ,{duration:3000})
           this.clearControls()
         })

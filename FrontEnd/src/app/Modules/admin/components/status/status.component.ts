@@ -20,6 +20,15 @@ export class StatusComponent {
 
   ngOnDestroy() {
     this.statusSubscription?.unsubscribe()
+    if(this.addSub){
+      this.addSub.unsubscribe()
+    }
+    if(this.deleteSub){
+      this.deleteSub.unsubscribe()
+    }
+    if(this.editSub){
+      this.editSub.unsubscribe()
+    }
   }
 
   statusForm = this.fb.group({
@@ -32,8 +41,9 @@ export class StatusComponent {
     this.getStatus()
   }
 
+  addSub!: Subscription;
   onSubmit(){
-    this.adminService.addStatus(this.statusForm.getRawValue()).subscribe((res)=>{
+    this.addSub = this.adminService.addStatus(this.statusForm.getRawValue()).subscribe((res)=>{
       this._snackBar.open("Status added successfully...","" ,{duration:3000})
       this.clearControls()
     },(error=>{
@@ -56,6 +66,7 @@ export class StatusComponent {
     })
   }
 
+  deleteSub!: Subscription;
   deleteStatus(id : any){
     const dialogRef = this.dialog.open(DeleteComponent, {
       data: {}
@@ -63,7 +74,7 @@ export class StatusComponent {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result === true) {
-        this.adminService.deleteStatus(id).subscribe((res)=>{
+        this.deleteSub = this.adminService.deleteStatus(id).subscribe((res)=>{
           this.getStatus()
           this._snackBar.open("Status deleted successfully...","" ,{duration:3000})
         },(error=>{
@@ -87,6 +98,7 @@ export class StatusComponent {
     this.statId = id;
   }
 
+  editSub!: Subscription;
   editFunction(){
     this.isEdit = false;
 
@@ -94,7 +106,7 @@ export class StatusComponent {
       status : this.statusForm.get('status')?.value
     }
 
-    this.adminService.updateStatus(this.statId, data).subscribe((res)=>{
+    this.editSub = this.adminService.updateStatus(this.statId, data).subscribe((res)=>{
       this._snackBar.open("Status updated successfully...","" ,{duration:3000})
       this.clearControls();
     },(error=>{
