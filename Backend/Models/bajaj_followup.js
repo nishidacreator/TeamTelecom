@@ -21,7 +21,7 @@ const BajajFollowup = sequelize.define('bajajfollowup',{
 },
 {
     freezeTableName: true,
-    timestamps : false
+    timestamps : true
 })
 
 

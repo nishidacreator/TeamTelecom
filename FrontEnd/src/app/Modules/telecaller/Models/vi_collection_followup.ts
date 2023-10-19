@@ -23,4 +23,6 @@ export interface ViCollectionFollowup{
   caller: User
   date: Date
   time: Date
+
+  createdAt : Date
 }

@@ -24,7 +24,7 @@ const AsianetFollowup = sequelize.define('asianetFollowup',{
 },
 {
     freezeTableName: true,
-    timestamps : false
+    timestamps : true
 })
 
 

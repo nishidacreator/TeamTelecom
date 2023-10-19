@@ -24,7 +24,7 @@ const ViFollowup = sequelize.define('vifollowup',{
 },
 {
     freezeTableName: true,
-    timestamps : false
+    timestamps : true
 })
 
 

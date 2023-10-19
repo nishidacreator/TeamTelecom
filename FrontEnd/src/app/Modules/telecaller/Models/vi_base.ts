@@ -20,4 +20,6 @@ export interface Vi{
   teleCaller: User
   date: Date
   time: Date
+
+  createdAt : Date
 }

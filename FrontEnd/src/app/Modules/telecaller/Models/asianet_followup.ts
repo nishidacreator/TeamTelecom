@@ -23,4 +23,6 @@ export interface AsianetFollowup{
   caller: User
   date: Date
   time: Date
+
+  createdAt : Date
 }

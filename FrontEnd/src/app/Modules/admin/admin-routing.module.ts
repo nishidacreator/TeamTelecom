@@ -17,11 +17,13 @@ import { StatusComponent } from './components/status/status.component';
 import { ViewComponent } from './components/View/view/view.component';
 import { HandOverComponent } from './components/hand-over/hand-over.component';
 import { EditBaseComponent } from './components/Edit/edit-base/edit-base.component';
+import { ProfileComponent } from '../auth/components/profile/profile.component';
 
 const routes: Routes = [
   {path: '', component:NavbarComponent,
     children:[
       {path: '', component: DashboardComponent},
+      {path: 'profile', component: ProfileComponent},
       {path: 'home', component: DashboardComponent},
       {path: 'projectbase', component: ProjectBaseComponent},
       {path: 'clients', component: ClientsComponent},

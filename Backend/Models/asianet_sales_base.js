@@ -26,7 +26,7 @@ const AsianetSales = sequelize.define('asianetSales',{
 },
 {
     freezeTableName: true,
-    timestamps : false
+    timestamps : true
 })
 
 

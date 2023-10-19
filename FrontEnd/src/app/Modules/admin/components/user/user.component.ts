@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Inject, Optional } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
@@ -18,7 +18,9 @@ import { AuthService } from 'src/app/Modules/auth/auth.service';
 export class UserComponent {
 
   constructor(private fb: FormBuilder,public dialog: MatDialog, private adminService: AdminService,
-    private _snackBar: MatSnackBar, private router: Router, private authService: AuthService){}
+    private _snackBar: MatSnackBar, private router: Router, private authService: AuthService,
+    @Optional() public dialogRef: MatDialogRef<UserComponent>,
+    @Optional() @Inject(MAT_DIALOG_DATA) private dialogData: any){}
 
   userForm = this.fb.group({
     name: ['', Validators.required],
@@ -42,11 +44,14 @@ export class UserComponent {
     }
   }
 
-
+  addStatus!: string;
+  id!: number;
   ngOnInit() {
     this.getRole()
-
     this.userSubscriptions = this.getUsers()
+    if (this.dialogRef) {
+      this.addStatus = this.dialogData?.status;
+    }
   }
 
   roles$!: Observable<Role[]>
@@ -57,6 +62,7 @@ export class UserComponent {
 
   addSub!: Subscription;
   onSubmit(){
+    console.log("submit");
     this.addSub = this.authService.addUser(this.userForm.getRawValue()).subscribe((res)=>{
       this._snackBar.open("User added successfully...","" ,{duration:3000})
       this.clearControls()
@@ -79,6 +85,12 @@ export class UserComponent {
   getUsers(){
     return this.authService.getUser().subscribe((res)=>{
       this.users = res
+      console.log(this.users)
+      if (this.dialogRef) {
+        // this.addStatus = this.dialogData?.status;
+        this.id = this.dialogData?.id;
+        this.editUser(this.id)
+      }
     })
   }
 
@@ -91,8 +103,8 @@ export class UserComponent {
     dialogRef.afterClosed().subscribe(result => {
       if (result === true) {
         this.deleteSub = this.authService.deleteUser(id).subscribe((res)=>{
-          this.getUsers()
           this._snackBar.open("User deleted successfully...","" ,{duration:3000})
+          this.getUsers()
         },(error=>{
           this._snackBar.open(error.error.message,"" ,{duration:3000})
         }))
@@ -104,13 +116,17 @@ export class UserComponent {
   userId : any;
   editUser(id : any){
     this.isEdit = true;
-    //Get the product based on the ID
+    console.log(this.isEdit)
+    console.log(this.addStatus)
+    console.log(id);
+    if(this.users.length){
+      //Get the product based on the ID
     let user: any= this.users.find(x =>x.id == id)
-
+    console.log(user)
     //Populate the object by the ID
     let name = user.name.toString();
-    let phoneNumber = user.phoneNumber.toString();
-    let email = user.email.toString();
+    let phoneNumber = user.phoneNumber;
+    // let email = user.email.toString();
     let roleId = user.roleId;
     let status = user.status;
     let employeeNo = user.employeeNo;
@@ -123,10 +139,12 @@ export class UserComponent {
       employeeNo : employeeNo
     })
     this.userId = id;
+    }
   }
 
   editSub!: Subscription;
   editFunction(){
+    console.log("edit");
     this.isEdit = false;
 
     let data: any ={
@@ -143,6 +161,7 @@ export class UserComponent {
       this._snackBar.open("User updated successfully...","" ,{duration:3000})
       this.getUsers();
       this.clearControls();
+      this.dialogRef.close();
     },(error=>{
           alert(error.message)
         }))
@@ -150,6 +169,10 @@ export class UserComponent {
 
   addRole(){
     this.router.navigateByUrl('admin/settings/user/addrole')
+  }
+
+  onCancelClick(): void {
+    this.dialogRef.close();
   }
 
 }
