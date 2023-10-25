@@ -144,7 +144,6 @@ export class UserComponent {
 
   editSub!: Subscription;
   editFunction(){
-    console.log("edit");
     this.isEdit = false;
 
     let data: any ={
