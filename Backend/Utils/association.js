@@ -20,7 +20,7 @@ const AsianetSales = require('../Models/asianet_sales_base');
 const Status = require('../Models/status');
 async function syncModel(){
     
-    await sequelize.sync({force : true})
+    // await sequelize.sync({force : true})
 
     Role.hasMany(User,{foreignKey : 'roleId', onDelete : 'CASCADE', onUpdate : 'CASCADE'})
     User.belongsTo(Role)
@@ -125,7 +125,7 @@ async function syncModel(){
     ViCollectionFollowup.belongsTo(User, {as: 'caller', foreignKey : 'Teleby'})
 
 
-    await sequelize.sync({force : `true`})
+    await sequelize.sync({alter : `true`})
 
     //BULK CREATE
     const role = await Role.findAll({})
