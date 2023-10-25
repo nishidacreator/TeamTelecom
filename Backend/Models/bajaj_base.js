@@ -21,7 +21,7 @@ const Bajaj = sequelize.define('bajaj',{
 },
 {
     freezeTableName: true,
-    timestamps : false
+    timestamps : true
 })
 
 

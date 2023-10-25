@@ -42,7 +42,7 @@ export class ExportBaseComponent {
     const formattedDate = currentDate.toISOString().split('T')[0];
 
     if(this.exportForm.getRawValue().type === 'Base'){
-      const excludedFields = ['teleCallerId', 'projectId', 'teleCaller', 'project'];
+      const excludedFields = ['teleCallerId', 'projectId', 'teleCaller', 'project', 'callStatus'];
 
         this.adminService.getProjectById(this.exportForm.getRawValue().projectId).subscribe((res)=>{
           if(res.projectName.toLowerCase() === 'asianetcollections'){
@@ -51,6 +51,7 @@ export class ExportBaseComponent {
 
             this.adminService.getAllAsianetCollections().subscribe(res=>{
               this.data = res
+              console.log(this.data)
 
               // Get the headings based on the first client object
               const firstClient = this.data[0];
@@ -68,7 +69,10 @@ export class ExportBaseComponent {
 
                 // Iterate over each property of the client object
                 for (let key of headings) {
-                  const value = client[key];
+                  let value = client[key];
+                  if(key === 'status'){
+                    value = this.data[i].callStatus.status;
+                  }
                   newRow.push(value);
                 }
 
@@ -120,7 +124,10 @@ export class ExportBaseComponent {
 
                 // Iterate over each property of the client object
                 for (let key of headings) {
-                  const value = client[key];
+                  let value = client[key];
+                  if(key === 'status'){
+                    value = this.data[i].callStatus.status;
+                  }
                   newRow.push(value);
                 }
 
@@ -173,7 +180,11 @@ export class ExportBaseComponent {
 
                 // Iterate over each property of the client object
                 for (let key of headings) {
-                  const value = client[key];
+                  let value = client[key];
+                  if(key === 'status'){
+                    value = this.data[i].callStatus.status;
+                  }
+
                   newRow.push(value);
                 }
 
@@ -226,7 +237,10 @@ export class ExportBaseComponent {
 
                 // Iterate over each property of the client object
                 for (let key of headings) {
-                  const value = client[key];
+                  let value = client[key];
+                  if(key === 'status'){
+                    value = this.data[i].callStatus.status;
+                  }
                   newRow.push(value);
                 }
 
@@ -279,7 +293,10 @@ export class ExportBaseComponent {
 
                 // Iterate over each property of the client object
                 for (let key of headings) {
-                  const value = client[key];
+                  let value = client[key];
+                  if(key === 'status'){
+                    value = this.data[i].callStatus.status;
+                  }
                   newRow.push(value);
                 }
 
@@ -336,7 +353,10 @@ export class ExportBaseComponent {
 
               // Iterate over each property of the client object
               for (let key of headings) {
-                const value = client[key];
+                let value = client[key];
+                if(key === 'status'){
+                  value = this.data[i].callStatus.status;
+                }
                 newRow.push(value);
               }
 
@@ -389,7 +409,10 @@ export class ExportBaseComponent {
 
               // Iterate over each property of the client object
               for (let key of headings) {
-                const value = client[key];
+                let value = client[key];
+                if(key === 'status'){
+                  value = this.data[i].callStatus.status;
+                }
                 newRow.push(value);
               }
 
@@ -442,7 +465,10 @@ export class ExportBaseComponent {
 
               // Iterate over each property of the client object
               for (let key of headings) {
-                const value = client[key];
+                let value = client[key];
+                if(key === 'status'){
+                  value = this.data[i].callStatus.status;
+                }
                 newRow.push(value);
               }
 
@@ -495,7 +521,10 @@ export class ExportBaseComponent {
 
               // Iterate over each property of the client object
               for (let key of headings) {
-                const value = client[key];
+                let value = client[key];
+                if(key === 'status'){
+                  value = this.data[i].callStatus.status;
+                }
                 newRow.push(value);
               }
 
@@ -548,7 +577,10 @@ export class ExportBaseComponent {
 
               // Iterate over each property of the client object
               for (let key of headings) {
-                const value = client[key];
+                let value = client[key];
+                if(key === 'status'){
+                  value = this.data[i].callStatus.status;
+                }
                 newRow.push(value);
               }
 

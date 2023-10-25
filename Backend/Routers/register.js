@@ -106,14 +106,11 @@ router.patch('/:id', async(req,res)=>{
     try {
         const user = {
           name : req.body.name,
-          email : req.body.email,
           phoneNumber : req.body.phoneNumber,
           password : pass,
           roleId : req.body.roleId,
           status: req.body.status,
-          qualification : req.body.qualification,
-          joiningDate : req.body.joiningDate,
-          dateOfBirth : req.body.dateOfBirth
+          employeeNo: req.body.employeeNo
         }
 
         User.update(user, {

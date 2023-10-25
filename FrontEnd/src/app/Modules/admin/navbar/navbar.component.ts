@@ -24,9 +24,13 @@ export class NavbarComponent {
     this.userId = user.id
   }
 
-  myProfile(){
-    this.router.navigateByUrl('admin/settings/userdetails/'+ this.userId)
+  viewProfile(){
+    console.log('viewProfile')
   }
+
+  // myProfile(){
+  //   this.router.navigateByUrl('admin/settings/userdetails/'+ this.userId)
+  // }
 
   logOut(){
     this.authService.logout()

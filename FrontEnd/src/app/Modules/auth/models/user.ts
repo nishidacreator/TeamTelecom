@@ -1,3 +1,5 @@
+import { Role } from "./role"
+
 export interface User{
   name: string,
   phoneNumber: string,
@@ -7,4 +9,6 @@ export interface User{
   status: boolean,
   employeeNo: string
   id: number
+  role: Role
+  file_url: string
 }

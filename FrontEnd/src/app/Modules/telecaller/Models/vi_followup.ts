@@ -20,4 +20,6 @@ export interface ViFollowup{
   caller: User
   date: Date
   time: Date
+
+  createdAt : Date
 }

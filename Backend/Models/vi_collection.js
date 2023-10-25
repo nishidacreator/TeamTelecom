@@ -24,7 +24,7 @@ const ViCollection = sequelize.define('viCollection',{
 },
 {
     freezeTableName: true,
-    timestamps : false
+    timestamps : true
 })
 
 

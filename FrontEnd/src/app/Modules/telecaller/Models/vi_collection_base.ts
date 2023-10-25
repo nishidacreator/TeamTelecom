@@ -24,4 +24,6 @@ export interface ViCollection{
   teleCaller: User
   date: Date
   time: Date
+
+  createdAt : Date
 }

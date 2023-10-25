@@ -24,7 +24,7 @@ const Vi = sequelize.define('vi',{
 },
 {
     freezeTableName: true,
-    timestamps : false
+    timestamps : true
 })
 
 

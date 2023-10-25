@@ -8,12 +8,14 @@ import { OpenCustomerComponent } from './Components/open-customer/open-customer.
 import { OpenFollowupComponent } from './Components/open-followup/open-followup.component';
 import { ViewComponent } from './Components/view/view.component';
 import { ViewTodayComponent } from './Components/view-today/view-today.component';
+import { ProfileComponent } from '../auth/components/profile/profile.component';
 
 const routes: Routes = [
   {path: '', component:NavbarComponent,
   children:[
     {path: '', component: DashboardComponent},
     {path: '', component:HomeComponent},
+    {path: 'profile', component:ProfileComponent},
     {path: 'customers', component:CustomerComponent},
     {path: 'customers/open/:id/:projectId', component:OpenCustomerComponent},
     {path: 'followupcustomers/open/:id/:projectId', component:OpenFollowupComponent},

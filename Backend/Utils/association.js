@@ -141,22 +141,22 @@ async function syncModel(){
     const user = await User.findAll({})
     if(user.length === 0){
         User.bulkCreate([
-            {name: 'Admin',password:pass,roleId:1, employeeNo:'Admin1'},
-            {name: 'Jayasree',password:pass,roleId:2, employeeNo:'Jayasree2'},
-            {name: 'Keerthi',password:pass,roleId:2, employeeNo:'Keerthi3'},
-            {name: 'Haritha',password:pass,roleId:2, employeeNo:'Haritha4'},
-            {name: 'Anandhu',password:pass,roleId:2, employeeNo:'Anandhu5'},
-            {name: 'Abi',password:pass,roleId:2, employeeNo:'Abi6'},
-            {name: 'Anjal',password:pass,roleId:2, employeeNo:'Anjal7'},
-            {name: 'Aleeta',password:pass,roleId:2, employeeNo:'Aleeta8'},
-            {name: 'Feba',password:pass,roleId:2, employeeNo:'Feba9'},
-            {name: 'Rony',password:pass,roleId:2, employeeNo:'Rony10'},
-            {name: 'Hari',password:pass,roleId:2, employeeNo:'Hari11'},
-            {name: 'Sooraj',password:pass,roleId:2, employeeNo:'Sooraj12'},
-            {name: 'Issac',password:pass,roleId:2, employeeNo:'Issac13'},
-            {name: 'Haseeja',password:pass,roleId:2, employeeNo:'Haseeja14'},
-            {name: 'Sandra',password:pass,roleId:2, employeeNo:'Sandra15'},
-            {name: 'Ruby',password:pass,roleId:2, employeeNo:'Ruby16'}
+            {name: 'Admin',password:pass,roleId:1, employeeNo:'Admin1', phoneNumber: ""},
+            {name: 'Jayasree',password:pass,roleId:2, employeeNo:'Jayasree2', phoneNumber: ""},
+            {name: 'Keerthi',password:pass,roleId:2, employeeNo:'Keerthi3', phoneNumber: ""},
+            {name: 'Haritha',password:pass,roleId:2, employeeNo:'Haritha4', phoneNumber: ""},
+            {name: 'Anandhu',password:pass,roleId:2, employeeNo:'Anandhu5', phoneNumber: ""},
+            {name: 'Abi',password:pass,roleId:2, employeeNo:'Abi6', phoneNumber: ""},
+            {name: 'Anjal',password:pass,roleId:2, employeeNo:'Anjal7', phoneNumber: ""},
+            {name: 'Aleeta',password:pass,roleId:2, employeeNo:'Aleeta8', phoneNumber: ""},
+            {name: 'Feba',password:pass,roleId:2, employeeNo:'Feba9', phoneNumber: ""},
+            {name: 'Rony',password:pass,roleId:2, employeeNo:'Rony10', phoneNumber: ""},
+            {name: 'Hari',password:pass,roleId:2, employeeNo:'Hari11', phoneNumber: ""},
+            {name: 'Sooraj',password:pass,roleId:2, employeeNo:'Sooraj12', phoneNumber: ""},
+            {name: 'Issac',password:pass,roleId:2, employeeNo:'Issac13', phoneNumber: ""},
+            {name: 'Haseeja',password:pass,roleId:2, employeeNo:'Haseeja14', phoneNumber: ""},
+            {name: 'Sandra',password:pass,roleId:2, employeeNo:'Sandra15', phoneNumber: ""},
+            {name: 'Ruby',password:pass,roleId:2, employeeNo:'Ruby16', phoneNumber: ""}
         ])
     }
 

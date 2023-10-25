@@ -26,4 +26,6 @@ export interface AsianetSalesBase{
   date: Date
   time: Date
   callTime: Date
+
+  createdAt : Date
 }

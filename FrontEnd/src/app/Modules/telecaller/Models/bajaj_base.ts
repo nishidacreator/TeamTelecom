@@ -19,4 +19,6 @@ export interface Bajaj{
   teleCaller: User
   date: Date
   time: Date
+
+  createdAt : Date
 }

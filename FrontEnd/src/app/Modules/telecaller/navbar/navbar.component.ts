@@ -35,28 +35,6 @@ export class NavbarComponent {
     this.router.navigateByUrl('')
   }
 
-  // private intervalId: any;
-  // seconds: number = 0;
-  // formattedTime: string = '00:00:00';
-  // startCounter(): void {
-  //   this.intervalId = setInterval(() => {
-  //     this.seconds++;
-  //     this.updateFormattedTime();
-  //   }, 1000);
-  // }
-
-  // updateFormattedTime(): void {
-  //   const hours = Math.floor(this.seconds / 3600);
-  //   const minutes = Math.floor((this.seconds % 3600) / 60);
-  //   const seconds = this.seconds % 60;
-
-  //   this.formattedTime = `${this.formatTimeUnit(hours)}:${this.formatTimeUnit(minutes)}:${this.formatTimeUnit(seconds)}`;
-  // }
-
-  // formatTimeUnit(unit: number): string {
-  //   return unit.toString().padStart(2, '0');
-  // }
-
   ngOnDestroy(): void {
     // clearInterval(this.intervalId);
   }

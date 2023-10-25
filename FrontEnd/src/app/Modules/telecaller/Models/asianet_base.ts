@@ -25,4 +25,6 @@ export interface Asianet{
   date: Date
   time: Date
   callTime: Date
+
+  createdAt : Date
 }

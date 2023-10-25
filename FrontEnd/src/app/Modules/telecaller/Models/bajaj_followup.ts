@@ -9,7 +9,7 @@ export interface BajajFollowup{
   mobile : string
   emi : string
   product : string
-  
+
   callStatus : Status
   status : number
   remarks : string
@@ -19,4 +19,6 @@ export interface BajajFollowup{
   caller: User
   date: Date
   time: Date
+
+  createdAt : Date
 }
