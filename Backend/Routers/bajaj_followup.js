@@ -20,8 +20,8 @@ router.post('/', async (req, res) => {
 })
 
 router.get('/', async (req, res) => {
-
-  const status = req.query.status;
+  try {
+    const status = req.query.status;
 
     const result = await BajajFollowup.findAll({ 
       where: {status},
@@ -30,26 +30,36 @@ router.get('/', async (req, res) => {
     })
 
     res.send(result);
+  } catch (error) {
+    res.send(error)
+  }
+
 })
 
 router.get('/all', async (req, res) => {
-
+  try {
     const result = await BajajFollowup.findAll({ 
       include: [Project, 'caller'],
       order:['id']
     })
 
     res.send(result);
+  } catch (error) {
+    res.send(error)
+  }
 })
 
 router.get('/:id', async (req, res) => {
-
-  const bajajfollowup = await BajajFollowup.findOne({
-    where: {id: req.params.id},
-    include: [Project, 'caller']
-  })
-
-  res.send(bajajfollowup);
+  try {
+    const bajajfollowup = await BajajFollowup.findOne({
+      where: {id: req.params.id},
+      include: [Project, 'caller']
+    })
+  
+    res.send(bajajfollowup);
+  } catch (error) {
+    res.send(error)
+  }
 })
 
 router.delete('/:id', async(req,res)=>{
@@ -184,13 +194,17 @@ try {
 })
 
 router.get('/caller', async (req, res) => {
-
-  const asianet = await BajajFollowup.findAll({ 
-    include: [Project, 'teleCaller'],
-    order:['id']
-  })
-
-  res.send(asianet);
+  try {
+    const asianet = await BajajFollowup.findAll({ 
+      include: [Project, 'teleCaller'],
+      order:['id']
+    })
+  
+    res.send(asianet);
+  } catch (error) {
+    res.send(error)
+  }
+  
 })
 
 router.patch('/bulkupdate/:id', async (req, res) => {

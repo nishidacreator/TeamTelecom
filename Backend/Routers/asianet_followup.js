@@ -21,8 +21,8 @@ router.post('/', async (req, res) => {
 })
 
 router.get('/', async (req, res) => {
-
-  const status = req.query.status;
+  try {
+    const status = req.query.status;
 
     const asianet = await AsianetFollowup.findAll({ 
       where: {status},
@@ -31,26 +31,36 @@ router.get('/', async (req, res) => {
     })
 
     res.send(asianet);
+  } catch (error) {
+    res.send(error)
+  }
 })
 
 router.get('/all', async (req, res) => {
-
+  try {
     const asianet = await AsianetFollowup.findAll({ 
       include: [Project, 'caller', 'callStatus'],
       order:['id']
     })
 
     res.send(asianet);
+  } catch (error) {
+    res.send(error);
+  }
 })
 
 router.get('/:id', async (req, res) => {
-
-  const asianetfollowup = await AsianetFollowup.findOne({
-    where: {id: req.params.id},
-    include: [Project, 'caller', 'callStatus']
-  })
-
-  res.send(asianetfollowup);
+  try {
+    const asianetfollowup = await AsianetFollowup.findOne({
+      where: {id: req.params.id},
+      include: [Project, 'caller', 'callStatus']
+    })
+  
+    res.send(asianetfollowup);
+  } catch (error) {
+    res.send(error)
+  }
+  
 })
 
 router.delete('/:id', async(req,res)=>{

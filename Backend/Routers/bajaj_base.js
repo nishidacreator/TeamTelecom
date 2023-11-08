@@ -43,8 +43,8 @@ router.post('/', async (req, res) => {
 })
 
 router.get('/', async (req, res) => {
-
-  const status = req.query.status;
+  try {
+    const status = req.query.status;
 
     const bajaj = await Bajaj.findAll({ 
       where: { status },
@@ -53,23 +53,33 @@ router.get('/', async (req, res) => {
     })
 
     res.send(bajaj);
+  } catch (error) {
+    res.send(error)
+  }
 })
 
 router.get('/all', async (req, res) => {
-
+  try {
     const bajaj = await Bajaj.findAll({ 
       include: [Project, 'teleCaller'],
       order:['id']
     })
 
     res.send(bajaj);
+  } catch (error) {
+    res.send(error)
+  }
 })
 
 router.get('/:id', async (req, res) => {
+  try {
+    const bajaj = await Bajaj.findOne({where: {id: req.params.id}})
 
-  const bajaj = await Bajaj.findOne({where: {id: req.params.id}})
-
-  res.send(bajaj);
+    res.send(bajaj);
+  } catch (error) {
+    res.send(error)
+  }
+  
 })
 
 router.delete('/', async(req,res)=>{
