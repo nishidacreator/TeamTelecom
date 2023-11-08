@@ -27,21 +27,21 @@
         <div class="col">
           <mat-form-field class="full-width">
             <label style="color: gray;">Name</label>
-            <input matInput placeholder="Name" formControlName="name">
+            <input matInput formControlName="name">
           </mat-form-field>
         </div>
 
         <div class="col" *ngIf="addStatus">
           <mat-form-field class="full-width">
             <label style="color: gray;">User Name</label>
-            <input matInput placeholder="User Name" formControlName="employeeNo">
+            <input matInput formControlName="employeeNo">
           </mat-form-field>
         </div>
 
         <div class="col">
           <mat-form-field class="full-width">
             <label style="color: gray;">User Role</label>
-            <mat-select placeholder="User Role" formControlName="roleId">
+            <mat-select formControlName="roleId">
               <mat-option *ngFor="let item of  roles$ | async" [value]="item.id">
                 {{item.roleName | titlecase}}
               </mat-option>
@@ -56,14 +56,14 @@
         <div class="col">
           <mat-form-field class="full-width">
             <label style="color: gray;">Phone Number</label>
-            <input matInput placeholder="Phone Number" formControlName="phoneNumber" >
+            <input matInput formControlName="phoneNumber" >
           </mat-form-field>
         </div>
 
         <div class="col">
           <mat-form-field class="full-width">
             <label style="color: gray;">Password</label>
-            <input matInput type="password" placeholder="Password" formControlName="password">
+            <input matInput type="password" formControlName="password">
           </mat-form-field>
         </div>
       </div>
