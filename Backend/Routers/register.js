@@ -2,12 +2,12 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const User = require('../Models/user');
 const router = express.Router();
-const authenticateToken = require('../Middleware/authorization');
+const authorization = require('../Middleware/authorization');
 const Role = require('../Models/userRole');
 const multer = require('../Utils/multer');
 
 
-router.post('/', authenticateToken, async (req, res) => {
+router.post('/', async (req, res) => {
     try {
         const { name, phoneNumber, email, password, roleId, status, employeeNo } = req.body;
 
@@ -55,7 +55,7 @@ router.post('/', authenticateToken, async (req, res) => {
         }   
 })
 
-router.get('/', authenticateToken, async(req,res)=>{
+router.get('/', async(req,res)=>{
     try {
         const user = await User.findAll({include : Role, order:['id']});
         res.send(user);
@@ -65,7 +65,7 @@ router.get('/', authenticateToken, async(req,res)=>{
     }  
 })
 
-router.get('/:id', authenticateToken, async(req,res)=>{
+router.get('/:id', async(req,res)=>{
   try {
       const user = await User.findOne({
         where: {id: req.params.id},
@@ -79,7 +79,7 @@ router.get('/:id', authenticateToken, async(req,res)=>{
 })
 
 
-router.delete('/:id', authenticateToken, async(req,res)=>{
+router.delete('/:id', async(req,res)=>{
     try {
 
         const result = await User.destroy({
@@ -101,7 +101,7 @@ router.delete('/:id', authenticateToken, async(req,res)=>{
     
 })
 
-router.patch('/:id', authenticateToken, async(req,res)=>{
+router.patch('/:id', async(req,res)=>{
   const pass = await bcrypt.hash(req.body.password, 10);
 
     try {
@@ -136,7 +136,7 @@ router.patch('/:id', authenticateToken, async(req,res)=>{
       }
 })
 
-router.post('/userfileupload', authenticateToken, multer.single('file'), async (req, res) => {
+router.post('/userfileupload', multer.single('file'), async (req, res) => {
   try {
       const result = await cloudinary.uploader.upload(req.file.path);
      
@@ -146,7 +146,7 @@ router.post('/userfileupload', authenticateToken, multer.single('file'), async (
   }
 });
 
-router.patch('/userupload/:id', authenticateToken, async(req,res)=>{    
+router.patch('/userupload/:id', async(req,res)=>{    
   try {
       const user = await User.findByIdAndUpdate(req.params.id)
       user.cloudinary_id = req.body.cloudinary_id
