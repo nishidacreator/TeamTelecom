@@ -14,8 +14,8 @@ const Asianet = sequelize.define('asianet',{
     
     status : {type : DataTypes.INTEGER},
     remarks : {type : DataTypes.STRING},
-    freeText : {type : DataTypes.STRING},
-    action : {type : DataTypes.STRING},
+    freeText : {type : DataTypes.STRING(50)},
+    action : {type : DataTypes.STRING(50)},
     Teleby : {type : DataTypes.INTEGER, allowNull: false},
     projectId: {type : DataTypes.INTEGER, allowNull: false},
     date: {type: DataTypes.DATEONLY},
@@ -27,6 +27,13 @@ const Asianet = sequelize.define('asianet',{
     timestamps : true
 })
 
+// sequelize.sync()
+//   .then(() => {
+//     console.log('Database and tables created!');
+//   })
+//   .catch((error) => {
+//     console.error('Error syncing the database:', error);
+//   });
 
 module.exports = Asianet;
 
