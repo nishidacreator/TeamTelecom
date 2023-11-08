@@ -43,18 +43,20 @@ router.post('/', multer.single('imageUrl'), async (req, res) => {
 })
 
 router.get('/caller', async (req, res) => {
-
+  try {
     const asianet = await Asianet.findAll({ 
       include: [Project, 'teleCaller','callStatus'],
       order:['id']
     })
-
     res.send(asianet);
+  } catch (error) {
+      res.send(error)
+  }
 })
 
 router.get('/', async (req, res) => {
-
-  const status = req.query.status;
+  try {
+    const status = req.query.status;
 
     const asianet = await Asianet.findAll({ 
       where: {status},
@@ -63,26 +65,38 @@ router.get('/', async (req, res) => {
     })
 
     res.send(asianet);
+  } catch (error) {
+    res.send(error)
+  }
+  
 })
 
 router.get('/all', async (req, res) => {
-
+  try {
     const asianet = await Asianet.findAll({ 
       include: [Project, 'teleCaller', 'callStatus' ],
       order:['id']
     })
 
     res.send(asianet);
+  } catch (error) {
+    res.send(error)
+  }
+    
 })
 
 router.get('/:id', async (req, res) => {
-
-  const asianet = await Asianet.findOne({
-    where: {id: req.params.id},
-    include: [Project, 'teleCaller', 'callStatus']
-  })
-
-  res.send(asianet);
+  try {
+    const asianet = await Asianet.findOne({
+      where: {id: req.params.id},
+      include: [Project, 'teleCaller', 'callStatus']
+    })
+  
+    res.send(asianet);
+  } catch (error) {
+    res.send(error)
+  }
+  
 })
 
 router.delete('/', async(req,res)=>{

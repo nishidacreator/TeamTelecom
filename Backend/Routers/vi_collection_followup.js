@@ -20,8 +20,8 @@ router.post('/', async (req, res) => {
 })
 
 router.get('/', async (req, res) => {
-
-  const status = req.query.status;
+  try {
+    const status = req.query.status;
 
     const result = await ViCollectionFollowup.findAll({ 
       where: {status},
@@ -30,27 +30,36 @@ router.get('/', async (req, res) => {
     })
 
     res.send(result);
+  } catch (error) {
+    res.send(error)
+  }
 })
 
 router.get('/all', async (req, res) => {
-
+  try {
     const result = await ViCollectionFollowup.findAll({ 
       include: [Project, 'caller', 'callStatus'],
       order:['id']
     })
 
     res.send(result);
+  } catch (error) {
+    res.send(error)
+  }
 })
 
 
 router.get('/:id', async (req, res) => {
-
-  const vicollectionfollowup = await ViCollectionFollowup.findOne({
-    where: {id: req.params.id},
-    include: [Project, 'caller', 'callStatus']
-  })
-
-  res.send(vicollectionfollowup);
+  try {
+    const vicollectionfollowup = await ViCollectionFollowup.findOne({
+      where: {id: req.params.id},
+      include: [Project, 'caller', 'callStatus']
+    })
+  
+    res.send(vicollectionfollowup);
+  } catch (error) {
+    res.send(error);
+  }
 })
 
 router.delete('/:id', async(req,res)=>{
@@ -183,13 +192,17 @@ try {
 })
 
 router.get('/caller', async (req, res) => {
-
-  const asianet = await ViCollectionFollowup.findAll({ 
-    include: [Project, 'teleCaller', 'callStatus'],
-    order:['id']
-  })
-
-  res.send(asianet);
+  try {
+    const asianet = await ViCollectionFollowup.findAll({ 
+      include: [Project, 'teleCaller', 'callStatus'],
+      order:['id']
+    })
+  
+    res.send(asianet);
+  } catch (error) {
+    res.send(error);
+  }
+  
 })
 
 router.patch('/bulkupdate/:id', async (req, res) => {

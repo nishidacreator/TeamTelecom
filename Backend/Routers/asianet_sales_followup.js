@@ -20,8 +20,8 @@ router.post('/', async (req, res) => {
 })
 
 router.get('/', async (req, res) => {
-
-  const status = req.query.status;
+  try {
+    const status = req.query.status;
 
     const asianet = await AsianetSalesFollowup.findAll({ 
       where: {status},
@@ -30,26 +30,38 @@ router.get('/', async (req, res) => {
     })
 
     res.send(asianet);
+  } catch (error) {
+      res.send(error);
+  }
+  
 })
 
 router.get('/all', async (req, res) => {
-
+  try {
     const asianet = await AsianetSalesFollowup.findAll({ 
       include: [Project, 'caller', 'callStatus'],
       order:['id']
     })
 
     res.send(asianet);
+  } catch (error) {
+    res.send(error)
+  }
+    
 })
 
 router.get('/:id', async (req, res) => {
-
-  const asianetfollowup = await AsianetSalesFollowup.findOne({
-    where: {id: req.params.id},
-    include: [Project, 'caller', 'callStatus']
-  })
-
-  res.send(asianetfollowup);
+  try {
+    const asianetfollowup = await AsianetSalesFollowup.findOne({
+      where: {id: req.params.id},
+      include: [Project, 'caller', 'callStatus']
+    })
+  
+    res.send(asianetfollowup);
+  } catch (error) {
+    res.send(error);
+  }
+  
 })
 
 router.delete('/:id', async(req,res)=>{
@@ -182,13 +194,17 @@ try {
 })
 
 router.get('/caller', async (req, res) => {
-
-  const asianet = await AsianetSalesFollowup.findAll({ 
-    include: [Project, 'teleCaller', 'callStatus'],
-    order:['id']
-  })
-
-  res.send(asianet);
+  try {
+    const asianet = await AsianetSalesFollowup.findAll({ 
+      include: [Project, 'teleCaller', 'callStatus'],
+      order:['id']
+    })
+  
+    res.send(asianet);
+  } catch (error) {
+    res.send(error);
+  }
+  
 })
 
 router.patch('/bulkupdate/:id', async (req, res) => {

@@ -44,8 +44,8 @@ router.post('/', multer.single('imageUrl'), async (req, res) => {
 })
 
 router.get('/', async (req, res) => {
-
-  const status = req.query.status;
+  try {
+    const status = req.query.status;
 
     const asianet = await AsianetSales.findAll({
       where: {status}, 
@@ -54,6 +54,10 @@ router.get('/', async (req, res) => {
     })
 
     res.send(asianet);
+  } catch (error) {
+    res.send(error);
+  }
+
 })
 
 router.get('/all', async (req, res) => {
@@ -70,11 +74,15 @@ router.get('/all', async (req, res) => {
 })
 
 router.get('/:id', async (req, res) => {
-  const asianet = await AsianetSales.findOne({
-    where: {id: req.params.id},
-    include: [Project, 'teleCaller', 'callStatus']
-  })
-  res.send(asianet);
+  try {
+    const asianet = await AsianetSales.findOne({
+      where: {id: req.params.id},
+      include: [Project, 'teleCaller', 'callStatus']
+    })
+    res.send(asianet);
+  } catch (error) {
+    res.send(error)
+  }
 })
 
 router.delete('/', async(req,res)=>{
