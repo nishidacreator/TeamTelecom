@@ -1,9 +1,9 @@
 const express = require('express');
 const ProjectType = require('../Models/projectType');
 const router = express.Router();
+const authorization = require('../Middleware/authorization');
 
-
-router.post('/', async (req, res) => {
+router.post('/', authorization, async (req, res) => {
     try {
             const { typeName } = req.body;
 
@@ -18,21 +18,21 @@ router.post('/', async (req, res) => {
     }
 })
 
-router.get('/', async (req, res) => {
+router.get('/', authorization, async (req, res) => {
 
     const result = await ProjectType.findAll({ order:['id']})
 
     res.send(result);
 })
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', authorization, async (req, res) => {
 
     const projecttype = await ProjectType.findOne({where: {id: req.params.id}})
   
     res.send(projecttype);
   })
   
-  router.delete('/:id', async(req,res)=>{
+  router.delete('/:id', authorization, async(req,res)=>{
       try {
   
           const result = await ProjectType.destroy({
@@ -49,12 +49,12 @@ router.get('/:id', async (req, res) => {
         
             res.status(204).json();
           }  catch (error) {
-          res.send({error: error.message})
+          res.send(error)
       }
       
   })
   
-  router.patch('/:id', async(req,res)=>{
+  router.patch('/:id', authorization, async(req,res)=>{
       try {
           ProjectType.update(req.body, {
               where: { id: req.params.id }

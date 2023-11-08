@@ -36,7 +36,7 @@ export class AuthService {
   login(data: any){
     return this._http.post(this.url + '/login', data)
     .pipe(
-      tap((tokens) => this.doLoginUser(data.email, tokens)),
+      tap((tokens) => this.doLoginUser(data.employeeNo, tokens)),
       mapTo(true),
       catchError((error: any) => {
         return of(false)

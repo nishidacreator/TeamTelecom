@@ -1,9 +1,9 @@
 const express = require('express');
 const Role = require('../Models/userRole');
 const router = express.Router();
+const authorization = require('../Middleware/authorization');
 
-
-router.post('/', async (req, res) => {
+router.post('/', authorization, async (req, res) => {
     try {
             const { roleName, status } = req.body;
 
@@ -18,21 +18,21 @@ router.post('/', async (req, res) => {
     }
 })
 
-router.get('/', async (req, res) => {
+router.get('/', authorization, async (req, res) => {
 
     const role = await Role.findAll({ order:['id']})
 
     res.send(role);
 })
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', authorization, async (req, res) => {
 
   const role = await Role.findOne({where: {id: req.params.id}})
 
   res.send(role);
 })
 
-router.delete('/:id', async(req,res)=>{
+router.delete('/:id', authorization, async(req,res)=>{
     try {
 
         const result = await Role.destroy({
@@ -49,12 +49,12 @@ router.delete('/:id', async(req,res)=>{
       
           res.status(204).json();
         }  catch (error) {
-        res.send({error: error.message})
+        res.send(error)
     }
     
 })
 
-router.patch('/:id', async(req,res)=>{
+router.patch('/:id', authorization, async(req,res)=>{
     try {
         Role.update(req.body, {
             where: { id: req.params.id }

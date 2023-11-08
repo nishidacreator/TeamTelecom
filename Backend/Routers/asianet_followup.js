@@ -3,9 +3,9 @@ const AsianetFollowup = require('../Models/asianet_followup');
 const Project = require('../Models/project');
 const User = require('../Models/user');
 const router = express.Router();
+const authorization = require('../Middleware/authorization');
 
-
-router.post('/', async (req, res) => {
+router.post('/', authorization, async (req, res) => {
     try {
       const { Region, Subcode, Name, Address, Package, Scheme, Phone, Balance, Mobile, Teleby, projectId, date, time } = req.body;
 
@@ -20,7 +20,7 @@ router.post('/', async (req, res) => {
     }
 })
 
-router.get('/', async (req, res) => {
+router.get('/', authorization, async (req, res) => {
   try {
     const status = req.query.status;
 
@@ -36,7 +36,7 @@ router.get('/', async (req, res) => {
   }
 })
 
-router.get('/all', async (req, res) => {
+router.get('/all', authorization, async (req, res) => {
   try {
     const asianet = await AsianetFollowup.findAll({ 
       include: [Project, 'caller', 'callStatus'],
@@ -49,7 +49,7 @@ router.get('/all', async (req, res) => {
   }
 })
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', authorization, async (req, res) => {
   try {
     const asianetfollowup = await AsianetFollowup.findOne({
       where: {id: req.params.id},
@@ -63,7 +63,7 @@ router.get('/:id', async (req, res) => {
   
 })
 
-router.delete('/:id', async(req,res)=>{
+router.delete('/:id', authorization, async(req,res)=>{
     try {
         
         const result = await AsianetFollowup.destroy({
@@ -80,12 +80,12 @@ router.delete('/:id', async(req,res)=>{
       
           res.status(204).json();
         }  catch (error) {
-        res.send({error: error.message})
+        res.send(error)
     }
     
 })
 
-router.patch('/:id', async(req,res)=>{
+router.patch('/:id', authorization, async(req,res)=>{
     try {
 
       const asianetfollowup = {
@@ -117,7 +117,7 @@ router.patch('/:id', async(req,res)=>{
       }
 })
 
-router.patch('/callback/:id', async(req,res)=>{
+router.patch('/callback/:id', authorization, async(req,res)=>{
   try {
 
     const asianet = {
@@ -148,7 +148,7 @@ router.patch('/callback/:id', async(req,res)=>{
     }
 })
 
-router.delete('/', async(req,res)=>{
+router.delete('/', authorization, async(req,res)=>{
   try {
       const status = req.query.status;
       
@@ -166,12 +166,12 @@ router.delete('/', async(req,res)=>{
     
         res.status(204).json();
       }  catch (error) {
-      res.send({error: error.message})
+      res.send(error)
   }
   
 })
 
-router.delete('/alldata', async(req,res)=>{
+router.delete('/alldata', authorization, async(req,res)=>{
 try {
 
     const result = await AsianetFollowup.destroy({
@@ -188,13 +188,13 @@ try {
   
       res.status(204).json();
     }  catch (error) {
-    res.send({error: error.message})
+    res.send(error)
 }
 
 })
 
 
-router.get('/caller', async (req, res) => {
+router.get('/caller', authorization, async (req, res) => {
   try {
     const asianet = await AsianetFollowup.findAll({ 
       include: [
@@ -217,7 +217,7 @@ router.get('/caller', async (req, res) => {
   }
 });
 
-router.patch('/bulkupdate/:id', async (req, res) => {
+router.patch('/bulkupdate/:id', authorization, async (req, res) => {
   try {
     const asianet = {
       Teleby: req.body.Teleby,
@@ -242,7 +242,7 @@ router.patch('/bulkupdate/:id', async (req, res) => {
   }
 });
 
-router.patch('/update/:id', async(req,res)=>{
+router.patch('/update/:id', authorization, async(req,res)=>{
   try {
       AsianetFollowup.update(req.body, {
           where: { id: req.params.id }
@@ -266,7 +266,7 @@ router.patch('/update/:id', async(req,res)=>{
     }
 })
 
-router.delete('/:id', async(req,res)=>{
+router.delete('/:id', authorization, async(req,res)=>{
   try {
 
       const result = await AsianetFollowup.destroy({
@@ -283,7 +283,7 @@ router.delete('/:id', async(req,res)=>{
     
         res.status(204).json();
       }  catch (error) {
-      res.send({error: error.message})
+      res.send(error)
   }
   
 })

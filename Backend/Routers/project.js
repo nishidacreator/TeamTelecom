@@ -6,8 +6,9 @@ const Client = require('../Models/client');
 const excelToJson = require('convert-excel-to-json');
 const fs = require('fs-extra');
 const multer = require('../Utils/multer')
+const authorization = require('../Middleware/authorization');
 
-router.post('/', multer.single('imageUrl'), async (req, res) => {
+router.post('/', multer.single('imageUrl'), authorization, async (req, res) => {
     try {
         const { startDate, projectName, teamLeadId, description, clientId, projectTypeId, endDate} = req.body;
         const imageUrl = req.file ? req.file.path : null;
@@ -45,21 +46,21 @@ router.post('/', multer.single('imageUrl'), async (req, res) => {
 
 })
 
-router.get('/', async (req, res) => {
+router.get('/', authorization, async (req, res) => {
 
     const result = await Project.findAll({ order:['id'], include: [ProjectType, 'teamLead']})
 
     res.send(result);
 })
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', authorization, async (req, res) => {
 
   const result = await Project.findOne({where: {id: req.params.id}})
 
   res.send(result);
 })
 
-router.delete('/:id', async(req,res)=>{
+router.delete('/:id', authorization, async(req,res)=>{
     try {
 
         const result = await Project.destroy({
@@ -76,12 +77,12 @@ router.delete('/:id', async(req,res)=>{
       
           res.status(204).json();
         }  catch (error) {
-        res.send({error: error.message})
+        res.send(error)
     }
     
 })
 
-router.patch('/:id', async(req,res)=>{
+router.patch('/:id', authorization, async(req,res)=>{
     try {
 
         Project.update(req.body, {

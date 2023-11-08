@@ -3,8 +3,9 @@ const BajajFollowup = require('../Models/bajaj_followup');
 const Asianet = require('../Models/asianet_base');
 const router = express.Router();
 const Project = require('../Models/project');
+const authorization = require('../Middleware/authorization');
 
-router.post('/', async (req, res) => {
+router.post('/', authorization, async (req, res) => {
     try {
       const { subCode, name, balance, mobile, emi, product, status, remarks, freeText, action, Teleby, projectId, date, time } = req.body;
 
@@ -19,7 +20,7 @@ router.post('/', async (req, res) => {
     }
 })
 
-router.get('/', async (req, res) => {
+router.get('/', authorization, async (req, res) => {
   try {
     const status = req.query.status;
 
@@ -36,7 +37,7 @@ router.get('/', async (req, res) => {
 
 })
 
-router.get('/all', async (req, res) => {
+router.get('/all', authorization, async (req, res) => {
   try {
     const result = await BajajFollowup.findAll({ 
       include: [Project, 'caller'],
@@ -49,7 +50,7 @@ router.get('/all', async (req, res) => {
   }
 })
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', authorization, async (req, res) => {
   try {
     const bajajfollowup = await BajajFollowup.findOne({
       where: {id: req.params.id},
@@ -62,7 +63,7 @@ router.get('/:id', async (req, res) => {
   }
 })
 
-router.delete('/:id', async(req,res)=>{
+router.delete('/:id', authorization, async(req,res)=>{
     try {
 
         const result = await BajajFollowup.destroy({
@@ -79,12 +80,12 @@ router.delete('/:id', async(req,res)=>{
       
           res.status(204).json();
         }  catch (error) {
-        res.send({error: error.message})
+        res.send(error)
     }
     
 })
 
-router.patch('/:id', async(req,res)=>{
+router.patch('/:id', authorization, async(req,res)=>{
     try {
 
       const bajajfollowup = {
@@ -117,7 +118,7 @@ router.patch('/:id', async(req,res)=>{
       }
 })
 
-router.patch('/callback/:id', async(req,res)=>{
+router.patch('/callback/:id', authorization, async(req,res)=>{
   try {
 
     const bajaj = {
@@ -148,7 +149,7 @@ router.patch('/callback/:id', async(req,res)=>{
     }
 })
 
-router.delete('/', async(req,res)=>{
+router.delete('/', authorization, async(req,res)=>{
   try {
       const status = req.query.status;
 
@@ -166,12 +167,12 @@ router.delete('/', async(req,res)=>{
     
         res.status(204).json();
       }  catch (error) {
-      res.send({error: error.message})
+      res.send(error)
   }
   
 })
 
-router.delete('/alldata', async(req,res)=>{
+router.delete('/alldata', authorization, async(req,res)=>{
 try {
 
     const result = await BajajFollowup.destroy({
@@ -188,12 +189,12 @@ try {
   
       res.status(204).json();
     }  catch (error) {
-    res.send({error: error.message})
+    res.send(error)
 }
 
 })
 
-router.get('/caller', async (req, res) => {
+router.get('/caller', authorization, async (req, res) => {
   try {
     const asianet = await BajajFollowup.findAll({ 
       include: [Project, 'teleCaller'],
@@ -207,7 +208,7 @@ router.get('/caller', async (req, res) => {
   
 })
 
-router.patch('/bulkupdate/:id', async (req, res) => {
+router.patch('/bulkupdate/:id', authorization, async (req, res) => {
   try {
     const asianet = {
       teleCallerId: req.body.Teleby,
@@ -232,7 +233,7 @@ router.patch('/bulkupdate/:id', async (req, res) => {
   }
 });
 
-router.patch('/update/:id', async(req,res)=>{
+router.patch('/update/:id', authorization, async(req,res)=>{
   try {
       BajajFollowup.update(req.body, {
           where: { id: req.params.id }
@@ -256,7 +257,7 @@ router.patch('/update/:id', async(req,res)=>{
     }
 })
 
-router.delete('/:id', async(req,res)=>{
+router.delete('/:id', authorization, async(req,res)=>{
   try {
 
       const result = await BajajFollowup.destroy({
@@ -273,7 +274,7 @@ router.delete('/:id', async(req,res)=>{
     
         res.status(204).json();
       }  catch (error) {
-      res.send({error: error.message})
+      res.send(error)
   }
   
 })
