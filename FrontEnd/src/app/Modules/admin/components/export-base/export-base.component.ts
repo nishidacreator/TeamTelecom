@@ -50,7 +50,7 @@ export class ExportBaseComponent {
             this.fileName = `asianet_collections_base${formattedDate}.csv`;
 
             this.adminService.getAllAsianetCollections().subscribe(res=>{
-              this.data = res
+              this.data = res.filter(res=>res.status != 1)
               console.log(this.data)
 
               // Get the headings based on the first client object
@@ -105,7 +105,7 @@ export class ExportBaseComponent {
             this.fileName = `asianet_sales_base${formattedDate}.csv`;
 
             this.adminService.getAllAsianetSales().subscribe(res=>{
-              this.data = res
+              this.data = res.filter(res=>res.status != 1)
 
 
               // Get the headings based on the first client object
@@ -161,7 +161,7 @@ export class ExportBaseComponent {
             this.fileName = `bajaj_base${formattedDate}.csv`;
 
             this.adminService.getAllBajaj().subscribe(res=>{
-              this.data = res
+              this.data = res.filter(res=>res.status != 1)
 
 
               // Get the headings based on the first client object
@@ -218,7 +218,7 @@ export class ExportBaseComponent {
             this.fileName = `vi_sales_base${formattedDate}.csv`;
 
             this.adminService.getAllViSales().subscribe(res=>{
-              this.data = res
+              this.data = res.filter(res=>res.status != 1)
 
 
               // Get the headings based on the first client object
@@ -274,7 +274,7 @@ export class ExportBaseComponent {
             this.fileName = `vi_collections_base${formattedDate}.csv`;
 
             this.adminService.getAllAsianetCollections().subscribe(res=>{
-              this.data = res
+              this.data = res.filter(res=>res.status != 1)
 
 
               // Get the headings based on the first client object
@@ -334,7 +334,7 @@ export class ExportBaseComponent {
           this.fileName = `asianet_collections_base${formattedDate}.csv`;
 
           this.adminService.getAllAsianetCollectionsFollowup().subscribe(res=>{
-            this.data = res
+            this.data = res.filter(res=>res.status != 1)
 
 
             // Get the headings based on the first client object
@@ -390,7 +390,7 @@ export class ExportBaseComponent {
           this.fileName = `asianet_sales_base${formattedDate}.csv`;
 
           this.adminService.getAllAsianetSalesFollowup().subscribe(res=>{
-            this.data = res
+            this.data = res.filter(res=>res.status != 1)
 
 
             // Get the headings based on the first client object
@@ -446,7 +446,7 @@ export class ExportBaseComponent {
           this.fileName = `bajaj_base${formattedDate}.csv`;
 
           this.adminService.getAllBajajFollowup().subscribe(res=>{
-            this.data = res
+            this.data = res.filter(res=>res.status != 1)
 
 
             // Get the headings based on the first client object
@@ -502,7 +502,7 @@ export class ExportBaseComponent {
           this.fileName = `vi_sales_base${formattedDate}.csv`;
 
           this.adminService.getAllViSalesFollowup().subscribe(res=>{
-            this.data = res
+            this.data = res.filter(res=>res.status != 1)
 
 
             // Get the headings based on the first client object
@@ -558,7 +558,7 @@ export class ExportBaseComponent {
           this.fileName = `vi_collections_base${formattedDate}.csv`;
 
           this.adminService.getAllAsianetCollectionsFollowup().subscribe(res=>{
-            this.data = res
+            this.data = res.filter(res=>res.status != 1)
 
 
             // Get the headings based on the first client object
