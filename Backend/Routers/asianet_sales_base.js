@@ -5,8 +5,9 @@ const router = express.Router();
 const multer = require('../Utils/multer');
 const excelToJson = require('convert-excel-to-json');
 const fs = require('fs-extra');
+const authorization = require('../Middleware/authorization');
 
-router.post('/', multer.single('imageUrl'), async (req, res) => {
+router.post('/', multer.single('imageUrl'), authorization, async (req, res) => {
     try {
       const imageUrl = req.file ? req.file.path : null;
       
@@ -43,7 +44,7 @@ router.post('/', multer.single('imageUrl'), async (req, res) => {
     }
 })
 
-router.get('/', async (req, res) => {
+router.get('/', authorization, async (req, res) => {
   try {
     const status = req.query.status;
 
@@ -60,7 +61,7 @@ router.get('/', async (req, res) => {
 
 })
 
-router.get('/all', async (req, res) => {
+router.get('/all', authorization, async (req, res) => {
   try {
     const asianet = await AsianetSales.findAll({
       include: [Project, 'teleCaller', 'callStatus'],
@@ -73,7 +74,7 @@ router.get('/all', async (req, res) => {
   }
 })
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', authorization, async (req, res) => {
   try {
     const asianet = await AsianetSales.findOne({
       where: {id: req.params.id},
@@ -85,7 +86,7 @@ router.get('/:id', async (req, res) => {
   }
 })
 
-router.delete('/', async(req,res)=>{
+router.delete('/', authorization, async(req,res)=>{
     try {
         const status = req.query.status;
 
@@ -103,12 +104,12 @@ router.delete('/', async(req,res)=>{
       
           res.status(204).json();
         }  catch (error) {
-        res.send({error: error.message})
+        res.send(error)
     }
     
 })
 
-router.delete('/alldata', async(req,res)=>{
+router.delete('/alldata', authorization, async(req,res)=>{
   try {
 
       const result = await AsianetSales.destroy({
@@ -125,12 +126,12 @@ router.delete('/alldata', async(req,res)=>{
     
         res.status(204).json();
       }  catch (error) {
-      res.send({error: error.message})
+      res.send(error)
   }
   
 })
 
-router.patch('/:id', async(req,res)=>{
+router.patch('/:id', authorization, async(req,res)=>{
     try {
 
       const asianet = {
@@ -162,7 +163,7 @@ router.patch('/:id', async(req,res)=>{
       }
 })
 
-router.patch('/callback/:id', async(req,res)=>{
+router.patch('/callback/:id', authorization, async(req,res)=>{
   try {
 
     const asianet = {
@@ -193,7 +194,7 @@ router.patch('/callback/:id', async(req,res)=>{
     }
 })
 
-router.patch('/bulkupdate/:id', async (req, res) => {
+router.patch('/bulkupdate/:id', authorization, async (req, res) => {
   try {
     const asianet = {
       Teleby: req.body.Teleby,
@@ -218,7 +219,7 @@ router.patch('/bulkupdate/:id', async (req, res) => {
   }
 });
 
-router.patch('/update/:id', async(req,res)=>{
+router.patch('/update/:id', authorization, async(req,res)=>{
   try {
       AsianetSales.update(req.body, {
           where: { id: req.params.id }
@@ -242,7 +243,7 @@ router.patch('/update/:id', async(req,res)=>{
     }
 })
 
-router.delete('/:id', async(req,res)=>{
+router.delete('/:id', authorization, async(req,res)=>{
   try {
 
       const result = await AsianetSales.destroy({
@@ -259,7 +260,7 @@ router.delete('/:id', async(req,res)=>{
     
         res.status(204).json();
       }  catch (error) {
-      res.send({error: error.message})
+      res.send(error)
   }
   
 })

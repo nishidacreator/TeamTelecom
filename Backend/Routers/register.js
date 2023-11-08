@@ -7,7 +7,7 @@ const Role = require('../Models/userRole');
 const multer = require('../Utils/multer');
 
 
-router.post('/', async (req, res) => {
+router.post('/', authorization, async (req, res) => {
     try {
         const { name, phoneNumber, email, password, roleId, status, employeeNo } = req.body;
 
@@ -55,7 +55,7 @@ router.post('/', async (req, res) => {
         }   
 })
 
-router.get('/', async(req,res)=>{
+router.get('/', authorization, async(req,res)=>{
     try {
         const user = await User.findAll({include : Role, order:['id']});
         res.send(user);
@@ -65,7 +65,7 @@ router.get('/', async(req,res)=>{
     }  
 })
 
-router.get('/:id', async(req,res)=>{
+router.get('/:id', authorization, async(req,res)=>{
   try {
       const user = await User.findOne({
         where: {id: req.params.id},
@@ -79,7 +79,7 @@ router.get('/:id', async(req,res)=>{
 })
 
 
-router.delete('/:id', async(req,res)=>{
+router.delete('/:id', authorization, async(req,res)=>{
     try {
 
         const result = await User.destroy({
@@ -96,12 +96,12 @@ router.delete('/:id', async(req,res)=>{
       
           res.status(204).json();
         }  catch (error) {
-        res.send({error: error.message})
+        res.send(error)
     }
     
 })
 
-router.patch('/:id', async(req,res)=>{
+router.patch('/:id', authorization, async(req,res)=>{
   const pass = await bcrypt.hash(req.body.password, 10);
 
     try {
@@ -136,7 +136,7 @@ router.patch('/:id', async(req,res)=>{
       }
 })
 
-router.post('/userfileupload', multer.single('file'), async (req, res) => {
+router.post('/userfileupload', multer.single('file'), authorization, async (req, res) => {
   try {
       const result = await cloudinary.uploader.upload(req.file.path);
      
@@ -146,7 +146,7 @@ router.post('/userfileupload', multer.single('file'), async (req, res) => {
   }
 });
 
-router.patch('/userupload/:id', async(req,res)=>{    
+router.patch('/userupload/:id', authorization, async(req,res)=>{    
   try {
       const user = await User.findByIdAndUpdate(req.params.id)
       user.cloudinary_id = req.body.cloudinary_id
