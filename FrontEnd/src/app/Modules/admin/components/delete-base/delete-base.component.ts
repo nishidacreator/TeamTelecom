@@ -50,6 +50,7 @@ export class DeleteBaseComponent {
   getStatus() {
     this.statSub = this.adminService.getStatus().subscribe(res=>{
       this.status = res
+      this.status.push(this.allStatus)
     })
   }
 

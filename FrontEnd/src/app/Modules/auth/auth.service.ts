@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { catchError, map, mapTo, Observable, of, ReplaySubject, startWith, tap } from 'rxjs';
+import { catchError, map, mapTo, Observable, of, ReplaySubject, startWith, tap, throwError } from 'rxjs';
 import { User } from './models/user';
 import { Role } from './models/role';
 import { environment } from 'src/environments/environment';
@@ -110,4 +110,21 @@ export class AuthService {
   updateUser(id: number, data: any): Observable<User>{
     return this._http.patch<User>(this.url + '/register/'+ id, data)
   }
+
+  uploadUserImage(file: Blob): Observable<any> {
+    if (file instanceof File) {
+      const formData = new FormData();
+      formData.append("file", file, file.name);
+      return this._http.post(this.url + '/register/userfileupload', formData);
+    } else {
+      // Handle the case where 'file' is not a File object
+      return throwError("Invalid file type");
+    }
+  }
+
+  editUserUploadImage(data:any, id:number):Observable<User>{
+    return this._http.patch<User>(this.url+'/register/userupload/'+id, data);
+  }
 }
+
+

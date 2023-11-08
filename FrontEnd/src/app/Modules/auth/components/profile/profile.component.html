@@ -14,11 +14,25 @@
   <div class="row box">
     <div class="card">
       <ng-container *ngIf="users.file_url; else alternativeImage">
-        <img  src="{{ users.file_url }}" style="width: 50px; height: 50px;" />
+        <div class="image-container">
+          <img class="profile-photo" src="{{ users.file_url }}" />
+          <!-- <label *ngIf="!uploadStatus" for="fileInput" class="custom-file-upload">
+            <i class="fa fa-cloud-upload" style="font-size: 40px; cursor: pointer;"></i>
+          </label>
+          <input type="file" id="fileInput" style="display: none;" (change)="onFileSelected($event)" />
+          <i *ngIf="uploadStatus" (click)="onUpload()" class="edit-icon fa fa-pencil" style="font-size: 40px; cursor: pointer;"></i> -->
+        </div>
       </ng-container>
 
       <ng-template #alternativeImage>
-        <img src="../../../../../../assets/img/no_image_part.png" alt="Alternative Image" style="width: 250px; height: 250px;" />
+        <div class="image-container">
+          <img src="../../../../../../assets/no_image_part.png" alt="Alternative Image" style="width: 250px; height: 250px;" />
+          <!-- <label *ngIf="!uploadStatus" for="fileInput" class="custom-file-upload">
+            <i class="fa fa-cloud-upload" style="font-size: 40px; cursor: pointer;"></i>
+          </label> -->
+          <!-- <input type="file" id="fileInput" (change)="onFileSelected($event)" style="display: none;" />
+          <i *ngIf="uploadStatus" (click)="onUpload()" class="edit-icon fa fa-pencil" style="font-size: 40px; cursor: pointer;"></i> -->
+        </div>
       </ng-template>
       <h1>{{users.name}}</h1>
       <p class="title">{{users.employeeNo}}</p>

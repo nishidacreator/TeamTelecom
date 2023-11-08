@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { UserComponent } from 'src/app/Modules/admin/components/user/user.component';
 import { AdminService } from 'src/app/Modules/admin/admin.service';
 import { DatePipe } from '@angular/common';
+import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-profile',
@@ -22,7 +23,7 @@ export class ProfileComponent {
   date!: any;
   currentMonth!: any;
   constructor(private authServeice: AuthService, private dialog:MatDialog, private adminService:AdminService,
-    private datePipe: DatePipe,){
+    private datePipe: DatePipe, private fb: FormBuilder){
     const token: any = localStorage.getItem('token')
     let user = JSON.parse(token)
     this.userId = user.id
@@ -38,6 +39,57 @@ export class ProfileComponent {
     this.getUser()
     this.getCompletedCalls();
     this.getFollowupCalls();
+  }
+
+  userForm = this.fb.group({
+    cloudinary_id : [''],
+    file_url : ['']
+  });
+
+  file!: any;
+  url!: any;
+  uploadStatus = false
+  imageUrl!: string;
+  onFileSelected(event: any){
+    if(event.target.files.length > 0){
+      this.uploadStatus= true
+      this.file = event.target.files[0]
+      let fileType = this.file? this.file.type : '';
+
+      if (this.file) {
+        // You can read the selected file and display it as an image.
+        const reader = new FileReader();
+        reader.onload = () => {
+          this.imageUrl = reader.result as string;
+        };
+        reader.readAsDataURL(this.file);
+      }
+
+      // if(fileType.match(/image\/*/)){
+      //   let reader = new FileReader();
+      //   // reader.readAsDataURL(this.file)
+      //   reader.onload = (event: any) =>{
+      //     this.url = event.target.result;
+      //   }
+      // }
+      // else {
+      //   window.alert('Please select correct image format');
+      // }
+    }
+  }
+
+  onUpload(){
+    this.uploadStatus = false
+    this.authServeice.uploadUserImage(this.file).subscribe(res=>{
+      this.userForm.patchValue({
+        cloudinary_id : res.public_id,
+        file_url: res.url
+      })
+      console.log(this.userForm.getRawValue())
+      this.authServeice.editUserUploadImage(this.userForm.getRawValue(), this.userId).subscribe(res=>{
+        this.getUser()
+      })
+    })
   }
 
   userSub!: Subscription;
