@@ -50,9 +50,9 @@ export class OpenCustomerComponent {
   }
 
   statusForm = this.fb.group({
-    statusId: [''],
-    date: ['', Validators.required],
-    time: ['', Validators.required],
+    statusId: ['', Validators.required],
+    date: [''],
+    time: [''],
     remarks: [''],
     freeText: [''],
     action: ['']
