@@ -309,27 +309,29 @@
                 </div>
               </div>
 
-              <div *ngIf="backStat">
-                <div class="row">
-                  <div class="col">
-                    <mat-form-field class="full-width">
-                      <mat-label>Date</mat-label>
-                      <input matInput [matDatepicker]="picker1" formControlName="date">
-                      <mat-hint>MM/DD/YYYY</mat-hint>
-                      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-                      <mat-datepicker #picker1></mat-datepicker>
-                    </mat-form-field>
+              <form *ngIf="backStat" [formGroup]="callBackForm">
+                <div>
+                  <div class="row">
+                    <div class="col">
+                      <mat-form-field class="full-width">
+                        <mat-label>Date</mat-label>
+                        <input matInput [matDatepicker]="picker1" formControlName="date">
+                        <mat-hint>MM/DD/YYYY</mat-hint>
+                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                        <mat-datepicker #picker1></mat-datepicker>
+                      </mat-form-field>
+                    </div>
                   </div>
-                </div>
 
-                <div class="row">
-                  <div class="col">
-                    <mat-form-field class="full-width">
-                      <input matInput placeholder="Time" formControlName="time" type="time">
-                    </mat-form-field>
+                  <div class="row">
+                    <div class="col">
+                      <mat-form-field class="full-width">
+                        <input matInput placeholder="Time" formControlName="time" type="time">
+                      </mat-form-field>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </form>
 
               <div *ngIf="!backStat">
                 <!-- <div class="row">
@@ -343,7 +345,7 @@
                 <div class="row">
                   <div class="col">
                     <mat-form-field class="full-width">
-                      <input matInput placeholder="Free Text" formControlName="freeText">
+                      <input matInput placeholder="Free Text" formControlName="freeText"  maxlength="50">
                     </mat-form-field>
                   </div>
                 </div>
@@ -351,7 +353,7 @@
                 <div class="row">
                   <div class="col">
                     <mat-form-field class="full-width">
-                      <input matInput placeholder="Action" formControlName="action">
+                      <input matInput placeholder="Action" formControlName="action"  maxlength="50">
                     </mat-form-field>
                   </div>
                 </div>
@@ -362,8 +364,8 @@
 
           </mat-card-content>
           <mat-card-actions>
-            <button mat-raised-button type="button" [disabled]="statusForm.pristine || !statusForm.valid" (click)="onSubmit()">ADD</button>&nbsp;&nbsp;
-            <!-- <button *ngIf="!backStat"  mat-raised-button type="button" (click)="onSubmit()" [disabled]="statusForm.pristine || !statusForm.valid">ADD</button>&nbsp;&nbsp; -->
+            <button *ngIf="!backStat" mat-raised-button type="button" [disabled]="statusForm.pristine || !statusForm.valid" (click)="onSubmit()">ADD</button>&nbsp;&nbsp;
+            <button *ngIf="backStat"  mat-raised-button type="button" (click)="onSubmit()" [disabled]="callBackForm.pristine || !callBackForm.valid">ADD</button>&nbsp;&nbsp;
           </mat-card-actions>
         </mat-card>
       </form>

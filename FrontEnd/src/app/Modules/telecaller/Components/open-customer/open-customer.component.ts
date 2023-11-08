@@ -51,11 +51,14 @@ export class OpenCustomerComponent {
 
   statusForm = this.fb.group({
     statusId: ['', Validators.required],
-    date: [''],
-    time: [''],
     remarks: [''],
     freeText: [''],
     action: ['']
+  })
+
+  callBackForm = this.fb.group({
+    date: ['', Validators.required],
+    time: ['', Validators.required],
   })
 
   data: any
@@ -153,10 +156,12 @@ export class OpenCustomerComponent {
 
     let statData = {
       status : this.statusForm.get('statusId')?.value,
-      date: this.statusForm.get('date')?.value,
-      time: this.statusForm.get('time')?.value,
+      date: this.callBackForm.get('date')?.value,
+      time: this.callBackForm.get('time')?.value,
       callTime: Date.now()
     }
+    console.log(data)
+    console.log(statData)
 
 
     this.getStatSub = this.adminService.getStatusById(this.statusForm.getRawValue().statusId).subscribe(res =>{
