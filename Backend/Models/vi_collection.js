@@ -14,8 +14,8 @@ const ViCollection = sequelize.define('viCollection',{
     
     status : {type : DataTypes.INTEGER},
     remarks : {type : DataTypes.STRING},
-    freeText : {type : DataTypes.STRING},
-    action : {type : DataTypes.STRING},
+    freeText : {type : DataTypes.STRING(200)},
+    action : {type : DataTypes.STRING(200)},
     Teleby : {type : DataTypes.INTEGER, allowNull: false},
     projectId: {type : DataTypes.INTEGER, allowNull: false},
     date: {type: DataTypes.DATEONLY},
