@@ -35,7 +35,7 @@ export class ViewComponent {
   viewForm = this.fb.group({
     type: ['', Validators.required],
     projectId: ['', Validators.required],
-    status: [Validators.required]
+    status: [null, Validators.required]
   })
 
   ngOnInit(){

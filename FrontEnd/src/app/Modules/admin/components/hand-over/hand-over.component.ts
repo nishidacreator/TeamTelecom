@@ -36,7 +36,7 @@ export class HandOverComponent {
   handoverForm = this.fb.group({
     type: ['', Validators.required],
     projectId: ['', Validators.required],
-    userId: [Validators.required],
+    userId: [null, Validators.required],
     assignedToId: ['']
   })
 
@@ -77,31 +77,31 @@ export class HandOverComponent {
         let data: any;
         if(this.projectName === "asianetsales"){
           this.getSub = this.adminService.getAllAsianetSales().subscribe(data =>{
-            this.base = data.filter(item => item.teleCaller.id == this.userId && item.status === null)
+            this.base = data.filter(item => item.teleCaller.id == this.userId && item.status === 1)
             this.count = this.base.length;
           })
         }
         if(this.projectName === "asianetcollections"){
           this.getSub = this.adminService.getAllAsianetCollections().subscribe(data =>{
-            this.base = data.filter(item => item.teleCaller.id == this.userId && item.status === null)
+            this.base = data.filter(item => item.teleCaller.id == this.userId && item.status === 1)
             this.count = this.base.length;
           })
         }
         if(this.projectName === "visales"){
           this.getSub = this.adminService.getAllViSales().subscribe(data =>{
-            this.base = data.filter(item => item.teleCaller.id == this.userId && item.status === null)
+            this.base = data.filter(item => item.teleCaller.id == this.userId && item.status === 1)
             this.count = this.base.length;
           })
         }
         if(this.projectName === "vicollections"){
           this.getSub = this.adminService.getAllViCollections().subscribe(data =>{
-            this.base = data.filter(item => item.teleCaller.id == this.userId && item.status === null)
+            this.base = data.filter(item => item.teleCaller.id == this.userId && item.status === 1)
             this.count = this.base.length;
           })
         }
         if(this.projectName === "bajaj"){
           this.getSub = this.adminService.getAllBajaj().subscribe(data =>{
-            this.base = data.filter(item => item.teleCaller.id == this.userId && item.status === null)
+            this.base = data.filter(item => item.teleCaller.id == this.userId && item.status === 1)
             this.count = this.base.length;
           })
         }
@@ -114,32 +114,32 @@ export class HandOverComponent {
 
         if(this.projectName === "asianetsales"){
           this.getSub = this.adminService.getAllAsianetSalesFollowup().subscribe(data =>{
-            this.base = data.filter(item => item.caller.id == this.userId && item.status === null)
+            this.base = data.filter(item => item.caller.id == this.userId && item.status === 1)
             this.count = this.base.length;
           })
         }
         if(this.projectName === "asianetcollections"){
           this.getSub = this.adminService.getAllAsianetCollectionsFollowup().subscribe(data =>{
-            this.base = data.filter(item => item.caller.id == this.userId && item.status === null)
+            this.base = data.filter(item => item.caller.id == this.userId && item.status === 1)
             this.count = this.base.length;
             this.getProjectBase()
           })
         }
         if(this.projectName === "visales"){
           this.getSub = this.adminService.getAllViSalesFollowup().subscribe(data =>{
-            this.base = data.filter(item => item.caller.id == this.userId && item.status === null)
+            this.base = data.filter(item => item.caller.id == this.userId && item.status === 1)
             this.count = this.base.length;
           })
         }
         if(this.projectName === "vicollections"){
           this.getSub = this.adminService.getAllViCollectionsFollowup().subscribe(data =>{
-            this.base = data.filter(item => item.caller.id == this.userId && item.status === null)
+            this.base = data.filter(item => item.caller.id == this.userId && item.status === 1)
             this.count = this.base.length;
           })
         }
         if(this.projectName === "bajaj"){
           this.getSub = this.adminService.getAllBajajFollowup().subscribe(data =>{
-            this.base = data.filter(item => item.caller.id == this.userId && item.status === null)
+            this.base = data.filter(item => item.caller.id == this.userId && item.status === 1)
             this.count = this.base.length;
           })
         }
